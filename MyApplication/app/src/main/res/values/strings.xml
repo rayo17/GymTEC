@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">GYMTEC</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Correo Electrónico</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">Welcome !</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">Login failed</string>
+    <string name="prompt_cedula">Cedula</string>
+    <string name="Register_title">REGISTRATE EN GYMTEC</string>
+    <string name="prompt_name">Nombre</string>
+    <string name="prompt_lastname">Apellidos</string>
+    <string name="prompt_age">Edad</string>
+    <string name="prompt_birthdate">Fecha de nacimiento</string>
+    <string name="prompt_weight">Peso</string>
+    <string name="prompt_IMC">IMC</string>
+    <string name="prompt_province">Provincia</string>
+    <string name="prompt_district">Distrito</string>
+    <string name="prompt_canton">Cantón</string>
+    <string name="Address_spanisb">Dirección</string>
+</resources>
