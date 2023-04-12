@@ -85,12 +85,12 @@
 
                     <TextView
                         android:id="@+id/user_date_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="185dp"
                         android:layout_height="65sp"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:gravity="center"
                         android:hint="@string/prompt_birthdate"
-                        android:textAlignment="textStart"
                         android:textColor="?attr/editTextColor"
                         android:textSize="18sp" />
 
@@ -213,26 +213,46 @@
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="150sp"
-                android:layout_height="90sp"
+                android:layout_height="65sp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/baseline_password_24" />
 
             <EditText
                 android:id="@+id/user_passwordregistry_edittext"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="65sp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPassword"
-                android:hint="@string/prompt_password"/>
+                android:gravity="center_vertical"
+                android:hint="@string/prompt_password"
+                android:inputType="textPassword" />
+
         </LinearLayout>
 
-        <Button
-            android:id="@+id/user_registrarse_btn"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Completar Registro" />
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/user_registrarse_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="65sp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_weight="1"
+                android:text="Completar Registro" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
 
     </LinearLayout>
 
