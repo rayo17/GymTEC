@@ -14,5 +14,20 @@ namespace GymTec_Api.Data
             Database.EnsureCreated();
         }
         public DbSet<Cliente> Cliente { get; set; }
+        public DbSet<Clase> Clase { get; set; }
+        public DbSet<Sucursal> Sucursal { get; set; }
+        public DbSet<Sucursal_telefonos> Sucursal_telefonos { get; set; }
+        public DbSet<Empleado> Empleado { get; set; }
+        public DbSet<Puesto> Puesto { get; set; }
+        public DbSet<Planilla> Planilla { get; set; }
+        public DbSet<Maquina> Maquina { get; set; }
+        public DbSet<Producto> Producto { get; set; }
+        public DbSet<Tratamiento> Tratamiento { get; set; }
+        public DbSet<Gimnasio> Gimnasio { get; set; }
+        public DbSet<Clase_cliente> Clase_cliente { get; set; }
+        public DbSet<Tipo_equipo> Tipo_equipo { get; set; }
+        public DbSet<Servicio> Servicio { get; set; }
+
+
     }
 }
