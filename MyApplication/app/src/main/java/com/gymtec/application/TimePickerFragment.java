@@ -16,7 +16,6 @@ import java.util.Calendar;
 public class TimePickerFragment extends DialogFragment {
     public static final int FLAG_START_HOUR = 0;
     public static final int FLAG_END_HOUR = 1;
-
     public int flag = 0;
 
     @NonNull
