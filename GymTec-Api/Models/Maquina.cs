@@ -9,6 +9,6 @@ public class Maquina
     public string Tipo { get; set; }
     public string Marca { get; set; }
     public string Numero_serie { get; set; }
-    public SqlMoney Costo { get; set; }
+    public int Costo { get; set; }
     
 }
