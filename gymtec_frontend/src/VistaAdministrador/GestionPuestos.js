@@ -1,5 +1,5 @@
 import React from "react"
-import { Navbar } from "../Navigation/Navbar"
+import { Navbar } from "../Templates/Navbar"
 
 function GestionPuestos () {
     return (

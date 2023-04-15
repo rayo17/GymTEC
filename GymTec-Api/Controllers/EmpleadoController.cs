@@ -28,7 +28,7 @@ namespace GymTec_Api.Controllers
             return await _context.Empleado.ToListAsync();
         }
 
-        // GET: api/Empleado/5
+        // GET: api/Empleado/
         [HttpGet("{cedula}")]
         public async Task<ActionResult<Empleado>> GetEmpleado(string cedula)
         {
@@ -40,6 +40,19 @@ namespace GymTec_Api.Controllers
             }
 
             return empleado;
+        }
+        
+        // GET: api/Empleado/Contrasenna
+        [HttpGet("{cedula}/{password}")]
+        public ActionResult Get(string cedula, string password)
+        {
+            var empleado = _context.Empleado.FirstOrDefault(e => e.Cedula == cedula && e.Contrasenna == password);
+            
+            if (empleado != null)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
 
         // POST: api/Empleado

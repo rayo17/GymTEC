@@ -1,34 +1,33 @@
 import React, { Component } from 'react';
-import { Navbar } from "../Navigation/Navbar"
+import { Navbar } from "../Templates/Navbar"
 import axios from 'axios';
 //import  Menu  from '../sites/Menu';
 //import NuevoPacienteFormulario from "./NuevoPacienteFormulario.js";
 import { CSSTransition } from 'react-transition-group';
 //import AñadirData from './AñadirData';
+import NuevaSucursalFormulario from '../Forms/NuevaSucursalFormulario';
 
 class GestionSucursales extends Component {
   constructor(props) {
     super(props);
   
     this.state = {
-      pacientes: [], // lista de pacientes obtenidos desde el API
+      sucursales: [], // lista de sucursales obtenidos desde el API
       telefonos: [], // lista de teléfonos para cada paciente
-      patologias: [], // lista de patologías para cada paciente
-      direcciones: [], // lista de direcciones para cada paciente
-      showForm: false, // variable para mostrar/ocultar el formulario para agregar pacientes
+      showForm: false, // variable para mostrar/ocultar el formulario para agregar sucursales
       error: null, // variable para guardar posibles errores del API
-      showDialog: false, // variable para mostrar/ocultar el diálogo para agregar nuevos pacientes
+      showDialog: false, // variable para mostrar/ocultar el diálogo para agregar nuevos sucursales
       showtwoDialog: false, // variable para mostrar/ocultar el diálogo para añadir información adicional a un paciente existente
       showtwoForm: false, // variable para mostrar/ocultar el formulario para añadir información adicional a un paciente existente
     };
   }
-  /*
-  // función para alternar la visibilidad del formulario para agregar pacientes
+
+  // función para alternar la visibilidad del formulario para agregar sucursales
   toggleForm = () => {
     this.setState({ showForm: !this.state.showForm });
   };
 
-  // función para alternar la visibilidad del diálogo para agregar nuevos pacientes
+  // función para alternar la visibilidad del diálogo para agregar nuevos sucursales
   toggleDialog = () => {
     this.setState(prevState => ({ showDialog: !prevState.showDialog }));
   };
@@ -45,69 +44,36 @@ class GestionSucursales extends Component {
 
   // función que se ejecuta cuando se carga el componente
   componentDidMount() {
-    this.handleNewPatient(); // se obtiene la lista de pacientes
+    this.handleNewSucursal(); // se obtiene la lista de sucursales
   }
 
-  // función para obtener la lista de pacientes, direcciones, teléfonos y patologías desde el API
-  handleNewPatient = () => {
-    axios.get('http://localhost:5004/api/paciente') // obtiene la lista de pacientes desde el API
+  // función para obtener la lista de sucursales, y teléfonos desde el API
+  handleNewSucursal = () => {
+    axios.get('http://localhost:5236/api/Sucursal') // obtiene la lista de sucursales desde el API
       .then(response => {
-        this.setState({ pacientes: response.data }); // guarda la lista de pacientes en el estado
+        this.setState({ sucursales: response.data }); // guarda la lista de sucursales en el estado
       })
       .catch(error => {
         this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
       });
 
-    axios.get('http://localhost:5004/api/Paciente_Direcciones') // obtiene la lista de direcciones para cada paciente desde el API
+    axios.get('http://localhost:5236/api/SucursalTelefonos') // obtiene la lista de teléfonos para cada paciente desde el API
       .then(response => {
-        const direcciones = {};
-        response.data.forEach(direccion => {
-          if (!direcciones[direccion.paciente]) { // si no existe una entrada para el paciente actual en la lista de direcciones, se crea una
-            direcciones[direccion.paciente] = [];
+        const telefonos = {};
+        response.data.forEach(telefono => {
+          if (!telefonos[telefono.sucursal]) { // si no existe una entrada para el paciente actual en la lista de teléfonos, se crea una
+            telefonos[telefono.sucursal] = [];
           }
-          direcciones[direccion.paciente].push(direccion.ubicacion); // se agrega la dirección actual a la lista de direcciones del paciente
+          telefonos[telefono.sucursal].push(telefono.telefono); // se agrega el teléfono actual a la lista de teléfonos del paciente
         });
-        axios.get('http://localhost:5004/api/Paciente_Telefonos') // obtiene la lista de teléfonos para cada paciente desde el API
-          .then(response => {
-            const telefonos = {};
-            response.data.forEach(telefono => {
-              if (!telefonos[telefono.paciente]) { // si no existe una entrada para el paciente actual en la lista de teléfonos, se crea una
-                telefonos[telefono.paciente] = [];
-              }
-              telefonos[telefono.paciente].push(telefono.telefono); // se agrega el teléfono actual a la lista de teléfonos del paciente
-            });
-            this.setState({ telefonos }); // se guarda la lista de teléfonos en el estado
-          })
-          .catch(error => {
-            this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
-          });
-
-        axios.get('http://localhost:5004/api/Patologia') // obtiene la lista de patologías para cada paciente desde el API
-          .then(response => {
-            const patologias = {};
-            response.data.forEach(patologia => {
-              if (!patologias[patologia.paciente]) { // si no existe una entrada para el paciente actual en la lista de patologías, se crea una
-                patologias[patologia.paciente] = [];
-              }
-              patologias[patologia.paciente].push({ // se agrega la patología actual a la lista de patologías del paciente
-                nombre: patologia.nombre,
-                tratamiento: patologia.tratamiento
-              });
-            });
-            this.setState({ patologias }); // se guarda la lista de patologías en el estado
-          })
-          .catch(error => {
-            this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
-          });
-
-        this.setState({ direcciones }); // se guarda la lista de direcciones en el estado
+        this.setState({ telefonos }); // se guarda la lista de teléfonos en el estado
       })
       .catch(error => {
         this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
       });
   }
 
-  // función para abrir el diálogo para agregar nuevos pacientes
+  // función para abrir el diálogo para agregar nuevas sucursales
   openDialog() {
     this.setState({ isOpen: true });
     document.body.style.overflow = "hidden";
@@ -115,7 +81,7 @@ class GestionSucursales extends Component {
     document.querySelector(".dialog").classList.add("dialog-enter");
   }
 
-  // función para cerrar el diálogo para agregar nuevos pacientes
+  // función para cerrar el diálogo para agregar nuevas sucursales
   closeDialog() {
     this.setState({ isOpen: false });
     document.body.style.overflow = "auto";
@@ -124,11 +90,11 @@ class GestionSucursales extends Component {
     setTimeout(() => {
       document.querySelector(".dialog").classList.remove("dialog-enter", "dialog-exit");
     }, 500); // espera a que termine la transición antes de remover las clases
-  } */
+  }
 
   // función que renderiza el componente
 render() {
-  const { pacientes, direcciones, error, showDialog, showtwoDialog } = this.state;
+  const { sucursales, error, showDialog, showtwoDialog, showthreeDialog } = this.state;
 
   return (
     <div style={{ backgroundColor: '#fff', textAlign: 'center' }}>
@@ -150,17 +116,17 @@ render() {
           </tr>
         </thead>
         <tbody>
-          {pacientes.map(sucursal => (
-            <tr key={sucursal.cedula}>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursal.nombre}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{this.state.direcciones[sucursal.nombre] ? this.state.direcciones[sucursal.nombre].join(',') : ''}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursal.fecha_apertura}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursal.horario_atencion}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursal.administrador}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursal.capacidad}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{this.state.telefonos[sucursal.nombre] ? this.state.telefonos[sucursal.nombre].join(', ') : ''}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursal.activacion_spa}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursal.activacion_tienda}</td>
+          {sucursales.map(sucursale => (
+            <tr key={sucursale.sucursal}>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursale.nombre}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursale.canton}, {sucursale.distrito}, {sucursale.provincia}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursale.fecha_apertura}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursale.horario_atencion}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursale.administrador}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursale.capacidad_maxima}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{this.state.telefonos[sucursale.sucursal] ? this.state.telefonos[sucursale.sucursal].join(', ') : ''}</td>              
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursale.activacion_spa}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursale.activacion_tienda}</td>
             </tr>
           ))}
         </tbody>
@@ -201,14 +167,19 @@ render() {
             }}
           >
             {/* contenido del diálogo */}
+            <NuevaSucursalFormulario 
+              onClose={this.toggleDialog}
+              onNewSucursal={this.handleNewSucursal}
+            />
             
           </div>
         </CSSTransition>
           </div>
         </div>
         )}
-        <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#e8ed4c', border: '2px solid #e8ed4c', cursor: 'pointer' }} 
-      onClick={this.toggletD}>Editar datos de sucursal</button>
+
+      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
+      onClick={this.toggleDialog}>Editar sucursal</button>
       {showtwoDialog && (
           <div
             style={{
@@ -243,15 +214,20 @@ render() {
             }}
           >
             {/* contenido del diálogo */}
+            <NuevaSucursalFormulario 
+              onClose={this.toggleDialog}
+              onNewSucursal={this.handleNewSucursal}
+            />
             
           </div>
         </CSSTransition>
           </div>
         </div>
         )}
-        <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#ff0000', border: '2px solid #ff0000', cursor: 'pointer' }} 
-      onClick={this.toggleDialog}>Eliminar sucursal</button>
-      {showDialog && (
+
+      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#c92d15', border: '2px solid #c92d15', cursor: 'pointer' }} 
+      onClick={this.toggleDialog}>Editar sucursal</button>
+      {showthreeDialog && (
           <div
             style={{
               position: "fixed",
@@ -285,12 +261,19 @@ render() {
             }}
           >
             {/* contenido del diálogo */}
+            <NuevaSucursalFormulario 
+              onClose={this.toggleDialog}
+              onNewSucursal={this.handleNewSucursal}
+            />
             
           </div>
         </CSSTransition>
           </div>
         </div>
         )}
+        
+        
+      
 
 
       </div>
