@@ -5,7 +5,7 @@ import React from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import VistaPrincipal from './VistaPrincipal';
-import LoginAdmin from './VistaAdministrador/LoginAdmin';
+import LoginAdmin from './VistaAdministrador/CopiarGim';
 import LoginCliente from './VistaCliente/LoginCliente';
 
 

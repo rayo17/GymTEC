@@ -14,7 +14,7 @@ public class Empleado
     public string Distrito { get; set; }
     public string Canton { get; set; }
     public string Provincia { get; set; }
-    public SqlMoney Salario { get; set; }
+    public int Salario { get; set; }
     public string Correo_electronico { get; set; }
     public string Contrasenna { get; set; }
 }
