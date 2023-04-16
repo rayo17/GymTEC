@@ -12,107 +12,54 @@ namespace GymTec_Api.Controllers
     [ApiController]
     public class SucursalTelefonosController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext context;
 
         public SucursalTelefonosController(ApplicationDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: api/SucursalTelefonos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Sucursal_telefonos>>> GetSucursalTelefonos()
+        public IEnumerable<SucursalTelefonos> Get()
         {
-            return await _context.Sucursal_telefonos.ToListAsync();
+            return context.SucursalTelefonos.ToList();
         }
 
         // GET: api/SucursalTelefonos/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Sucursal_telefonos>> GetSucursalTelefonos(string id)
+        [HttpGet("{sucursal}")]
+        public SucursalTelefonos Get(string sucursal)
         {
-            var sucursalTelefonos = await _context.Sucursal_telefonos.FindAsync(id);
-
-            if (sucursalTelefonos == null)
-            {
-                return NotFound();
-            }
-
-            return sucursalTelefonos;
+            return context.SucursalTelefonos.FirstOrDefault(sT => sT.Sucursal == sucursal);
         }
-
-        // PUT: api/SucursalTelefonos/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutSucursalTelefonos(string id, Sucursal_telefonos sucursalTelefonos)
-        {
-            if (id != sucursalTelefonos.Sucursal)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(sucursalTelefonos).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SucursalTelefonosExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/SucursalTelefonos
+        
         [HttpPost]
-        public async Task<ActionResult<Sucursal_telefonos>> PostSucursalTelefonos(Sucursal_telefonos sucursalTelefonos)
+        public ActionResult Post([FromBody] SucursalTelefonos sucursalTelefonos)
         {
-            _context.Sucursal_telefonos.Add(sucursalTelefonos);
             try
             {
-                await _context.SaveChangesAsync();
+                context.SucursalTelefonos.Add(sucursalTelefonos);
+                context.SaveChanges();
+                return Ok();
             }
-            catch (DbUpdateException)
+            catch (Exception e)
             {
-                if (SucursalTelefonosExists(sucursalTelefonos.Sucursal))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(e.Message);
             }
-
-            return CreatedAtAction(nameof(GetSucursalTelefonos), new { id = sucursalTelefonos.Sucursal }, sucursalTelefonos);
         }
 
         // DELETE: api/SucursalTelefonos/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSucursalTelefonos(string id)
+        [HttpDelete("{sucursal}/{telefono}")]
+        public ActionResult Delete(string sucursal, int telefono)
         {
-            var sucursalTelefonos = await _context.Sucursal_telefonos.FindAsync(id);
-            if (sucursalTelefonos == null)
+            var sT = context.SucursalTelefonos.FirstOrDefault(sT => sT.Sucursal == sucursal && sT.Telefono == telefono);
+            if (sT != null)
             {
-                return NotFound();
+                context.SucursalTelefonos.Remove(sT);
+                context.SaveChanges();
+                return Ok();
             }
-
-            _context.Sucursal_telefonos.Remove(sucursalTelefonos);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool SucursalTelefonosExists(string id)
-        {
-            return _context.Sucursal_telefonos.Any(e => e.Sucursal == id);
+            return BadRequest();
         }
     }
 }

@@ -13,10 +13,18 @@ namespace GymTec_Api.Data
         {
             Database.EnsureCreated();
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SucursalTelefonos>()
+                .HasKey(s => new {s.Sucursal, s.Telefono});
+        }
+        
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Clase> Clase { get; set; }
         public DbSet<Sucursal> Sucursal { get; set; }
-        public DbSet<Sucursal_telefonos> Sucursal_telefonos { get; set; }
+        
+        public DbSet<SucursalTelefonos> SucursalTelefonos { get; set; }
         public DbSet<Empleado> Empleado { get; set; }
         public DbSet<Puesto> Puesto { get; set; }
         public DbSet<Planilla> Planilla { get; set; }
