@@ -40,7 +40,8 @@ public class Sqlite extends SQLiteOpenHelper {
 
 
         String table_sucrusal_telefonos = "CREATE TABLE SUCURSAL_TELEFONOS (Sucursal VARCHAR(30) NOT NULL, "+
-                "Telefono INTTEGER NOT NULL);";
+                "Telefono INTTEGER NOT NULL, " +
+                "PRIMARY KEY(Sucursal, Telefono));";
 
         String table_empleado = "CREATE TABLE EMPLEADO (Cedula VARCHAR(9) NOT NULL, " +
                 "Primer_nombre VARCHAR(20) NOT NULL, "+
@@ -69,15 +70,50 @@ public class Sqlite extends SQLiteOpenHelper {
                 "Hora_fin VARCHAR(5) NOT NULL, " +
                 "PRIMARY KEY(Identificador));";
 
-        String table_producto = "CREATE TABLE PRODUCTO (Identificador VARCHAR(10) NOT NULL, " +
-                "Capacidad INT NOT NULL, "+
-                "Grupal INT NOT NULL, " +
-                "Tipo VARCHAR(30) NOT NULL, " +
-                "Fecha DATE NOT NULL, " +
-                "Instructor VARCHAR(100) NOT NULL, " +
-                "Hora_inicio VARCHAR(5) NOT NULL, " +
-                "Hora_fin VARCHAR(5) NOT NULL, " +
+        String table_producto = "CREATE TABLE PRODUCTO (Codigo_barras VARCHAR(10) NOT NULL, " +
+                "Nombre VARCHAR(30) NOT NULL, "+
+                "Descripcion VARCHAR(50) NOT NULL, " +
+                "Costo MONEY, " +
+                "PRIMARY KEY(Codigo_barras));";
+
+        String table_tratamiento = "CREATE TABLE TRATAMIENTO (Identificador VARCHAR(10) NOT NULL, " +
+                "Nombre VARCHAR(50) NOT NULL, "+
                 "PRIMARY KEY(Identificador));";
+
+        String table_gimnasio = "CREATE TABLE GIMNASIO (Sucursal VARCHAR(30) NOT NULL, " +
+                "Maquina VARCHAR(10) NOT NULL, "+
+                "Clase VARCHAR(10) NOT NULL, " +
+                "Producto VARCHAR(10) NOT NULL, " +
+                "Tratamiento VARCHAR(10) NOT NULL, " +
+                "PRIMARY KEY(Sucursal));";
+
+        String table_cliente = "CREATE TABLE CLIENTE (Cedula VARCHAR(10) NOT NULL, " +
+                "Primer_nombre VARCHAR(20) NOT NULL, "+
+                "Segundo_nombre VARCHAR(20), " +
+                "Primer_apellido VARCHAR(20) NOT NULL, " +
+                "Segundo_apellido VARCHAR(20), " +
+                "Correo_electronico VARCHAR(50) NOT NULL, " +
+                "Distrito VARCHAR(30) NOT NULL, " +
+                "Canton VARCHAR(30) NOT NULL, " +
+                "Provincia VARCHAR(30) NOT NULL, " +
+                "Salario MONEY NOT NULL, " +
+                "Contrasenna VARCHAR(30) NOT NULL, " +
+                "Fecha_nacimiento DATE NOT NULL, " +
+                "Peso VARCHAR(4) NOT NULL, " +
+                "Imc VARCHAR(4) NOT NULL, " +
+                "PRIMARY KEY(Cedula));";
+
+        String table_clase_clientes = "CREATE TABLE CLASE_CLIENTES (Clase VARCHAR(10) NOT NULL, " +
+                "Cliente VARCHAR(10) NOT NULL, "+
+                "PRIMARY KEY(Clase, Cliente));";
+
+        String table_tipo_equipo = "CREATE TABLE TIPO_EQUIPO (Identificador VARCHAR(30) NOT NULL, " +
+                "Descripcion VARCHAR(50) NOT NULL, "+
+                "PRIMARY KEY(Identificador, Descripcion));";
+
+        String table_servicio = "CREATE TABLE SERVICIO (Identificador VARCHAR(30) NOT NULL, " +
+                "Descripcion VARCHAR(50) NOT NULL, "+
+                "PRIMARY KEY(Identificador, Descripcion));";
 
 
         // at last we are calling a exec sql
@@ -89,6 +125,12 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(table_Maquina);
         db.execSQL(table_clase);
         db.execSQL(table_producto);
+        db.execSQL(table_tratamiento);
+        db.execSQL(table_gimnasio);
+        db.execSQL(table_cliente);
+        db.execSQL(table_clase_clientes);
+        db.execSQL(table_tipo_equipo);
+        db.execSQL(table_servicio);
     }
 
     // this method is use to add new course to our sqlite database.
@@ -122,7 +164,7 @@ public class Sqlite extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + "TABLE_NAME");
         onCreate(db);
     }
 }
