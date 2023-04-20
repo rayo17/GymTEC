@@ -29,7 +29,7 @@ CREATE TABLE EMPLEADO (
 	Distrito VARCHAR(30) NOT NULL,
 	Canton VARCHAR(30) NOT NULL,
 	Provincia VARCHAR(30) NOT NULL,
-	Salario MONEY NOT NULL,
+	Salario INT NOT NULL,
 	Correo_electronico VARCHAR(50) NOT NULL,
 	Contrasenna VARCHAR(30) NOT NULL,
 
@@ -56,7 +56,7 @@ CREATE TABLE MAQUINA (
 	Tipo VARCHAR(20) NOT NULL,
 	Marca VARCHAR(20) NOT NULL,
 	Numero_serie VARCHAR(10) NOT NULL,
-	Costo MONEY NOT NULL,
+	Costo INT NOT NULL,
 
 	PRIMARY KEY(Numero_serie)
 );
@@ -78,7 +78,7 @@ CREATE TABLE PRODUCTO( -- Productos de tienda
 	Codigo_barras VARCHAR(10) NOT NULL,
 	Nombre VARCHAR(30) NOT NULL,
 	Descripcion VARCHAR(50) NOT NULL,
-	Costo MONEY,
+	Costo INT,
 
 	PRIMARY KEY(Codigo_barras)
 );

@@ -5,11 +5,10 @@ import React from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import VistaPrincipal from './VistaPrincipal';
-import LoginAdmin from './VistaAdministrador/LoginAdmin';
 import GestionPuestos from './VistaAdministrador/GestionPuestos';
 import GestionSucursales from './VistaAdministrador/GestionSucursales';
 import GestionTratamientosSpa from './VistaAdministrador/GestionTratamientosSpa';
-import LoginAdmin from './VistaAdministrador/CopiarGim';
+import LoginAdmin from './VistaAdministrador/GestionProductos';
 import LoginCliente from './VistaCliente/LoginCliente';
 
 
