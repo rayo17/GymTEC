@@ -44,6 +44,22 @@ public class DBHandler extends SQLiteOpenHelper {
         // an sqlite query and we are
         // setting our column names
         // along with their data types.
+        String table_sucrusal_telefonos = "CREATE TABLE SUCURSAL_TELEFONOS (Sucursal VARCHAR(30) NOT NULL, "+
+                "Telefono INTTEGER NOT NULL);";
+
+        String table_empleado = "CREATE TABLE EMPLEADO (Cedula VARCHAR(9) NOT NULL, " +
+                "Primer_nombre VARCHAR(20) NOT NULL, "+
+                "Segundo_nombre VARCHAR(20), " +
+                "Primer_apellido VARCHAR(20) NOT NULL, " +
+                "Segundo_apellido VARCHAR(20), " +
+                "Distrito VARCHAR(30) NOT NULL, " +
+                "Canton VARCHAR(30) NOT NULL, " +
+                "Provincia VARCHAR(30) NOT NULL, " +
+                "Salario MONEY NOT NULL, " +
+                "Correo_electronico VARCHAR(50) NOT NULL, " +
+                "Contrasenna VARCHAR(30) NOT NULL, " +
+                "PRIMARY KEY(Cedula));";
+
         String query = "CREATE TABLE " + TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + NAME_COL + " TEXT,"
@@ -53,7 +69,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
         // at last we are calling a exec sql
         // method to execute above sql query
-        db.execSQL(query);
+        db.execSQL(table_sucrusal_telefonos);
+        db.execSQL(table_empleado);
     }
 
     // this method is use to add new course to our sqlite database.
