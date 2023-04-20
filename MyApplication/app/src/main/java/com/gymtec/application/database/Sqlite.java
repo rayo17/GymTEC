@@ -36,7 +36,7 @@ public class Sqlite extends SQLiteOpenHelper {
                 " Capacidad_maxima INT NOT NULL, " +
                 " tActivacion_spa INT NOT NULL, " +
                 " Activacion_tienda INT NOT NULL, " +
-                " PRIMARY KEY(Nombre);";
+                " PRIMARY KEY(Nombre));";
 
 
         String table_sucrusal_telefonos = "CREATE TABLE SUCURSAL_TELEFONOS (Sucursal VARCHAR(30) NOT NULL, "+
@@ -59,18 +59,25 @@ public class Sqlite extends SQLiteOpenHelper {
         String table_Maquina="CREATE TABLE MAQUINA (Tipo VARCHAR(20) NOT NULL, Marca VARCHAR(20) NOT NULL, Numero_serie VARCHAR(10) NOT NULL, Costo MONEY NOT NULL, PRIMARY KEY(Numero_serie));";
 
 
-        String table_clase = "CREATE TABLE EMPLEADO (Cedula VARCHAR(9) NOT NULL, " +
-                "Primer_nombre VARCHAR(20) NOT NULL, "+
-                "Segundo_nombre VARCHAR(20), " +
-                "Primer_apellido VARCHAR(20) NOT NULL, " +
-                "Segundo_apellido VARCHAR(20), " +
-                "Distrito VARCHAR(30) NOT NULL, " +
-                "Canton VARCHAR(30) NOT NULL, " +
-                "Provincia VARCHAR(30) NOT NULL, " +
-                "Salario MONEY NOT NULL, " +
-                "Correo_electronico VARCHAR(50) NOT NULL, " +
-                "Contrasenna VARCHAR(30) NOT NULL, " +
-                "PRIMARY KEY(Cedula));";
+        String table_clase = "CREATE TABLE CLASE (Identificador VARCHAR(10) NOT NULL, " +
+                "Capacidad INT NOT NULL, "+
+                "Grupal INT NOT NULL, " +
+                "Tipo VARCHAR(30) NOT NULL, " +
+                "Fecha DATE NOT NULL, " +
+                "Instructor VARCHAR(100) NOT NULL, " +
+                "Hora_inicio VARCHAR(5) NOT NULL, " +
+                "Hora_fin VARCHAR(5) NOT NULL, " +
+                "PRIMARY KEY(Identificador));";
+
+        String table_producto = "CREATE TABLE PRODUCTO (Identificador VARCHAR(10) NOT NULL, " +
+                "Capacidad INT NOT NULL, "+
+                "Grupal INT NOT NULL, " +
+                "Tipo VARCHAR(30) NOT NULL, " +
+                "Fecha DATE NOT NULL, " +
+                "Instructor VARCHAR(100) NOT NULL, " +
+                "Hora_inicio VARCHAR(5) NOT NULL, " +
+                "Hora_fin VARCHAR(5) NOT NULL, " +
+                "PRIMARY KEY(Identificador));";
 
 
         // at last we are calling a exec sql
@@ -81,6 +88,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(table_Planilla);
         db.execSQL(table_Maquina);
         db.execSQL(table_clase);
+        db.execSQL(table_producto);
     }
 
     // this method is use to add new course to our sqlite database.
@@ -111,10 +119,10 @@ public class Sqlite extends SQLiteOpenHelper {
         db.close();
     }*/
 
-   // @Override
- /*   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
-    }*/
+    }
 }
