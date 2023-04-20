@@ -44,6 +44,19 @@ public class DBHandler extends SQLiteOpenHelper {
         // an sqlite query and we are
         // setting our column names
         // along with their data types.
+        String table_Sucursal= " CREATE TABLE SUCURSAL ( Nombre VARCHAR(30) NOT NULL, " +
+                "Distrito VARCHAR(30) NOT NULL, " +
+                "Canton VARCHAR(30) NOT NULL, "+
+                " Provincia VARCHAR(30) NOT NULL,"+
+                " Fecha_apertura DATE NOT NULL, " +
+                " Horario_atencion VARCHAR(100) NOT NULL,"+
+                " Administrador VARCHAR(9) NOT NULL," +
+                " Capacidad_maxima INT NOT NULL, " +
+                " tActivacion_spa INT NOT NULL, " +
+                " Activacion_tienda INT NOT NULL, " +
+                " PRIMARY KEY(Nombre);";
+
+
         String table_sucrusal_telefonos = "CREATE TABLE SUCURSAL_TELEFONOS (Sucursal VARCHAR(30) NOT NULL, "+
                 "Telefono INTTEGER NOT NULL);";
 
@@ -59,6 +72,24 @@ public class DBHandler extends SQLiteOpenHelper {
                 "Correo_electronico VARCHAR(50) NOT NULL, " +
                 "Contrasenna VARCHAR(30) NOT NULL, " +
                 "PRIMARY KEY(Cedula));";
+
+        String table_Planilla= "CREATE TABLE PLANILLA (Identificador VARCHAR(9) NOT NULL, Pago_mensual MONEY, Pago_horas MONEY, Pago_clase MONEY,PRIMARY KEY(Identificador))";
+        String table_Maquina="CREATE TABLE MAQUINA (Tipo VARCHAR(20) NOT NULL, Marca VARCHAR(20) NOT NULL, Numero_serie VARCHAR(10) NOT NULL, Costo MONEY NOT NULL, PRIMARY KEY(Numero_serie));";
+
+
+        String table_clase = "CREATE TABLE EMPLEADO (Cedula VARCHAR(9) NOT NULL, " +
+                "Primer_nombre VARCHAR(20) NOT NULL, "+
+                "Segundo_nombre VARCHAR(20), " +
+                "Primer_apellido VARCHAR(20) NOT NULL, " +
+                "Segundo_apellido VARCHAR(20), " +
+                "Distrito VARCHAR(30) NOT NULL, " +
+                "Canton VARCHAR(30) NOT NULL, " +
+                "Provincia VARCHAR(30) NOT NULL, " +
+                "Salario MONEY NOT NULL, " +
+                "Correo_electronico VARCHAR(50) NOT NULL, " +
+                "Contrasenna VARCHAR(30) NOT NULL, " +
+                "PRIMARY KEY(Cedula));";
+
 
         String query = "CREATE TABLE " + TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
