@@ -23,6 +23,8 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
     String[] sucursales = {"Escazu", "Lindora", "Cartago", "Tres Rios"};
     String[] tipos_clase = {"Zumba", "Natacion", "Boxeo"};
 
+    String[] dias_semana = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes","Sabado","Domingo"};
+
     private TimePickerFragment timePicker;
     private TextView hora_inicio_tv;
     private TextView hora_final_tv;
@@ -45,8 +47,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_busqueda_clases);
 
 
-        hora_inicio_tv = findViewById(R.id.hora_inicio_filter);
-        hora_final_tv = findViewById(R.id.hora_final_filter);
+
 
         Button start_hour_selector = (Button) findViewById(R.id.hora_inicio_btn);
         Button end_hour_selector = (Button) findViewById(R.id.hora_final_btn);
@@ -58,6 +59,10 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
 
         sucursal_txt = (TextView) findViewById(R.id.sucursal_filter);
         tipo_txt = (TextView) findViewById(R.id.tipo_clase_filter);
+        dia_inicio_text = (TextView) findViewById(R.id.periodo_inicio_filter);
+        hora_inicio_tv = (TextView) findViewById(R.id.hora_inicio_filter);
+        dia_final_text  = (TextView) findViewById(R.id.periodo_final_filter);
+        hora_final_tv = (TextView) findViewById(R.id.hora_final_filter);
 
         //timepicker
         timePicker = new TimePickerFragment();
@@ -76,6 +81,19 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 buttonSucursalPopupMenu_onClick(v);
+            }
+        });
+
+        dia_inicio_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonDiaInicialPopupMenu_onClick(v);
+            }
+        });
+        dia_final_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonDiaFinalPopupMenu_onClick(v);
             }
         });
     }
@@ -155,10 +173,37 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
     }
 
     private void buttonDiaInicialPopupMenu_onClick(View view){
+        PopupMenu popupMenu = new PopupMenu(Busqueda_clases.this, tipo_btn);
 
+        for(int i = 0; i< dias_semana.length;i++){
+            popupMenu.getMenu().add(i, i+1, i, dias_semana[i]);
+        }
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                dia_inicio_text.setText(item.getTitle());
+                return false;
+            }
+        });
+        popupMenu.show();
     }
 
     private void buttonDiaFinalPopupMenu_onClick(View view){
+        PopupMenu popupMenu = new PopupMenu(Busqueda_clases.this, tipo_btn);
+
+        for(int i = 0; i< dias_semana.length;i++){
+            popupMenu.getMenu().add(i, i+1, i, dias_semana[i]);
+        }
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                dia_final_text.setText(item.getTitle());
+                return false;
+            }
+        });
+        popupMenu.show();
 
     }
 }
