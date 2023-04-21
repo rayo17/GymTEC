@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -20,6 +21,7 @@ import java.time.Period;
 import java.util.Calendar;
 
 public class RegistroCliente extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+
     //Text Boxes
     EditText name_edittext;
     EditText lname_edittext;
@@ -110,5 +112,7 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
         age_edittext.setText(curr_age);
         age_edittext.setEnabled(false);
     }
+
+
 
 }

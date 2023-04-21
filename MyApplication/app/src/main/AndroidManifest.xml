@@ -17,6 +17,7 @@
             android:label="@string/title_activity_login" />
         <activity
             android:name=".Busqueda_clases"
+            android:label="@string/courses_search_label"
             android:exported="false" />
         <activity
             android:name=".RegistroCliente"
