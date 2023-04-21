@@ -1,146 +1,135 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { obtenerProductos, agregarProducto, actualizarProducto, eliminarProducto } from '../api';
 import './GestionProductos.css';
 
-function GestionProductos() {
-  const [productos, setProductos] = useState([]);
-  const [formValues, setFormValues] = useState({ codigo_barras: '', nombre: '', descripcion: '', costo: '' });
-  const [formMode, setFormMode] = useState('agregar');
-  const [currentProductId, setCurrentProductId] = useState('');
-  const [showPopup, setShowPopup] = useState(false);
+class GestionProductos extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      productos: [],
+      formValues: { codigo_barras: '', nombre: '', descripcion: '', costo: '' },
+      formMode: 'agregar',
+      currentProductId: '',
+      showPopup: false
+    };
+    this.handleOuterClick = this.handleOuterClick.bind(this);
+  }
 
   // Función para obtener los productos desde la API
-  const getProductos = async () => {
+  getProductos = async () => {
     const data = await obtenerProductos();
-    setProductos(data);
+    this.setState({ productos: data });
   };
 
   // Función para manejar el envío del formulario
-  const handleSubmit = async (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    if (formMode === 'agregar') {
-      await agregarProducto(formValues);
+    if (this.state.formMode === 'agregar') {
+      await agregarProducto(this.state.formValues);
     } else {
-      await actualizarProducto(currentProductId, formValues);
+      await actualizarProducto(this.state.currentProductId, this.state.formValues);
     }
-    getProductos();
-    setFormValues({ codigo_barras: '', nombre: '', descripcion: '', costo: '' });
-    setFormMode('agregar');
-    setShowPopup(false);
+    this.getProductos();
+    this.setState({ formValues: { codigo_barras: '', nombre: '', descripcion: '', costo: '' }, formMode: 'agregar', showPopup: false });
   };
 
   // Función para manejar el cambio de los inputs del formulario
-  const handleInputChange = (event) => {
+  handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormValues({ ...formValues, [name]: value });
+    this.setState({ formValues: { ...this.state.formValues, [name]: value } });
   };
 
   // Función para manejar el clic en el botón de editar de una fila de la tabla
-  const handleEditClick = (producto) => {
-    setFormValues(producto);
-    setFormMode('editar');
-    setCurrentProductId(producto.codigo_barras);
-    setShowPopup(true);
+  handleEditClick = (producto) => {
+    this.setState({ formValues: producto, formMode: 'editar', currentProductId: producto.codigo_barras, showPopup: true });
   };
 
   // Función para manejar el clic en el botón de eliminar de una fila de la tabla
-  const handleDeleteClick = async (codigo_barras) => {
+  handleDeleteClick = async (codigo_barras) => {
     await eliminarProducto(codigo_barras);
-    getProductos();
+    this.getProductos();
+  };
+  handleOuterClick(event) {
+    const container = document.querySelector('.popup');
+    if (container && !container.contains(event.target)) {
+      this.setState({ showPopup: false });
+      this.setState({ formValues: { codigo_barras: '', nombre: '', descripcion: '', costo: '' }, formMode: 'agregar', showPopup: false });
+    }
+  };
+  // Se ejecuta al cargar el componente
+  componentDidMount() {
+    this.getProductos();
+    document.addEventListener('mousedown', this.handleOuterClick);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleOuterClick);
   };
 
-  // Se ejecuta al cargar el componente
-  useEffect(() => {
-    getProductos();
-
-  }, []);
-
-  const handleCerrarClick = () => {
-    setShowPopup(false);
+  handleCerrarClick = () => {
+    this.setState({ formValues: { codigo_barras: '', nombre: '', descripcion: '', costo: '' }, formMode: 'agregar', showPopup: false });
+    this.setState({ showPopup: false });
+    document.removeEventListener('mousedown', this.handleOuterClick);
   }
+render() {
+  const { productos, formValues, formMode, showPopup } = this.state;
   return (
     <div className="gestion-productos-container">
-      <h1>Gestión de productos</h1>
+      <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Gestión de productos</h1>
       <table className="tabla-productos">
         <thead>
           <tr>
-            <th>Código de barras</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Acciones</th>
+            <th style={{ padding: '10px' }}>Código de barras</th>
+            <th style={{ padding: '10px' }}>Nombre</th>
+            <th style={{ padding: '10px' }}>Descripción</th>
+            <th style={{ padding: '10px' }}>Precio</th>
+            <th style={{ padding: '10px' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {productos.map((producto) => (
             <tr key={producto.codigo_barras}>
-              <td>{producto.codigo_barras}</td>
-              <td>{producto.nombre}</td>
-              <td>{producto.descripcion}</td>
-              <td>${producto.costo}</td>
+              <td style={{ padding: '10px' }}>{producto.codigo_barras}</td>
+              <td style={{ padding: '10px' }}>{producto.nombre}</td>
+              <td style={{ padding: '10px' }}>{producto.descripcion}</td>
+              <td style={{ padding: '10px' }}>${producto.costo}</td>
               <td>
-                <button className="btn-accion btn-editar" onClick={() => handleEditClick(producto)}>Editar</button>
-                <button className="btn-accion btn-eliminar" onClick={() => handleDeleteClick(producto.codigo_barras)}>Eliminar</button>
+                <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(producto)}>Editar</button>
+                <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(producto.codigo_barras)}>Eliminar</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className="btn-agregar" onClick={() => setShowPopup(true)}>Agregar</button>
+      <button className="btn-agregar" onClick={() => this.setState({ showPopup: true })}>Agregar</button>
       {showPopup && (
         <div className="popup-container">
           <div className="popup">
             <h2>Agregar producto</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
               <div>
                 <label htmlFor="codigo_barras">Código de barras:</label>
-                <input type="text" id="codigo_barras" name="codigo_barras" value={formValues.codigo_barras} onChange={handleInputChange} />
+                <input type="text" id="codigo_barras" name="codigo_barras" value={formValues.codigo_barras} disabled={formMode === 'editar'} onChange={this.handleInputChange} />
               </div>
               <div>
                 <label htmlFor="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" value={formValues.nombre} onChange={handleInputChange} />
+                <input type="text" id="nombre" name="nombre" value={formValues.nombre} onChange={this.handleInputChange} />
               </div>
               <div>
                 <label htmlFor="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" value={formValues.descripcion} onChange={handleInputChange}></textarea>
+                <textarea id="descripcion" name="descripcion" value={formValues.descripcion} onChange={this.handleInputChange}></textarea>
               </div>
               <div>
-                <label htmlFor="costo">Costo:</label>
-                <input type="number" id="costo" name="costo" value={formValues.costo} onChange={handleInputChange} />
-              </div>
-              <button type="submit">{formMode === 'agregar' ? 'Agregar' : 'Actualizar'}</button>
-              {formMode === 'editar' && <button type="button" className="btn-cancelar" onClick={() => setShowPopup(false)}>Cancelar</button>}
-            </form>
-          </div>
-        </div>
+                <label htmlFor="costo">Costo:</label> 
+                <input type="number" id="costo" name="costo" value={formValues.costo} onChange={this.handleInputChange} />
+              </div> 
+              <button type="submit" className="btn-submit">{formMode === 'agregar' ? 'Agregar' : 'Actualizar'}</button> 
+              {formMode === 'editar' && (<button type="button" className="btn-cancelar" onClick={() => this.setState({ showPopup: false })}>Cancelar</button>)}
+            </form> 
+          </div> 
+        </div> 
       )}
-      <div className="popup-container" style={{ display: showPopup ? 'flex' : 'none' }}>
-        <div className="popup">
-          <h2>Agregar producto</h2>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="codigo_barras">Código de barras:</label>
-              <input type="text" id="codigo_barras" name="codigo_barras" value={formValues.codigo_barras} onChange={handleInputChange} />
-            </div>
-            <div>
-              <label htmlFor="nombre">Nombre:</label>
-              <input type="text" id="nombre" name="nombre" value={formValues.nombre} onChange={handleInputChange} />
-            </div>
-            <div>
-              <label htmlFor="descripcion">Descripción:</label>
-              <textarea id="descripcion" name="descripcion" value={formValues.descripcion} onChange={handleInputChange}></textarea>
-            </div>
-            <div>
-              <label htmlFor="costo">Costo:</label>
-              <input type="number" id="costo" name="costo" value={formValues.costo} onChange={handleInputChange} />
-            </div>
-            <button type="submit" className="btn-submit">{formMode === 'agregar' ? 'Agregar' : 'Actualizar'}</button>
-            <button type="button" className="btn-cancelar" onClick={handleCerrarClick}>Cancelar</button>
-          </form>
-        </div>
-      </div>
-    </div>
+    </div> 
   );
-
+}
 }
 export default GestionProductos;
