@@ -45,35 +45,43 @@
 
                     <EditText
                         android:id="@+id/user_Name_edittext"
+                        style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="65dp"
                         android:ems="10"
                         android:hint="Nombre"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:textSize="18sp" />
 
                     <EditText
                         android:id="@+id/user_Apellidos_edittext"
+                        style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="65dp"
                         android:ems="10"
                         android:hint="Apellidos"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:textSize="18sp" />
 
                     <EditText
                         android:id="@+id/user_Cedula_edittext"
+                        style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="65dp"
                         android:ems="10"
                         android:hint="@string/prompt_cedula"
-                        android:inputType="number|textPersonName" />
+                        android:inputType="number|textPersonName"
+                        android:textSize="18sp" />
 
                     <EditText
                         android:id="@+id/user_Edad_edittext"
+                        style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="65sp"
                         android:ems="10"
                         android:hint="@string/prompt_age"
-                        android:inputType="number|textPersonName" />
+                        android:inputType="number|textPersonName"
+                        android:textSize="18sp" />
 
 
                     <LinearLayout
@@ -95,7 +103,7 @@
 
                         <Button
                             android:id="@+id/user_Fecha_nacimiento_btn"
-                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            style="@style/Widget.Material3.Button.ElevatedButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -124,40 +132,48 @@
 
                         <EditText
                             android:id="@+id/user_provincia_edittext"
+                            style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                             android:layout_width="match_parent"
                             android:layout_height="65sp"
                             android:layout_weight="1"
                             android:ems="10"
                             android:hint="@string/prompt_province"
-                            android:inputType="textPersonName" />
+                            android:inputType="textPersonName"
+                            android:textSize="18sp" />
 
                         <EditText
                             android:id="@+id/user_canton_edittext"
+                            style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                             android:layout_width="match_parent"
                             android:layout_height="65sp"
                             android:layout_weight="1"
                             android:ems="10"
                             android:hint="@string/prompt_canton"
-                            android:inputType="textPersonName" />
+                            android:inputType="textPersonName"
+                            android:textSize="18sp" />
 
                         <EditText
                             android:id="@+id/user_distrito_edittext"
+                            style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                             android:layout_width="match_parent"
                             android:layout_height="65sp"
                             android:layout_weight="1"
                             android:ems="10"
                             android:hint="@string/prompt_district"
-                            android:inputType="textPersonName" />
+                            android:inputType="textPersonName"
+                            android:textSize="18sp" />
 
                     </LinearLayout>
 
                     <EditText
                         android:id="@+id/user_email_edittext"
+                        style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="65sp"
                         android:ems="10"
                         android:hint="@string/prompt_email"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="textEmailAddress"
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -184,21 +200,25 @@
 
                     <EditText
                         android:id="@+id/user_weight_edittext"
+                        style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
                         android:hint="@string/prompt_weight"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:textSize="18sp" />
 
                     <EditText
                         android:id="@+id/user_imc_edittext"
+                        style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
                         android:hint="@string/prompt_IMC"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -218,13 +238,15 @@
 
                 <EditText
                     android:id="@+id/user_passwordregistry_edittext"
+                    style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="65sp"
                     android:layout_weight="1"
                     android:ems="10"
                     android:gravity="center_vertical"
                     android:hint="@string/prompt_password"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -241,11 +263,18 @@
 
                 <Button
                     android:id="@+id/user_registrarse_btn"
+                    style="@style/Widget.Material3.Button.ElevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="65sp"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:layout_weight="1"
-                    android:text="Completar Registro" />
+                    android:text="@string/Register"
+                    android:textSize="18sp"
+                    android:backgroundTint="#DBC7FF"
+                    android:padding="10dp"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/textColorPrimary"
+                    app:rippleColor="#AA9BC6"/>
 
                 <Space
                     android:layout_width="wrap_content"

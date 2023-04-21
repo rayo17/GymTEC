@@ -123,4 +123,9 @@
     <string name="previous">Previous</string>
     <string name="default_nofilter">--</string>
     <string name="busqueda_btntxt">BUSCAR</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Login_register">Iniciar sesión/Registrarse</string>
+    <string name="Register">Completar Registro</string>
+    <string name="invalid_id">Número de cédula inválido</string>
 </resources>
