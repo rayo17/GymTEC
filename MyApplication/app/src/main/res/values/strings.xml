@@ -128,4 +128,7 @@
     <string name="Login_register">Iniciar sesión/Registrarse</string>
     <string name="Register">Completar Registro</string>
     <string name="invalid_id">Número de cédula inválido</string>
+    <string name="username_placeholder">JOHN DOE</string>
+    <string name="buscar_clases">BUSCAR CLASES</string>
+    <string name="mis_clases">MIS CLASES</string>
 </resources>

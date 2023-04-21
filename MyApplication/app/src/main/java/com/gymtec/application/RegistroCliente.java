@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,6 @@ import java.time.Period;
 import java.util.Calendar;
 
 public class RegistroCliente extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-
     //Text Boxes
     EditText name_edittext;
     EditText lname_edittext;
@@ -56,8 +56,11 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
         imc_edittext = (EditText) findViewById(R.id.user_imc_edittext);
         password_edittext = (EditText) findViewById(R.id.user_passwordregistry_edittext);
 
+        //Boton de seleccion de fecha
+        Button seleccionarfecha_btn = (Button) findViewById(R.id.user_Fecha_nacimiento_btn);
+
         //Boton de registro
-        Button completar_registro_btn = (Button) findViewById(R.id.user_Fecha_nacimiento_btn);
+        Button registrarse_btn = (Button) findViewById(R.id.user_registrarse_btn);
         if(extras != null){
             String cedula = extras.getString("cedula_input");
             String selected_password = extras.getString("password_input");
@@ -65,11 +68,23 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
             password_edittext.setText(selected_password);
         }
 
-        completar_registro_btn.setOnClickListener(new View.OnClickListener() {
+
+        seleccionarfecha_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment datePicker = new DatePickerFragment();
                 datePicker.show(getSupportFragmentManager(), "Seleccione Fecha de Nacimiento");
+            }
+        });
+
+        registrarse_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = String.valueOf(name_edittext.getText()) +" "+ String.valueOf(lname_edittext.getText());
+                Intent main_screen= new Intent(getApplicationContext(), MainActivity.class);
+                main_screen.putExtra("Username", username);
+                startActivity(main_screen);
+                finish();
             }
         });
     }
