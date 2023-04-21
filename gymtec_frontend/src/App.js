@@ -8,7 +8,7 @@ import VistaPrincipal from './VistaPrincipal';
 import GestionPuestos from './VistaAdministrador/GestionPuestos';
 import GestionSucursales from './VistaAdministrador/GestionSucursales';
 import GestionTratamientosSpa from './VistaAdministrador/GestionTratamientosSpa';
-import LoginAdmin from './VistaAdministrador/GestionProductos';
+import LoginAdmin from './VistaAdministrador/GestionInventario';
 import LoginCliente from './VistaCliente/LoginCliente';
 
 
