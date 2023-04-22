@@ -2,6 +2,7 @@ package com.gymtec.application;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
@@ -33,6 +34,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
     private Button sucursal_btn;
     private Button dia_inicio_btn;
     private Button dia_final_btn;
+    private Button buscar_btn;
 
     private TextView sucursal_txt;
     private TextView tipo_txt;
@@ -55,7 +57,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
         sucursal_btn = (Button) findViewById(R.id.sucursal_btn);
         dia_inicio_btn = (Button) findViewById(R.id.periodo_inicio_btn);
         dia_final_btn = (Button) findViewById(R.id.periodo_final_btn);
-
+        buscar_btn = (Button) findViewById(R.id.Buscar_btn);
 
         sucursal_txt = (TextView) findViewById(R.id.sucursal_filter);
         tipo_txt = (TextView) findViewById(R.id.tipo_clase_filter);
@@ -94,6 +96,15 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 buttonDiaFinalPopupMenu_onClick(v);
+            }
+        });
+
+        buscar_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent view_clases = new Intent(Busqueda_clases.this, CourseListActivity.class);
+                startActivity(view_clases);
+                finish();
             }
         });
     }

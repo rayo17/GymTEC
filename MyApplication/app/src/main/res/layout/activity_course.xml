@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CourseActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10sp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tipo_clase_label"
+                android:layout_width="match_parent"
+                android:layout_height="65sp"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:text="@string/tipo_clase"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tipo_clase_info"
+                android:layout_width="match_parent"
+                android:layout_height="65sp"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:text="TextView"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/sucursal_clase_label"
+                android:layout_width="match_parent"
+                android:layout_height="65sp"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:text="@string/sucursal_clase"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/sucursal_clase_info"
+                android:layout_width="match_parent"
+                android:layout_height="65sp"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:text="TextView"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dia_clase_label"
+                android:layout_width="match_parent"
+                android:layout_height="65sp"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:text="@string/day_clase"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/dia_clase_info"
+                android:layout_width="match_parent"
+                android:layout_height="65sp"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:text="TextView"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/hora_inicio_clase_label"
+                android:layout_width="match_parent"
+                android:layout_height="65sp"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:text="@string/start_clase"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/hora_inicio_clase_info"
+                android:layout_width="match_parent"
+                android:layout_height="65sp"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:text="TextView"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/hora_final_clase_label"
+                android:layout_width="match_parent"
+                android:layout_height="65sp"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:text="@string/end_clase"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/hora_final_clase_info"
+                android:layout_width="match_parent"
+                android:layout_height="65sp"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:text="TextView"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/registrar_clase_btn"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="65sp"
+                android:layout_weight="0"
+                android:backgroundTint="#DBC7FF"
+                android:text="@string/subscribe_class"
+                android:textAlignment="center"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="18sp"
+                app:rippleColor="#AA9BC6" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
