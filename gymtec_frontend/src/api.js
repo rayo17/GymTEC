@@ -143,3 +143,31 @@ export const eliminarServicio = async (id) => {
   const response = await axios.delete(`${API_URL}/Servicio/${id}`);
   return response.data;
 };
+//Funcion para obtener los  tipo-equipo que hay
+export const obtenerEmpleados = async() => {
+  const response = await axios.get(`${API_URL}/Empleado`)
+  return response.data;
+}
+// Función para obtener una Tequipo en particular por su ID
+export const obtenerEmpleado = async (id) => {
+  const response = await axios.get(`${API_URL}/Empleado/${id}`);
+  return response.data;
+};
+
+// Función para agregar una nueva TEquipo
+export const agregarEmpleado = async (Servicio) => {
+  const response = await axios.post(`${API_URL}/Empleado`, Servicio);
+  return response.data;
+};
+
+// Función para actualizar los detalles de una TipoEquipo existente por su ID
+export const actualizarEmpleado = async (id, Servicio) => {
+  const response = await axios.put(`${API_URL}/Empleado/${id}`, Servicio);
+  return response.data;
+};
+
+// Función para eliminar un TipoEquipo por su ID
+export const eliminarEmpleado = async (id) => {
+  const response = await axios.delete(`${API_URL}/Empleado/${id}`);
+  return response.data;
+};

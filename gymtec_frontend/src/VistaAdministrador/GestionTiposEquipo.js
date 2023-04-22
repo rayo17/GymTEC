@@ -100,7 +100,7 @@ render() {
       {showPopup && (
         <div className="popup-container">
           <div className="popup">
-            <h2>Agregar Tipo de equipo</h2>
+            <h2>{formMode === 'agregar' ? 'Agregar Tipo de Equipo' : 'Actualizar Tipo de Equipo'}</h2>
             <form onSubmit={this.handleSubmit}>
               <div>
                 <label htmlFor="identificador">Identificador:</label>
