@@ -9,7 +9,7 @@ public class Sqlite extends SQLiteOpenHelper {
 
     // creating a constant variables for our database.
     // below variable is for our database name.
-    private static final String DB_NAME = "coursedb";
+    private static final String DB_NAME = "GYMTECAPP";
 
     // below int is our database version
     private static final int DB_VERSION = 1;
@@ -115,9 +115,9 @@ public class Sqlite extends SQLiteOpenHelper {
         String table_servicio = "CREATE TABLE SERVICIO (Identificador VARCHAR(30) NOT NULL, " +
                 "Descripcion VARCHAR(50) NOT NULL, "+
                 "PRIMARY KEY(Identificador, Descripcion));";
-        String alter_Sucursal="ALTER TABLE SUCURSAL_TELEFONOS" +
+        String alter_Sucursal="ALTER TABLE SUCURSAL_TELEFONOS " +
                 "ADD FOREIGN KEY (Sucursal) REFERENCES SUCURSAL(Nombre);";
-        String alter_Puesto  = "ALTER TABLE PUESTO" +
+        String alter_Puesto  = "ALTER TABLE PUESTO " +
                 "ADD FOREIGN KEY (Identificador) REFERENCES EMPLEADO(Cedula);";
         String  alter_Planilla = "ALTER TABLE PLANILLA ADD FOREIGN KEY (Identificador) REFERENCES EMPLEADO(Cedula);";
 
@@ -127,7 +127,7 @@ public class Sqlite extends SQLiteOpenHelper {
         String alter_Gym4="ALTER TABLE GIMNASIO ADD FOREIGN KEY (Producto) REFERENCES PRODUCTO(Codigo_barras);";
         String alter_Gym5="ALTER TABLE GIMNASIO ADD FOREIGN KEY (Tratamiento) REFERENCES TRATAMIENTO(Identificador);";
         String alter_Cliente1= "ALTER TABLE CLASE_CLIENTES ADD FOREIGN KEY (Clase) REFERENCES CLASE(Identificador);";
-        String alter_Cliente2="ALTER TABLE CLASE_CLIENTES" +
+        String alter_Cliente2="ALTER TABLE CLASE_CLIENTES " +
                 "ADD FOREIGN KEY (Cliente) REFERENCES CLIENTE(Cedula);";
         String alter_tipo_equipo=" ALTER TABLE TIPO_EQUIPO ADD FOREIGN KEY (Identificador) REFERENCES SUCURSAL(Nombre);";
         String alter_Servicio= "ALTER TABLE SERVICIO ADD FOREIGN KEY (Identificador) REFERENCES SUCURSAL(Nombre);";
