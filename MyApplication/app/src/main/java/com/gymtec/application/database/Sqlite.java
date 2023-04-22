@@ -111,9 +111,27 @@ public class Sqlite extends SQLiteOpenHelper {
                 "Descripcion VARCHAR(50) NOT NULL, "+
                 "PRIMARY KEY(Identificador, Descripcion));";
 
+        //
         String table_servicio = "CREATE TABLE SERVICIO (Identificador VARCHAR(30) NOT NULL, " +
                 "Descripcion VARCHAR(50) NOT NULL, "+
                 "PRIMARY KEY(Identificador, Descripcion));";
+        String alter_Sucursal="ALTER TABLE SUCURSAL_TELEFONOS" +
+                "ADD FOREIGN KEY (Sucursal) REFERENCES SUCURSAL(Nombre);";
+        String alter_Puesto  = "ALTER TABLE PUESTO" +
+                "ADD FOREIGN KEY (Identificador) REFERENCES EMPLEADO(Cedula);";
+        String  alter_Planilla = "ALTER TABLE PLANILLA ADD FOREIGN KEY (Identificador) REFERENCES EMPLEADO(Cedula);";
+
+        String alter_Gym1= "ALTER TABLE GIMNASIO ADD FOREIGN KEY (Sucursal) REFERENCES SUCURSAL(Nombre);";
+        String alter_Gym2= "ALTER TABLE GIMNASIO ADD FOREIGN KEY (Maquina) REFERENCES MAQUINA(Numero_serie);";
+        String alter_Gym3 = "ALTER TABLE GIMNASIO ADD FOREIGN KEY (Clase) REFERENCES CLASE(Identificador);";
+        String alter_Gym4="ALTER TABLE GIMNASIO ADD FOREIGN KEY (Producto) REFERENCES PRODUCTO(Codigo_barras);";
+        String alter_Gym5="ALTER TABLE GIMNASIO ADD FOREIGN KEY (Tratamiento) REFERENCES TRATAMIENTO(Identificador);";
+        String alter_Cliente1= "ALTER TABLE CLASE_CLIENTES ADD FOREIGN KEY (Clase) REFERENCES CLASE(Identificador);";
+        String alter_Cliente2="ALTER TABLE CLASE_CLIENTES" +
+                "ADD FOREIGN KEY (Cliente) REFERENCES CLIENTE(Cedula);";
+        String alter_tipo_equipo=" ALTER TABLE TIPO_EQUIPO ADD FOREIGN KEY (Identificador) REFERENCES SUCURSAL(Nombre);";
+        String alter_Servicio= "ALTER TABLE SERVICIO ADD FOREIGN KEY (Identificador) REFERENCES SUCURSAL(Nombre);";
+
 
 
         // at last we are calling a exec sql
@@ -131,6 +149,23 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(table_clase_clientes);
         db.execSQL(table_tipo_equipo);
         db.execSQL(table_servicio);
+        db.execSQL(alter_Sucursal);
+        db.execSQL(alter_Puesto);
+        db.execSQL(alter_Planilla);
+        db.execSQL(alter_Gym1);
+        db.execSQL(alter_Gym2);
+        db.execSQL(alter_Gym3);
+        db.execSQL(alter_Gym4);
+        db.execSQL(alter_Gym5);
+        db.execSQL(alter_Cliente1);
+        db.execSQL(alter_Cliente2);
+        db.execSQL(alter_tipo_equipo);
+        db.execSQL(alter_Servicio);
+
+
+
+
+
     }
 
     // this method is use to add new course to our sqlite database.
@@ -161,6 +196,9 @@ public class Sqlite extends SQLiteOpenHelper {
         db.close();
     }*/
 
+    public void create_empleado(int cedula, String nombre1, String nombre2, String apellido1, String apellido2, String distrito, String provincia, String salario, String correo, String contraseña){
+
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.
