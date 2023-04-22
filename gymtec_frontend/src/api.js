@@ -86,4 +86,60 @@ export const eliminarMaquinaid = async (id) => {
   return response.data;
 };
 
+//Funcion para obtener los  tipo-equipo que hay
+export const obtenertipoEquipos = async() => {
+  const response = await axios.get(`${API_URL}/TipoEquipo`)
+  return response.data;
+}
+// Función para obtener una Tequipo en particular por su ID
+export const obtenerTEquipo = async (id) => {
+  const response = await axios.get(`${API_URL}/TipoEquipo/${id}`);
+  return response.data;
+};
 
+// Función para agregar una nueva TEquipo
+export const agregarTEquipo = async (TEquipo) => {
+  const response = await axios.post(`${API_URL}/TipoEquipo`, TEquipo);
+  return response.data;
+};
+
+// Función para actualizar los detalles de una TipoEquipo existente por su ID
+export const actualizarTEquipo = async (id, TEquipo) => {
+  const response = await axios.put(`${API_URL}/TipoEquipo/${id}`, TEquipo);
+  return response.data;
+};
+
+// Función para eliminar un TipoEquipo por su ID
+export const eliminarTEquipoid = async (id) => {
+  const response = await axios.delete(`${API_URL}/TipoEquipo/${id}`);
+  return response.data;
+};
+
+//Funcion para obtener los  tipo-equipo que hay
+export const obtenerServicios = async() => {
+  const response = await axios.get(`${API_URL}/Servicio`)
+  return response.data;
+}
+// Función para obtener una Tequipo en particular por su ID
+export const obtenerServicio = async (id) => {
+  const response = await axios.get(`${API_URL}/Servicio/${id}`);
+  return response.data;
+};
+
+// Función para agregar una nueva TEquipo
+export const agregarServicio = async (Servicio) => {
+  const response = await axios.post(`${API_URL}/Servicio`, Servicio);
+  return response.data;
+};
+
+// Función para actualizar los detalles de una TipoEquipo existente por su ID
+export const actualizarServicio = async (id, Servicio) => {
+  const response = await axios.put(`${API_URL}/Servicio/${id}`, Servicio);
+  return response.data;
+};
+
+// Función para eliminar un TipoEquipo por su ID
+export const eliminarServicio = async (id) => {
+  const response = await axios.delete(`${API_URL}/Servicio/${id}`);
+  return response.data;
+};
