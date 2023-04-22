@@ -21,7 +21,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String ID_COL = "id";
 
     // below variable is for our course name column
-    private static final String NAME_COL = "name";
+º    private static final String NAME_COL = "name";
 
     // below variable id for our course duration column.
     private static final String DURATION_COL = "duration";
