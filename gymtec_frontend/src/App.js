@@ -9,6 +9,7 @@ import LoginAdmin from './VistaAdministrador/LoginAdmin';
 import GestionPuestos from './VistaAdministrador/GestionPuestos';
 import GestionSucursales from './VistaAdministrador/GestionSucursales';
 import GestionTratamientosSpa from './VistaAdministrador/GestionTratamientosSpa';
+import GestionPlanilla from './VistaAdministrador/GestionPlanilla';
 import LoginCliente from './VistaCliente/LoginCliente';
 
 
@@ -22,6 +23,7 @@ function App() {
             <Route path='/gestionpuestos' element={ <GestionPuestos/> }/>
             <Route path='/gestionsucursales' element={ <GestionSucursales/> }/>
             <Route path='/gestiontratamientosspa' element={ <GestionTratamientosSpa/> }/>
+            <Route path='/gestionplanilla' element={ <GestionPlanilla/> }/>
 
 
             <Route path='/logincliente' element={ <LoginCliente/> }/>

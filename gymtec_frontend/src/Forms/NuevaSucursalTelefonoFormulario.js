@@ -3,22 +3,13 @@ import axios from "axios";
 import { Form } from 'react-bootstrap';
 
 
-class EliminarSucursalFormulario extends Component {
+class NuevaSucursalTelefonoFormulario extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      nombre: "",
-      canton: "",
-      distrito: "",
-      provincia: "",
-      fecha_apertura: "",
-      horario_atencion: "",
-      administrador: "",
-      capacidad_maxima: "",
+      sucursal: "",
       telefono: "",
-      activacion_spa: "",
-      activacion_tienda: "",
       showModal: false,
     };
 
@@ -32,20 +23,18 @@ class EliminarSucursalFormulario extends Component {
 
     // Enviar los datos al backend para crear una nueva sucursal
     axios
-      .delete("http://localhost:5236/api/sucursal/"+this.state.nombre, {
-        nombre: this.state.nombre,
-        canton: this.state.canton,
-        distrito: this.state.distrito,
-        provincia: this.state.provincia,
-        fecha_apertura: this.state.fecha_apertura,
-        horario_atencion: this.state.horario_atencion,
-        administrador: this.state.administrador,
-        capacidad_maxima: this.state.capacidad_maxima,
-        activacion_spa: this.state.activacion_spa,
-        activacion_tienda: this.state.activacion_tienda,
+      .post("http://localhost:5236/api/SucursalTelefonos", {
+        sucursal: this.state.sucursal,
+        telefono: parseInt(this.state.telefono)
       })
+      .then((response) => {
+        this.props.onNewTelSucursal();
+      })
+      .catch((error) => {
+            this.setState({ error: error.message });
+      });
 
-    console.log("Sucursal eliminada");
+    console.log("Nueva teléfono de sucursal agregado");
     this.props.onClose();
   };
 
@@ -88,18 +77,27 @@ class EliminarSucursalFormulario extends Component {
         }}
       >
         <Form onSubmit={this.handleSubmit}>
-          <h2>Eliminar sucursal</h2>
+          <h2>Nuevo teléfono de sucursal</h2>
           <div className="form-input">
-            <label htmlFor="nombre">Nombre:</label>
+            <label htmlFor="sucursal">Sucursal:</label>
             <input
               type="text"
-              name="nombre"
-              value={this.state.nombre}
+              name="sucursal"
+              value={this.state.sucursal}
               onChange={this.handleChange}
               required
             />
           </div>
-          
+          <div className="form-input">
+            <label htmlFor="telefono">Teléfono:</label>
+            <input
+              type="tel"
+              name="telefono"
+              value={this.state.telefono}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
             <div style={{marginTop: "20px"}}>
             <button type="submit" style={{
               backgroundColor: "#fff",
@@ -110,12 +108,12 @@ class EliminarSucursalFormulario extends Component {
               display: "block",
               margin: "0 auto",
               padding: "10px 20px"
-            }}>Eliminar sucursal</button>
+            }}>Agregar teléfono</button>
             </div>
 
-      </Form>
-    </div>
-            );
-    }
+        </Form>
+      </div>
+    );
+  }
 }
-export default EliminarSucursalFormulario;
+export default NuevaSucursalTelefonoFormulario;

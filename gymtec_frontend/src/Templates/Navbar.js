@@ -33,6 +33,10 @@ export const Navbar = () => {
                     <li className="nav-item">
                         <Link className="nav-link" to='/gestionpuestos'>Gestionar puestos</Link>
                     </li>
+
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/gestionplanilla'>Gestionar planilla</Link>
+                    </li>
                 </ul>
                 </div>
             </div>
