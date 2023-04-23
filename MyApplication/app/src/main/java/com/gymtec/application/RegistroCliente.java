@@ -36,6 +36,8 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
     EditText imc_edittext;
     EditText password_edittext;
 
+    String fecha_numerica;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -98,6 +100,8 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, day);
+
+        fecha_numerica = String.valueOf(year)+String.valueOf(month)+String.valueOf(day);
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
 
 

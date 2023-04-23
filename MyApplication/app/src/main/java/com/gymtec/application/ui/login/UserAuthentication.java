@@ -9,6 +9,7 @@ public class UserAuthentication {
     //User temporal db
     private final HashMap<String, String> user_ids = new HashMap<>();
 
+
     public UserAuthentication(){
         user_ids.put("604560524", "password");
     }
