@@ -242,7 +242,7 @@ public class Sqlite extends SQLiteOpenHelper {
         // on below line we are passing all values
         // along with its key and value pair.
         Cursor nombre_sucursal = db.rawQuery("SELECT Nombre FROM SUCURSAL", null);
-        
+
 
         // at last we are closing our
         // database after adding database.
@@ -250,6 +250,34 @@ public class Sqlite extends SQLiteOpenHelper {
         db.close();
         return nombre_sucursal;
     }
+    public void addNewClase_Cliente(String Clase, String Cliente) {
+
+        // on below line we are creating a variable for
+        // our sqlite database and calling writable method
+        // as we are writing data in our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // on below line we are creating a
+        // variable for content values.
+        ContentValues values = new ContentValues();
+
+        // on below line we are passing all values
+        // along with its key and value pair.
+        values.put("Clase", Clase);
+        values.put("Cliente", Cliente);
+
+
+
+        // after adding all values we are passing
+        // content values to our table.
+        db.insert("CLASE_CLIENTES", null, values);
+
+        // at last we are closing our
+        // database after adding database.
+        db.close();
+    }
+
+    
 
 
     @Override
