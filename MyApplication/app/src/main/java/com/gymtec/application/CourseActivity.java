@@ -13,6 +13,9 @@ import com.gymtec.application.databinding.ActivityCourseBinding;
 
 public class CourseActivity extends AppCompatActivity {
 
+    /**
+     * Shows information of a course
+     */
 
     ActivityCourseBinding binding;
     @Override

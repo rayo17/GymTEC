@@ -44,4 +44,6 @@
     <string name="day_clase">Día</string>
     <string name="start_clase">Hora de inicio</string>
     <string name="end_clase">Hora final</string>
+    <string name="instructor_clase">Instructor</string>
+    <string name="cupo_clase">Cupo disponible</string>
 </resources>

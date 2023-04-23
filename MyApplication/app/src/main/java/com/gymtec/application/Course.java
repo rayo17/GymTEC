@@ -2,8 +2,10 @@ package com.gymtec.application;
 
 public class Course {
     /**
-     * Modela una de las clases para
+     * Models a course (clase)
      */
+
+    //course variable declaration
     String tipo;
     String sucursal;
     String dia;

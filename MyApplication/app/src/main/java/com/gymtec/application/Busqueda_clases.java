@@ -21,11 +21,15 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 
 public class Busqueda_clases extends AppCompatActivity implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
+
+    //Arrays de datos parametros de filtrado
     String[] sucursales = {"Escazu", "Lindora", "Cartago", "Tres Rios"};
     String[] tipos_clase = {"Zumba", "Natacion", "Boxeo"};
 
     String[] dias_semana = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes","Sabado","Domingo"};
 
+
+    //Declaracion de parametros de elementos del view
     private TimePickerFragment timePicker;
     private TextView hora_inicio_tv;
     private TextView hora_final_tv;
@@ -51,6 +55,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
 
 
 
+        //View elements binding
         Button start_hour_selector = (Button) findViewById(R.id.hora_inicio_btn);
         Button end_hour_selector = (Button) findViewById(R.id.hora_final_btn);
         tipo_btn = (Button) findViewById(R.id.tipo_clase_btn);
@@ -69,9 +74,11 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
         //timepicker
         timePicker = new TimePickerFragment();
 
+        //Hour selector click listener setting
         start_hour_selector.setOnClickListener(this);
         end_hour_selector.setOnClickListener(this);
 
+        //type (tipo) selection button click listener setting
         tipo_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +86,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+        //branch (sucursal) selection button click listener setting
         sucursal_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,12 +94,15 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+        //start day selection button click listener setting
         dia_inicio_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buttonDiaInicialPopupMenu_onClick(v);
             }
         });
+
+        //end day selection button click listener setting
         dia_final_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +110,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+        //Search button click listener setting
         buscar_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +122,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
     }
 
 
+    //Override of oneclick for time selector buttons
     @Override
     public void onClick(View view){
         int id = view.getId();
@@ -124,6 +137,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    //Method for hour selection
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
@@ -140,8 +154,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
         }
     }
     /**
-     *
-     * Abre popup menu para ver las sucursales disponibles
+     * Opens popup menu to show available branches (sucursales)
      * @param view
      */
     private void buttonSucursalPopupMenu_onClick(View view){
@@ -163,7 +176,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
-     * Abre popup menu para ver los tipos de clase disponible
+     * Opens popup menu to show available courses (clases)
      * @param view
      */
     private void buttonTipoPopuMenu_onClick(View view){
@@ -183,6 +196,10 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
         popupMenu.show();
     }
 
+    /**
+     * Opens popup menu to show week days for start filtering
+     * @param view
+     */
     private void buttonDiaInicialPopupMenu_onClick(View view){
         PopupMenu popupMenu = new PopupMenu(Busqueda_clases.this, tipo_btn);
 
@@ -200,6 +217,11 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
         popupMenu.show();
     }
 
+
+    /**
+     * Opens popup menu to show week days for end filtering
+     * @param view
+     */
     private void buttonDiaFinalPopupMenu_onClick(View view){
         PopupMenu popupMenu = new PopupMenu(Busqueda_clases.this, tipo_btn);
 

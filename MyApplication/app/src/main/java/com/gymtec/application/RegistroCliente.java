@@ -36,7 +36,7 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
     EditText imc_edittext;
     EditText password_edittext;
 
-    String fecha_numerica;
+    String fecha_numerica = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,7 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
         }
 
 
+        //Click listener que abre datePicker
         seleccionarfecha_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,6 +82,7 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
             }
         });
 
+        //Click listener de boton de registro
         registrarse_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +95,7 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
         });
     }
 
+    //Metodo para seleccion de fecha
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
