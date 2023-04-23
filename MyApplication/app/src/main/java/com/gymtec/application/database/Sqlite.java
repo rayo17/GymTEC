@@ -2,6 +2,7 @@ package com.gymtec.application.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -169,8 +170,8 @@ public class Sqlite extends SQLiteOpenHelper {
     }
 
     // this method is use to add new course to our sqlite database.
- /*   public void addNewCourse(String courseName, String courseDuration, String courseDescription, String courseTracks) {
-
+    public void addNewCliente(String cedula, String Primer_nombre, String Segundo_nombre, String Primer_apellido, String Segundo_apellido, String correo, String distrito, String canton,
+                              String provincia, String contrasenna, String Fecha_nacimiento, String peso, String Imc) {
         // on below line we are creating a variable for
         // our sqlite database and calling writable method
         // as we are writing data in our database.
@@ -182,23 +183,75 @@ public class Sqlite extends SQLiteOpenHelper {
 
         // on below line we are passing all values
         // along with its key and value pair.
-        values.put(NAME_COL, courseName);
-        values.put(DURATION_COL, courseDuration);
-        values.put(DESCRIPTION_COL, courseDescription);
-        values.put(TRACKS_COL, courseTracks);
+        values.put("Cedula", cedula);
+        values.put("Primer_nombre", Primer_nombre);
+        values.put("Segundo_nombre", Segundo_nombre);
+        values.put("Primer_apellido", Primer_apellido);
+        values.put("Segundo_apellido", Segundo_apellido);
+        values.put("Correo_electronico", correo);
+        values.put("Distrito", distrito);
+        values.put("Canton", canton);
+        values.put("Provincia", provincia);
+        values.put("Contrasenna", contrasenna);
+        values.put("Fecha_nacimiento", Fecha_nacimiento);
+        values.put("Peso", peso);
+        values.put("Imc", Imc);
+
 
         // after adding all values we are passing
         // content values to our table.
-        db.insert(TABLE_NAME, null, values);
+        db.insert("CLIENTE", null, values);
 
         // at last we are closing our
         // database after adding database.
         db.close();
-    }*/
-
-    public void create_empleado(int cedula, String nombre1, String nombre2, String apellido1, String apellido2, String distrito, String provincia, String salario, String correo, String contraseña){
-
     }
+    public Cursor getCliente(String cedula, String contrasenna) {
+        // on below line we are creating a variable for
+        // our sqlite database and calling writable method
+        // as we are writing data in our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+
+        // on below line we are passing all values
+        // along with its key and value pair.
+        Cursor cedula_contr_cliente = db.rawQuery("SELECT Cedula, Contrasenna FROM CLIENTE WHERE Cedula = "+cedula, null);
+
+
+
+        // after adding all values we are passing
+        // content values to our table.
+
+
+        // at last we are closing our
+        // database after adding database.
+
+        db.close();
+        return cedula_contr_cliente;
+    }
+
+    public Cursor getSucursal() {
+        // on below line we are creating a variable for
+        // our sqlite database and calling writable method
+        // as we are writing data in our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+
+        // on below line we are passing all values
+        // along with its key and value pair.
+        Cursor nombre_sucursal = db.rawQuery("SELECT Nombre FROM SUCURSAL", null);
+        
+
+        // at last we are closing our
+        // database after adding database.
+
+        db.close();
+        return nombre_sucursal;
+    }
+
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.
