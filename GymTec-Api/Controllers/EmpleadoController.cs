@@ -52,7 +52,7 @@ namespace GymTec_Api.Controllers
             {
                 return Ok();
             }
-            return BadRequest();
+            return NotFound();
         }
 
         // POST: api/Empleado

@@ -10,7 +10,7 @@ export const Navbar = () => {
     <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
-                <Link to='/'>
+                <Link to='/administrador'>
                     <img src={icon} width='35'/>
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@ export const Navbar = () => {
                     </li>
 
                     <li className="nav-item">
-                        <Link className="nav-link" to='/gestionplanilla'>Gestionar planilla</Link>
+                        <Link className="nav-link" to='/gestionplanillas'>Gestionar planilla</Link>
                     </li>
                 </ul>
                 </div>

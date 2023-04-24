@@ -33,6 +33,7 @@ class NuevoPuestoFormulario extends Component {
         })
         .catch((error) => {
             this.setState({ error: error.message });
+            console.log("Todo mal bro");
         });
 
     console.log("Nuevo puesto agregado");
