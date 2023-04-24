@@ -10,6 +10,7 @@ class NuevoTratamientoFormulario extends Component {
     this.state = {
       identificador: "",
       nombre: "",
+      spa: "",
       showModal: false,
     };
 
@@ -25,7 +26,8 @@ class NuevoTratamientoFormulario extends Component {
     axios
         .post("http://localhost:5236/api/tratamiento", {
             identificador: this.state.identificador,
-            nombre: this.state.nombre
+            nombre: this.state.nombre,
+            spa: this.state.spa,
         })
         .then((response) => {
             // Actualizar el estado de los pacientes con los nuevos datos ingresados
@@ -97,6 +99,15 @@ class NuevoTratamientoFormulario extends Component {
               value={this.state.nombre}
               onChange={this.handleChange}
               required
+            />
+          </div>
+          <div className="form-input">
+            <label htmlFor="spa">Spa asociado:</label>
+            <input
+              type="text"
+              name="spa"
+              value={this.state.spa}
+              onChange={this.handleChange}
             />
           </div>
           

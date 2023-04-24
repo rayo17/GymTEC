@@ -5,7 +5,7 @@ import React from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import VistaPrincipal from './VistaPrincipal';
-import VistaAdministrador from './VistaAdministrador';
+import VistaAdministrador from './VistaAdministrador/VistaAdministrador';
 import LoginAdmin from './VistaAdministrador/LoginAdmin';
 import GestionPuestos from './VistaAdministrador/GestionPuestos';
 import GestionSucursales from './VistaAdministrador/GestionSucursales';

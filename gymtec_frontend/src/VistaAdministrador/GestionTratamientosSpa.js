@@ -123,7 +123,7 @@ render() {
             <tr key={tratamiento.identificador}>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{tratamiento.identificador}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{tratamiento.nombre}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>UC</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{tratamiento.spa}</td>
             </tr>
           ))}
         </tbody>
