@@ -108,7 +108,7 @@ render() {
   return (
     <div style={{ backgroundColor: '#fff', textAlign: 'center' }}>
         <Navbar/>
-  <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Sucursales</h1>
+  <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Tratamientos de spa</h1>
       {error && <div>Error: {error}</div>}
       <table style={{ borderCollapse: 'collapse', width: '80%', margin: '0 auto'}} className="table border shadow">
         <thead>
