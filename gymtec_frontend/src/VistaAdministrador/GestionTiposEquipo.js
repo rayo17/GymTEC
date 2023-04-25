@@ -1,6 +1,8 @@
 import React from 'react';
 import { obtenertipoEquipos, agregarTEquipo, actualizarTEquipo, eliminarTEquipoid } from '../api';
 import './GestionProductos.css';
+import { Navbar } from "../Templates/Navbar"
+
 
 class GestionTiposEquipo extends React.Component {
   constructor(props) {
@@ -74,6 +76,7 @@ render() {
   const { equipos, formValues, formMode, showPopup } = this.state;
   return (
     <div className="gestion-productos-container">
+      <Navbar/>
       <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Gestión de tipos de equipo</h1>
       <table className="tabla-productos">
         <thead>

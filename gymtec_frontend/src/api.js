@@ -139,8 +139,8 @@ export const actualizarServicio = async (id, Servicio) => {
 };
 
 // Función para eliminar un TipoEquipo por su ID
-export const eliminarServicio = async (id) => {
-  const response = await axios.delete(`${API_URL}/Servicio/${id}`);
+export const eliminarServicio = async (id, descripcion) => {
+  const response = await axios.delete(`${API_URL}/Servicio/${id}/${descripcion}`);
   return response.data;
 };
 //Funcion para obtener los  tipo-equipo que hay

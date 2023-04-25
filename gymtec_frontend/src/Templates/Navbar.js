@@ -37,6 +37,21 @@ export const Navbar = () => {
                     <li className="nav-item">
                         <Link className="nav-link" to='/gestionplanillas'>Gestionar planilla</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/gestionproductos'>Gestionar productos</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/gestioninventario'>Gestionar inventario</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/gestiontiposequipo'>Gestionar equipo</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/gestionservicios'>Gestionar servicios</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/gestonempleados'>Gestionar empleados</Link>
+                    </li>                    
                 </ul>
                 </div>
             </div>

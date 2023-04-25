@@ -45,8 +45,8 @@ class GestionServicios extends React.Component {
   };
 
   // Función para manejar el clic en el botón de eliminar de una fila de la tabla
-  handleDeleteClick = async (identificador) => {
-    await eliminarServicio(identificador);
+  handleDeleteClick = async (identificador, descripcion) => {
+    await eliminarServicio(identificador, descripcion);
     this.getServicios();
   };
   handleOuterClick(event) {
@@ -90,7 +90,7 @@ render() {
               <td style={{ padding: '10px' }}>{producto.descripcion}</td>
               <td>
                 <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(producto)}>Editar</button>
-                <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(producto.identificador)}>Eliminar</button>
+                <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(producto.identificador, producto.descripcion)}>Eliminar</button>
               </td>
             </tr>
           ))}
