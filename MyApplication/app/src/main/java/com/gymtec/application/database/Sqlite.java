@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 public class Sqlite extends SQLiteOpenHelper {
 
@@ -18,6 +19,7 @@ public class Sqlite extends SQLiteOpenHelper {
 
     public Sqlite(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+
     }
 
     // below method is for creating a database by running a sqlite query
@@ -296,14 +298,28 @@ public class Sqlite extends SQLiteOpenHelper {
     }
 
 
-    public void getClass_cliente(String Identificador){
+    public Cursor getClass_cliente(){
         SQLiteDatabase db=this.getWritableDatabase();
-        Cursor Class_cliente = db.rawQuery("SELECT Identificador FROM SUCURSAL", null);
+        Cursor Class_cliente = db.rawQuery("SELECT Cliente FROM CLASE_CLIENTES", null);
+        return Class_cliente;
 
 
     }
+    public Cursor getClass(String Identificador){
+        SQLiteDatabase db =this.getWritableDatabase();
+        Cursor Class=db.rawQuery("SELECT Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin FROM  CLASE WHERE Identificador ="+ Identificador, null);
+        return Class;
+    }
 
-
+     /*CREATE TABLE CLASE (Identificador VARCHAR(10) NOT NULL, " +
+                "Capacidad INT NOT NULL, "+
+                "Grupal INT NOT NULL, " +
+                "Tipo VARCHAR(30) NOT NULL, " +
+                "Dia INT NOT NULL, " +
+                "Instructor VARCHAR(100) NOT NULL, " +
+                "Hora_inicio VARCHAR(5) NOT NULL, " +
+                "Hora_fin VARCHAR(5) NOT NULL, " +
+                "PRIMARY KEY(Identificador));";*/
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
