@@ -7,7 +7,7 @@ class GestionEmpleados extends React.Component {
         super(props);
         this.state = {
             empleados: [],
-            formValues: { cedula: '', Primer_nombre: '', Segundo_nombre: '', Primer_apellido: '', Segundo_apellido: '', Distrito: '', Canton: '', Provincia: '', Salario: '', Correo_electronico: '', contrasenna: '' },
+            formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' },
             formMode: 'agregar',
             currentProductId: '',
             showPopup: false
@@ -30,7 +30,7 @@ class GestionEmpleados extends React.Component {
             await actualizarEmpleado(this.state.currentProductId, this.state.formValues);
         }
         this.getProductos();
-        this.setState({ formValues: { cedula: '', Primer_nombre: '', Segundo_nombre: '', Primer_apellido: '', Segundo_apellido: '', Distrito: '', Canton: '', Provincia: '', Salario: '', Correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
+        this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
     };
 
     // Función para manejar el cambio de los inputs del formulario
@@ -53,7 +53,7 @@ class GestionEmpleados extends React.Component {
         const container = document.querySelector('.popup');
         if (container && !container.contains(event.target)) {
             this.setState({ showPopup: false });
-            this.setState({ formValues: { cedula: '', Primer_nombre: '', Segundo_nombre: '', Primer_apellido: '', Segundo_apellido: '', Distrito: '', Canton: '', Provincia: '', Salario: '', Correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
+            this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
         }
     };
     // Se ejecuta al cargar el componente
@@ -66,7 +66,7 @@ class GestionEmpleados extends React.Component {
     };
 
     handleCerrarClick = () => {
-        this.setState({ formValues: { cedula: '', Primer_nombre: '', Segundo_nombre: '', Primer_apellido: '', Segundo_apellido: '', Distrito: '', Canton: '', Provincia: '', Salario: '', Correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
+        this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
         this.setState({ showPopup: false });
         document.removeEventListener('mousedown', this.handleOuterClick);
     }
@@ -81,7 +81,7 @@ class GestionEmpleados extends React.Component {
                             <th style={{ padding: '10px' }}>Cedula</th>
                             <th style={{ padding: '10px' }}>Nombre Completo</th>
                             <th style={{ padding: '10px' }}>Ubicacion</th>
-                            <th style={{ padding: '10px' }}>Salario</th>
+                            <th style={{ padding: '10px' }}>salario</th>
                             <th style={{ padding: '10px' }}>Correo</th>
                             <th style={{ padding: '10px' }}>Contraseña</th>
                             <th style={{ padding: '10px' }}>Acciones</th>
@@ -116,24 +116,24 @@ class GestionEmpleados extends React.Component {
                                 </div>
                                 <div>
                                     <label htmlFor="nombre">Nombre completo:</label>
-                                    <input type="text" id="Primer_nombre" name="primer_nombre" value={formValues.primer_nombre} onChange={this.handleInputChange} placeholder="Primer nombre" />
-                                    <input type="text" id="Segundo_nombre" name="segundo_nombre" value={formValues.segundo_nombre} onChange={this.handleInputChange} placeholder="Segundo nombre" />
-                                    <input type="text" id="Primer_apellido" name="primer_apellido" value={formValues.primer_apellido} onChange={this.handleInputChange} placeholder="Primer apellido" />
-                                    <input type="text" id="Segundo_apellido" name="segundo_apellido" value={formValues.segundo_apellido} onChange={this.handleInputChange} placeholder="Segundo apellido" />
+                                    <input type="text" id="primer_nombre" name="primer_nombre" value={formValues.primer_nombre} onChange={this.handleInputChange} placeholder="Primer nombre" />
+                                    <input type="text" id="segundo_nombre" name="segundo_nombre" value={formValues.segundo_nombre} onChange={this.handleInputChange} placeholder="Segundo nombre" />
+                                    <input type="text" id="primer_apellido" name="primer_apellido" value={formValues.primer_apellido} onChange={this.handleInputChange} placeholder="Primer apellido" />
+                                    <input type="text" id="segundo_apellido" name="segundo_apellido" value={formValues.segundo_apellido} onChange={this.handleInputChange} placeholder="Segundo apellido" />
                                 </div>
                                 <div>
                                     <label htmlFor="ubicacion">Ubicacion:</label>
-                                    <input type="text" id="distrito" name="distrito" value={formValues.distrito} onChange={this.handleInputChange} placeholder="Distrito" />
-                                    <input type="text" id="canton" name="canton" value={formValues.canton} onChange={this.handleInputChange} placeholder="Canton" />
-                                    <input type="text" id="provincia" name="provincia" value={formValues.provincia} onChange={this.handleInputChange} placeholder="Provincia" />
+                                    <input type="text" id="distrito" name="distrito" value={formValues.distrito} onChange={this.handleInputChange} placeholder="distrito" />
+                                    <input type="text" id="canton" name="canton" value={formValues.canton} onChange={this.handleInputChange} placeholder="canton" />
+                                    <input type="text" id="provincia" name="provincia" value={formValues.provincia} onChange={this.handleInputChange} placeholder="provincia" />
                                 </div>
                                 <div>
-                                    <label htmlFor="Salario">Salario:</label>
-                                    <input type="number" id="Salario" name="salario" value={formValues.salario} onChange={this.handleInputChange} placeholder="Salario" />
+                                    <label htmlFor="salario">salario:</label>
+                                    <input type="number" id="salario" name="salario" value={formValues.salario} onChange={this.handleInputChange} placeholder="salario" />
                                 </div>
                                 <div>
                                     <label htmlFor="Correo">Correo:</label>
-                                    <input type="text" id="Correo_electronico" name="Correo_electronico" value={formValues.correo_electronico} onChange={this.handleInputChange} placeholder="Correo electronico" />
+                                    <input type="text" id="correo_electronico" name="correo_electronico" value={formValues.correo_electronico} onChange={this.handleInputChange} placeholder="Correo electronico" />
                                 </div>
                                 <div>
                                     <label htmlFor="contrasenna">Contraseña:</label>
