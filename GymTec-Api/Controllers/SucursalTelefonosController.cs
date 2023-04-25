@@ -47,6 +47,21 @@ namespace GymTec_Api.Controllers
                 return BadRequest(e.Message);
             }
         }
+        /*
+        [HttpPost("{sucursal}")]
+        public ActionResult Post([FromBody] SucursalTelefonos sucursalTelefonos)
+        {
+            try
+            {
+                context.SucursalTelefonos.Add(sucursalTelefonos);
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }*/
 
         // DELETE: api/SucursalTelefonos/5
         [HttpDelete("{sucursal}/{telefono}")]

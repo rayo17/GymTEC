@@ -9,8 +9,8 @@ class NuevaSucursalFormulario extends Component {
 
     this.state = {
       nombre: "",
-      canton: "",
       distrito: "",
+      canton: "",
       provincia: "",
       fecha_apertura: "",
       horario_atencion: "",
@@ -34,8 +34,8 @@ class NuevaSucursalFormulario extends Component {
     axios
       .post("http://localhost:5236/api/sucursal", {
         nombre: this.state.nombre,
-        canton: this.state.canton,
         distrito: this.state.distrito,
+        canton: this.state.canton,
         provincia: this.state.provincia,
         fecha_apertura: this.state.fecha_apertura,
         horario_atencion: this.state.horario_atencion,
@@ -48,15 +48,15 @@ class NuevaSucursalFormulario extends Component {
         // Agregar el telefono de la sucursal
         axios
             .post("http://localhost:5236/api/SucursalTelefonos", {
-            sucursal: this.state.sucursal,
-            telefono: parseInt(this.state.telefono),
+              sucursal: this.state.nombre,
+              telefono: parseInt(this.state.telefono),
             })
             .then((response) => {
-            // Actualizar el estado de los pacientes con los nuevos datos ingresados
-            this.props.onNewSucursal();
+              // Actualizar el estado de los pacientes con los nuevos datos ingresados
+              this.props.onNewSucursal();
             })
             .catch((error) => {
-            this.setState({ error: error.message });
+              this.setState({ error: error.message });
             });
         })
 
@@ -188,7 +188,7 @@ class NuevaSucursalFormulario extends Component {
             <input
               type="tel"
               name="telefono"
-              value={this.state.patologia_nombre}
+              value={this.state.telefono}
               onChange={this.handleChange}
               required
             />

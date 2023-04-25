@@ -5,10 +5,12 @@ import React from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import VistaPrincipal from './VistaPrincipal';
+import VistaAdministrador from './VistaAdministrador/VistaAdministrador';
+import LoginAdmin from './VistaAdministrador/LoginAdmin';
 import GestionPuestos from './VistaAdministrador/GestionPuestos';
 import GestionSucursales from './VistaAdministrador/GestionSucursales';
 import GestionTratamientosSpa from './VistaAdministrador/GestionTratamientosSpa';
-import LoginAdmin from './VistaAdministrador/GestionInventario';
+import GestionPlanillas from './VistaAdministrador/GestionPlanillas';
 import LoginCliente from './VistaCliente/LoginCliente';
 
 
@@ -18,10 +20,12 @@ function App() {
       <Router>
           <Routes>
             <Route path='/' element={ <VistaPrincipal/> }/>
+            <Route path='/administrador' element={ <VistaAdministrador/> }/>
             <Route path='/loginadmin' element={ <LoginAdmin/> }/>
             <Route path='/gestionpuestos' element={ <GestionPuestos/> }/>
             <Route path='/gestionsucursales' element={ <GestionSucursales/> }/>
             <Route path='/gestiontratamientosspa' element={ <GestionTratamientosSpa/> }/>
+            <Route path='/gestionplanillas' element={ <GestionPlanillas/> }/>
 
 
             <Route path='/logincliente' element={ <LoginCliente/> }/>

@@ -97,18 +97,31 @@ namespace GymTec_Api.Controllers
 
         // DELETE: api/Sucursal/NombreSucursal
         [HttpDelete("{nombre}")]
-        public async Task<IActionResult> DeleteSucursal(string nombre)
+        public ActionResult Delete(string nombre)
         {
-            var sucursal = await _context.Sucursal.FindAsync(nombre);
+            var sucursal = _context.Sucursal.FirstOrDefault(s => s.Nombre == nombre);
             if (sucursal == null)
             {
                 return NotFound();
             }
 
-            _context.Sucursal.Remove(sucursal);
-            await _context.SaveChangesAsync();
+            var sucTel = _context.SucursalTelefonos.Where(s => s.Sucursal == nombre);
+            foreach (var s in sucTel)
+            {
+                _context.SucursalTelefonos.Remove(s);
+            }
+            
+            var sucTrat = _context.Tratamiento.Where(t => t.Spa == nombre);
+            foreach (var t in sucTrat)
+            {
+                _context.Tratamiento.Remove(t);
+            }
 
-            return NoContent();
+            _context.SaveChanges();
+            _context.Sucursal.Remove(sucursal);
+            _context.SaveChanges();
+
+            return Ok();
         }
 
         private bool SucursalExists(string nombre)

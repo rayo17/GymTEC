@@ -4,17 +4,17 @@ import axios from 'axios';
 
 import { CSSTransition } from 'react-transition-group';
 
-import NuevoTratamientoFormulario from '../Forms/NuevoTratamientoFormulario';
-import EditarTratamientoFormulario from '../Forms/EditarTratamientoFormulario';
-import EliminarTratamientoFormulario from '../Forms/EliminarTratamientoFormulario';
+import NuevaPlanillaFormulario from '../Forms/NuevaPlanillaFormulario';
+import EditarPlanillaFormulario from '../Forms/EditarPlanillaFormulario';
+import EliminarPlanillaFormulario from '../Forms/EliminarPlanillaFormulario';
 
 
-class GestionTratamientosSpa extends Component {
+class GestionPlanillas extends Component {
   constructor(props) {
     super(props);
   
     this.state = {
-      tratamientos: [], // lista de sucursales obtenidos desde el API
+      planillas: [], // lista de sucursales obtenidos desde el API
       
       showForm: false, // variable para mostrar/ocultar el formulario para agregar sucursales
       showtwoForm: false, // variable para mostrar/ocultar el formulario para añadir información adicional a un paciente existente
@@ -68,14 +68,14 @@ class GestionTratamientosSpa extends Component {
   /* PARA COMPONENTES */
   // función que se ejecuta cuando se carga el componente
   componentDidMount() {
-    this.handleTratamiento(); // se obtiene la lista de sucursales
+    this.handlePlanilla(); // se obtiene la lista de sucursales
   }
 
   // función para obtener la lista de sucursales, y teléfonos desde el API
-  handleTratamiento = () => {
-    axios.get('http://localhost:5236/api/Tratamiento') // obtiene la lista de sucursales desde el API
+  handlePlanilla = () => {
+    axios.get('http://localhost:5236/api/planillas') // obtiene la lista de sucursales desde el API
       .then(response => {
-        this.setState({ tratamientos: response.data }); // guarda la lista de sucursales en el estado
+        this.setState({ planillas: response.data }); // guarda la lista de sucursales en el estado
       })
       .catch(error => {
         this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
@@ -103,33 +103,35 @@ class GestionTratamientosSpa extends Component {
 
   // función que renderiza el componente
 render() {
-  const { tratamientos, error, showDialog, showtwoDialog, showthreeDialog } = this.state;
+  const { planillas, error, showDialog, showtwoDialog, showthreeDialog } = this.state;
 
   return (
     <div style={{ backgroundColor: '#fff', textAlign: 'center' }}>
         <Navbar/>
-  <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Tratamientos de spa</h1>
+  <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Planillas de empleados</h1>
       {error && <div>Error: {error}</div>}
       <table style={{ borderCollapse: 'collapse', width: '80%', margin: '0 auto'}} className="table border shadow">
         <thead>
           <tr>
-            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Identificador</th>
-            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Nombre</th>
-            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Spa Asociado</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Identificador de empleado</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago mensual</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago por clase</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago por hora</th>
           </tr>
         </thead>
         <tbody>
-          {tratamientos.map(tratamiento => (
-            <tr key={tratamiento.identificador}>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{tratamiento.identificador}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{tratamiento.nombre}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{tratamiento.spa}</td>
+          {planillas.map(planilla => (
+            <tr key={planilla.identificador}>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.identificador}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_mensual}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_horas}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_clase}</td>
             </tr>
           ))}
         </tbody>
       </table>
       <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#4CAF50', border: '2px solid #4CAF50', cursor: 'pointer' }} 
-      onClick={this.toggleDialog}>Nuevo tratamiento</button>
+      onClick={this.toggleDialog}>Agregar planilla de empleado</button>
       {showDialog && (
           <div
             style={{
@@ -164,9 +166,9 @@ render() {
             }}
           >
             {/* contenido del diálogo */}
-            <NuevoTratamientoFormulario 
+            <NuevaPlanillaFormulario 
               onClose={this.toggleDialog}
-              onNewTratamiento={this.handleTratamiento}
+              onNewPlanilla={this.handlePlanilla}
             />
             
           </div>
@@ -176,7 +178,7 @@ render() {
         )}
 
       <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
-      onClick={this.toggletD}>Editar tratamiento</button>
+      onClick={this.toggletD}>Editar planilla</button>
       {showtwoDialog && (
           <div
             style={{
@@ -211,9 +213,9 @@ render() {
             }}
           >
             {/* contenido del diálogo */}
-            <EditarTratamientoFormulario 
+            <EditarPlanillaFormulario 
               onClose={this.toggletD}
-              onEditTratamiento={this.handleTratamiento}
+              onEditPlanilla={this.handlePlanilla}
             />
             
           </div>
@@ -223,7 +225,7 @@ render() {
         )}
 
       <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#c92d15', border: '2px solid #c92d15', cursor: 'pointer' }} 
-      onClick={this.togglethD}>Eliminar tratamiento</button>
+      onClick={this.togglethD}>Eliminar planilla</button>
       {showthreeDialog && (
           <div
             style={{
@@ -258,9 +260,9 @@ render() {
             }}
           >
             {/* contenido del diálogo */}
-            <EliminarTratamientoFormulario 
+            <EliminarPlanillaFormulario 
               onClose={this.togglethD}
-              onDeleteTratamiento={this.handleTratamiento}
+              onDeletePlanilla={this.handlePlanilla}
             />
             
           </div>
@@ -274,4 +276,4 @@ render() {
   }
 }
 
-export default GestionTratamientosSpa;
+export default GestionPlanillas;
