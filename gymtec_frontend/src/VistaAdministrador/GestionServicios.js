@@ -92,7 +92,6 @@ render() {
               <td style={{ padding: '10px' }}>{producto.identificador}</td>
               <td style={{ padding: '10px' }}>{producto.descripcion}</td>
               <td>
-                <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(producto)}>Editar</button>
                 <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(producto.identificador, producto.descripcion)}>Eliminar</button>
               </td>
             </tr>

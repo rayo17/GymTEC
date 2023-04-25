@@ -118,7 +118,7 @@ class GestionInventario extends React.Component {
                                 </div>
                                 <div>
                                     <label htmlFor="marca">Marca:</label>
-                                    <input type="text" id="marca" name="marca" value={formValues.marca} onChange={this.handleInputChange} placeholder="Primer nombre" />
+                                    <input type="text" id="marca" name="marca" value={formValues.marca} onChange={this.handleInputChange} placeholder="Marca" />
                                 </div>
                                 <div>
                                     <label htmlFor="tipo">Tipo:</label>
