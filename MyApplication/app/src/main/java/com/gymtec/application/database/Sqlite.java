@@ -277,7 +277,12 @@ public class Sqlite extends SQLiteOpenHelper {
         db.close();
     }
 
-    
+    public void getClass_cliente(String Identificador){
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor Class_cliente = db.rawQuery("SELECT Identificador FROM SUCURSAL", null);
+
+
+    }
 
 
     @Override
