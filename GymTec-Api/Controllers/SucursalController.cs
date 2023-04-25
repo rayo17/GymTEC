@@ -110,6 +110,12 @@ namespace GymTec_Api.Controllers
             {
                 _context.SucursalTelefonos.Remove(s);
             }
+            
+            var sucTrat = _context.Tratamiento.Where(t => t.Spa == nombre);
+            foreach (var t in sucTrat)
+            {
+                _context.Tratamiento.Remove(t);
+            }
 
             _context.SaveChanges();
             _context.Sucursal.Remove(sucursal);

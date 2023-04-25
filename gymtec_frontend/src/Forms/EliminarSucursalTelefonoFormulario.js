@@ -27,6 +27,12 @@ class EliminarSucursalTelefonoFormulario extends Component {
         sucursal: this.state.sucursal,
         telefono: parseInt(this.state.telefono)
       })
+      .then((response) => {
+        this.props.onDeleteTelSucursal();
+      })
+      .catch((error) => {
+        this.setState({ error: error.message });
+      });
 
     console.log("Teléfono de sucursal eliminada");
     this.props.onClose();

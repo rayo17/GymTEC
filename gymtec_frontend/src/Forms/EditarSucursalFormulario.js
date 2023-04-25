@@ -8,7 +8,7 @@ class EditarSucursalFormulario extends Component {
     super(props);
 
     this.state = {
-      nombre: "",
+      nombre: this.props.editName,
       canton: "",
       distrito: "",
       provincia: "",
@@ -43,6 +43,13 @@ class EditarSucursalFormulario extends Component {
         activacion_spa: this.state.activacion_spa,
         activacion_tienda: this.state.activacion_tienda,
       })
+      .then((response) => {
+        // Actualizar el estado de los pacientes con los nuevos datos ingresados
+        this.props.onEditSucursal();
+      })
+      .catch((error) => {
+        this.setState({ error: error.message });
+      });
 
     console.log("Sucursal editada");
     this.props.onClose();
@@ -96,6 +103,7 @@ class EditarSucursalFormulario extends Component {
               value={this.state.nombre}
               onChange={this.handleChange}
               required
+              disabled
             />
           </div>
           <div className="form-input">

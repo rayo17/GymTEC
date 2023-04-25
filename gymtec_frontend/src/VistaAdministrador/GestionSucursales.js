@@ -6,7 +6,6 @@ import { CSSTransition } from 'react-transition-group';
 
 import NuevaSucursalFormulario from '../Forms/NuevaSucursalFormulario';
 import EditarSucursalFormulario from '../Forms/EditarSucursalFormulario';
-import EliminarSucursalFormulario from '../Forms/EliminarSucursalFormulario';
 
 import NuevaSucursalTelefonoFormulario from '../Forms/NuevaSucursalTelefonoFormulario';
 import EliminarSucursalTelefonoFormulario from '../Forms/EliminarSucursalTelefonoFormulario';
@@ -17,19 +16,19 @@ class GestionSucursales extends Component {
     super(props);
   
     this.state = {
+      nombre: "",
       sucursales: [], // lista de sucursales obtenidos desde el API
-      telefonos: [], // lista de teléfonos para cada paciente
+      telefonos: [], // lista de teléfonos para cada sucursal
       showForm: false, // variable para mostrar/ocultar el formulario para agregar sucursales
-      showtwoForm: false, // variable para mostrar/ocultar el formulario para añadir información adicional a un paciente existente
+      showtwoForm: false, // variable para mostrar/ocultar el formulario para añadir información adicional a una sucursal existente
       showthreeForm: false,
       showTelForm: false,
       showTeltwoForm: false,
 
-      showDialog: false, // variable para mostrar/ocultar el diálogo para agregar nuevos sucursales
-      showtwoDialog: false, // variable para mostrar/ocultar el diálogo para añadir información adicional a un paciente existente
-      showthreeDialog: false,
+      showDialog: false, // variable para mostrar/ocultar el diálogo para agregar nuevos sucursal
+      showtwoDialog: false, // variable para mostrar/ocultar el diálogo para añadir información adicional a una sucursal existente
       showTelDialog: false, // variable para mostrar/ocultar el diálogo para agregar nuevos sucursales
-      showTeltwoDialog: false, // variable para mostrar/ocultar el diálogo para añadir información adicional a un paciente existente
+      showTeltwoDialog: false, // variable para mostrar/ocultar el diálogo para añadir información adicional a una sucursal existente
 
       error: null, // variable para guardar posibles errores del API
     };
@@ -92,7 +91,26 @@ class GestionSucursales extends Component {
     this.setState(prevState => ({ showTeltwoDialog: !prevState.showTeltwoDialog }));
   };
 
+  getSucursal = (x) => {
+    this.setState({nombre: x})
+    this.toggletD()
+  }
 
+  deleteSucursal = (suc) => {
+    axios
+      .delete("http://localhost:5236/api/sucursal/"+suc, {
+        
+      })
+      .then((response) => {
+        // Actualizar el estado de los pacientes con los nuevos datos ingresados
+        this.handleSucursal();
+      })
+      .catch((error) => {
+        alert("No ha sido posible eliminar esta sucursal")
+      });
+
+    console.log("Sucursal eliminada");
+  };
 
   /* PARA COMPONENTES */
   // función que se ejecuta cuando se carga el componente
@@ -157,7 +175,7 @@ class GestionSucursales extends Component {
 
   // función que renderiza el componente
 render() {
-  const { sucursales, error, showDialog, showtwoDialog, showthreeDialog, showTelDialog, showTeltwoDialog } = this.state;
+  const { sucursales, error, showDialog, showtwoDialog, showTelDialog, showTeltwoDialog } = this.state;
 
   return (
     <div style={{ backgroundColor: '#fff', textAlign: 'center' }}>
@@ -176,6 +194,8 @@ render() {
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Teléfonos</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Spa</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Tienda</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Editar</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Eliminar</th>
           </tr>
         </thead>
         <tbody>
@@ -190,59 +210,68 @@ render() {
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{this.state.telefonos[sucursale.nombre] ? this.state.telefonos[sucursale.nombre].join(', ') : ''}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursale.activacion_spa}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursale.activacion_tienda}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
+                <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
+                onClick={() => this.getSucursal(sucursale.nombre)}>Editar</button> 
+              </td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
+                <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#c92d15', border: '2px solid #c92d15', cursor: 'pointer' }} 
+                onClick={() => this.deleteSucursal(sucursale.nombre)}>Eliminar</button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#4CAF50', border: '2px solid #4CAF50', cursor: 'pointer' }} 
-      onClick={this.toggleDialog}>Nueva sucursal</button>
-      {showDialog && (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: "rgba(0, 0, 0, 0.5)", // fondo semitransparente
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 999 // asegurarse de que el diálogo esté por encima del resto del contenido
-            }}
-          >
-            <div>
-          <CSSTransition in={this.state.isOpen} classNames="dialog" timeout={500}>
-          <div
-            className="dialog"
-            style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              borderRadius: "5px",
-              maxWidth: "80%",
-              maxHeight: "80%",
-              overflow: "auto",
-              marginBottom: "5px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)", // sombra para dar profundidad
-            }}
-          >
-            {/* contenido del diálogo */}
-            <NuevaSucursalFormulario 
-              onClose={this.toggleDialog}
-              onNewSucursal={this.handleSucursal}
-            />
-            
+      <div>
+        <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#4CAF50', border: '2px solid #4CAF50', cursor: 'pointer' }} 
+        onClick={this.toggleDialog}>Nueva sucursal</button>
+        {showDialog && (
+            <div
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                background: "rgba(0, 0, 0, 0.5)", // fondo semitransparente
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 999 // asegurarse de que el diálogo esté por encima del resto del contenido
+              }}
+            >
+              <div>
+            <CSSTransition in={this.state.isOpen} classNames="dialog" timeout={500}>
+            <div
+              className="dialog"
+              style={{
+                backgroundColor: "#fff",
+                padding: "20px",
+                borderRadius: "5px",
+                maxWidth: "80%",
+                maxHeight: "80%",
+                overflow: "auto",
+                marginBottom: "5px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)", // sombra para dar profundidad
+              }}
+            >
+              {/* contenido del diálogo */}
+              <NuevaSucursalFormulario 
+                onClose={this.toggleDialog}
+                onNewSucursal={this.handleSucursal}
+              />
+              
+            </div>
+          </CSSTransition>
+            </div>
           </div>
-        </CSSTransition>
-          </div>
-        </div>
-        )}
+          )}
+      </div>
+      
 
-      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
-      onClick={this.toggletD}>Editar sucursal</button>
       {showtwoDialog && (
           <div
             style={{
@@ -277,7 +306,8 @@ render() {
             }}
           >
             {/* contenido del diálogo */}
-            <EditarSucursalFormulario 
+            <EditarSucursalFormulario
+              editName={this.state.nombre}
               onClose={this.toggletD}
               onEditSucursal={this.handleSucursal}
             />
@@ -288,54 +318,9 @@ render() {
         </div>
         )}
 
-      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#c92d15', border: '2px solid #c92d15', cursor: 'pointer' }} 
-      onClick={this.togglethD}>Eliminar sucursal</button>
-      {showthreeDialog && (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: "rgba(0, 0, 0, 0.5)", // fondo semitransparente
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 999 // asegurarse de que el diálogo esté por encima del resto del contenido
-            }}
-          >
-            <div>
-          <CSSTransition in={this.state.isOpen} classNames="dialog" timeout={500}>
-          <div
-            className="dialog"
-            style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              borderRadius: "5px",
-              maxWidth: "80%",
-              maxHeight: "80%",
-              overflow: "auto",
-              marginBottom: "5px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)", // sombra para dar profundidad
-            }}
-          >
-            {/* contenido del diálogo */}
-            <EliminarSucursalFormulario 
-              onClose={this.togglethD}
-              onDeleteSucursal={this.handleSucursal}
-            />
-            
-          </div>
-        </CSSTransition>
-          </div>
-        </div>
-        )}
-
-      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#4CAF50', border: '2px solid #4CAF50', cursor: 'pointer' }} 
+      
+      
+      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#2e4053', border: '2px solid #2e4053 ', cursor: 'pointer' }} 
       onClick={this.toggleTelDialog}>Agregar teléfono</button>
       {showTelDialog && (
           <div
@@ -382,7 +367,7 @@ render() {
         </div>
         )}
 
-      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#c92d15', border: '2px solid #c92d15', cursor: 'pointer' }} 
+      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#2e4053', border: '2px solid #2e4053', cursor: 'pointer' }} 
       onClick={this.toggleTeltD}>Eliminar Telefono</button>
       {showTeltwoDialog && (
           <div
