@@ -35,7 +35,7 @@ public class Sqlite extends SQLiteOpenHelper {
                 " Horario_atencion VARCHAR(100) NOT NULL,"+
                 " Administrador VARCHAR(9) NOT NULL," +
                 " Capacidad_maxima INT NOT NULL, " +
-                " tActivacion_spa INT NOT NULL, " +
+                " Activacion_spa INT NOT NULL, " +
                 " Activacion_tienda INT NOT NULL, " +
                 " PRIMARY KEY(Nombre));";
 
@@ -65,11 +65,19 @@ public class Sqlite extends SQLiteOpenHelper {
                 "Capacidad INT NOT NULL, "+
                 "Grupal INT NOT NULL, " +
                 "Tipo VARCHAR(30) NOT NULL, " +
-                "Fecha DATE NOT NULL, " +
+                "Dia INT NOT NULL, " +
                 "Instructor VARCHAR(100) NOT NULL, " +
                 "Hora_inicio VARCHAR(5) NOT NULL, " +
                 "Hora_fin VARCHAR(5) NOT NULL, " +
                 "PRIMARY KEY(Identificador));";
+
+        String table_tipo = "CREATE TABLE TIPO (Id INT IDENTITY(1,1), " +
+                "Descripcion VARCHAR(30)  NOT NULL, "+
+                "PRIMARY KEY(Id));";
+
+        String table_tipo_clase = "CREATE TABLE TIPO_CLASE (Tipo_id INT NOT NULL, " +
+                "Clase_id VARCHAR(10) NOT NULL, "+
+                "PRIMARY KEY(Tipo_id, Clase_id));";
 
         String table_producto = "CREATE TABLE PRODUCTO (Codigo_barras VARCHAR(10) NOT NULL, " +
                 "Nombre VARCHAR(30) NOT NULL, "+
@@ -116,6 +124,8 @@ public class Sqlite extends SQLiteOpenHelper {
         String table_servicio = "CREATE TABLE SERVICIO (Identificador VARCHAR(30) NOT NULL, " +
                 "Descripcion VARCHAR(50) NOT NULL, "+
                 "PRIMARY KEY(Identificador, Descripcion));";
+
+
         String alter_Sucursal="ALTER TABLE SUCURSAL_TELEFONOS " +
                 "ADD FOREIGN KEY (Sucursal) REFERENCES SUCURSAL(Nombre);";
         String alter_Puesto  = "ALTER TABLE PUESTO " +
@@ -132,6 +142,9 @@ public class Sqlite extends SQLiteOpenHelper {
                 "ADD FOREIGN KEY (Cliente) REFERENCES CLIENTE(Cedula);";
         String alter_tipo_equipo=" ALTER TABLE TIPO_EQUIPO ADD FOREIGN KEY (Identificador) REFERENCES SUCURSAL(Nombre);";
         String alter_Servicio= "ALTER TABLE SERVICIO ADD FOREIGN KEY (Identificador) REFERENCES SUCURSAL(Nombre);";
+        String alter_tipo_clase1= "ALTER TABLE TIPO_CLASE ADD CONSTRAINT tipo_fk FOREIGN KEY (Tipo_id) REFERENCES TIPO(Id);";
+        String alter_tipo_clase2= "ALTER TABLE TIPO_CLASE ADD CONSTRAINT clase_fk FOREIGN KEY (Clase_id) REFERENCES CLASE(Identificador);";
+        String alter_clase= "ALTER TABLE CLASE ADD CONSTRAINT Week_days CHECK(1<=Dia AND  Dia<= 7);";
 
 
 
@@ -143,6 +156,8 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(table_Planilla);
         db.execSQL(table_Maquina);
         db.execSQL(table_clase);
+        db.execSQL(table_tipo);
+        db.execSQL(table_tipo_clase);
         db.execSQL(table_producto);
         db.execSQL(table_tratamiento);
         db.execSQL(table_gimnasio);
@@ -162,6 +177,9 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(alter_Cliente2);
         db.execSQL(alter_tipo_equipo);
         db.execSQL(alter_Servicio);
+        db.execSQL(alter_tipo_clase1);
+        db.execSQL(alter_tipo_clase2);
+        db.execSQL(alter_clase);
 
 
 
@@ -277,12 +295,14 @@ public class Sqlite extends SQLiteOpenHelper {
         db.close();
     }
 
+
     public void getClass_cliente(String Identificador){
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor Class_cliente = db.rawQuery("SELECT Identificador FROM SUCURSAL", null);
 
 
     }
+
 
 
     @Override
