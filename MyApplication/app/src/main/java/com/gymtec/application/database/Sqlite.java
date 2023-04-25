@@ -308,20 +308,22 @@ public class Sqlite extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.
-        String [] array= new String[12];
+        String [] array= new String[14];
         array[0]= "SUCURSAL";
         array[1]= "SUCURSAL_TELEFONOS";
         array[2]= "EMPLEADO";
         array[3]= "PLANILLA";
         array[4]= "MAQUINA";
         array[5]= "CLASE";
-        array[6]= "PRODUCTO";
-        array[7]= "TRATAMIENTO";
-        array[8]= "GIMNASIO";
-        array[9]= "CLIENTE";
-        array[10]= "CLASE_CLIENTES";
-        array[11]= "TIPO_EQUIPO";
-        array[12]= "SERVICIO";
+        array[6]= "TIPO";
+        array[7]= "TIPO_CLSE";
+        array[8]= "PRODUCTO";
+        array[9]= "TRATAMIENTO";
+        array[10]= "GIMNASIO";
+        array[11]= "CLIENTE";
+        array[12]= "CLASE_CLIENTES";
+        array[13]= "TIPO_EQUIPO";
+        array[14]= "SERVICIO";
         for(int i=0; i<13; i++) {
             db.execSQL("DROP TABLE IF EXISTS" + array[i] );
 
