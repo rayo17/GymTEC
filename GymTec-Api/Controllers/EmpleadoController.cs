@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Text;
 using GymTec_Api.Data;
 using GymTec_Api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -46,19 +48,32 @@ namespace GymTec_Api.Controllers
         [HttpGet("{cedula}/{password}")]
         public ActionResult Get(string cedula, string password)
         {
-            var empleado = _context.Empleado.FirstOrDefault(e => e.Cedula == cedula && e.Contrasenna == password);
-            
+            var md5 = MD5.Create();
+            var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(password));
+            var hashedPassword = BitConverter.ToString(hash).Replace("-", "").ToLower();
+
+            var empleado = _context.Empleado.FirstOrDefault(e => e.Cedula == cedula && e.Contrasenna == hashedPassword);
+
             if (empleado != null)
             {
                 return Ok();
             }
-            return NotFound();
+
+            return BadRequest();
         }
+
 
         // POST: api/Empleado
         [HttpPost]
         public async Task<ActionResult<Empleado>> PostEmpleado(Empleado empleado)
         {
+            // Encriptar la contraseña en formato MD5
+            using (MD5 md5Hash = MD5.Create())
+            {
+                string contrasenaMD5 = GetMd5Hash(md5Hash, empleado.Contrasenna);
+                empleado.Contrasenna = contrasenaMD5;
+            }
+
             _context.Empleado.Add(empleado);
             try
             {
@@ -78,6 +93,22 @@ namespace GymTec_Api.Controllers
 
             return CreatedAtAction(nameof(GetEmpleado), new { cedula = empleado.Cedula }, empleado);
         }
+
+// Función para obtener la representación en formato MD5 de una cadena
+        private string GetMd5Hash(MD5 md5Hash, string input)
+        {
+            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            StringBuilder sBuilder = new StringBuilder();
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            return sBuilder.ToString();
+        }
+
 
         // PUT: api/Empleado/5
         [HttpPut("{cedula}")]

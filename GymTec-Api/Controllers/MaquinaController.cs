@@ -44,7 +44,7 @@ namespace GymTec_Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMaquina(string id, Maquina maquina)
         {
-            if (id != maquina.Tipo)
+            if (id != maquina.Numero_serie)
             {
                 return BadRequest();
             }
@@ -81,7 +81,7 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (MaquinaExists(maquina.Tipo))
+                if (MaquinaExists(maquina.Numero_serie))
                 {
                     return Conflict();
                 }
@@ -91,7 +91,7 @@ namespace GymTec_Api.Controllers
                 }
             }
 
-            return CreatedAtAction("GetMaquina", new { id = maquina.Tipo }, maquina);
+            return CreatedAtAction("GetMaquina", new { id = maquina.Numero_serie }, maquina);
         }
 
         // DELETE: api/Maquinas/5
@@ -109,10 +109,29 @@ namespace GymTec_Api.Controllers
 
             return maquina;
         }
+        
+        [HttpGet("congimnasio")]
+        public async Task<ActionResult<IEnumerable<MaquinaGimnasio>>> GetMaquinasConGimnasio()
+        {
+            var maquinasConGimnasio = await _context.Maquina
+                .Select(m => new MaquinaGimnasio {
+                    Numero_serie = m.Numero_serie,
+                    Tipo = m.Tipo,
+                    Marca = m.Marca,
+                    Sucursal = _context.Gimnasio
+                        .Where(g => g.Maquina == m.Numero_serie)
+                        .Select(g => g.Sucursal)
+                        .FirstOrDefault(),
+                    Costo = m.Costo
+                })
+                .ToListAsync();
 
+            return maquinasConGimnasio;
+        }
+        
         private bool MaquinaExists(string id)
         {
-            return _context.Maquina.Any(e => e.Tipo == id);
+            return _context.Maquina.Any(e => e.Numero_serie == id);
         }
     }
 }

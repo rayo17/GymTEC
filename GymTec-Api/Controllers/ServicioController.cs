@@ -21,55 +21,18 @@ namespace GymTec_Api.Controllers
 
         // GET: api/Servicio
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Servicio>>> GetServicios()
+        public IEnumerable<Servicio> Get()
         {
-            return await _context.Servicio.ToListAsync();
+            return _context.Servicio.ToList();
         }
 
         // GET: api/Servicio/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Servicio>> GetServicio(string id)
+        public Servicio GetServicio(string id)
         {
-            var servicio = await _context.Servicio.FindAsync(id);
-
-            if (servicio == null)
-            {
-                return NotFound();
-            }
-
-            return servicio;
+            return _context.Servicio.FirstOrDefault(sT => sT.Identificador == id);
         }
-
-        // PUT: api/Servicio/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutServicio(string id, Servicio servicio)
-        {
-            if (id != servicio.Identificador)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(servicio).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ServicioExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
+        
         // POST: api/Servicio
         [HttpPost]
         public async Task<ActionResult<Servicio>> PostServicio(Servicio servicio)
@@ -81,7 +44,7 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (ServicioExists(servicio.Identificador))
+                if (ServicioExists(servicio.Identificador, servicio.Descripcion))
                 {
                     return Conflict();
                 }
@@ -94,25 +57,24 @@ namespace GymTec_Api.Controllers
             return CreatedAtAction(nameof(GetServicio), new { id = servicio.Identificador }, servicio);
         }
 
-        // DELETE: api/Servicio/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Servicio>> DeleteServicio(string id)
+
+        // DELETE: api/SucursalTelefonos/5
+        [HttpDelete("{id}/{descripcion}")]
+        public ActionResult Delete(string id, string descripcion)
         {
-            var servicio = await _context.Servicio.FindAsync(id);
-            if (servicio == null)
+            var sT = _context.Servicio.FirstOrDefault(sT => sT.Identificador == id && sT.Descripcion == descripcion);
+            if (sT != null)
             {
-                return NotFound();
+                _context.Servicio.Remove(sT);
+                _context.SaveChanges();
+                return Ok();
             }
-
-            _context.Servicio.Remove(servicio);
-            await _context.SaveChangesAsync();
-
-            return servicio;
+            return BadRequest();
         }
 
-        private bool ServicioExists(string id)
+        private bool ServicioExists(string id, string descripcion)
         {
-            return _context.Servicio.Any(e => e.Identificador == id);
+            return _context.Servicio.Any(e => e.Identificador == id && e.Descripcion == descripcion);
         }
     }
 }

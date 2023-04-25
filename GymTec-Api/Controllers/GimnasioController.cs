@@ -79,6 +79,52 @@ namespace GymTec_Api.Controllers
 
             return gimnasio;
         }
+        // POST: api/Gimnasio/CopiarGimnasio
+[HttpPost("CopiarGimnasio")]
+public async Task<ActionResult<Gimnasio>> CopiarGimnasio(string id, string nuevoNombre)
+{
+    var gimnasioOrigen = await _context.Gimnasio.Include(g => g.Producto)
+                                                .Include(g => g.Tratamiento)
+                                                .Include(g => g.Clase)
+                                                .FirstOrDefaultAsync(g => g.Sucursal == id);
+
+    if (gimnasioOrigen == null)
+    {
+        return NotFound();
+    }
+
+    // Crear una nueva instancia de Gimnasio con el nuevo nombre
+    var gimnasioNuevo = new Gimnasio
+    {
+        Sucursal = nuevoNombre,
+        Maquina = gimnasioOrigen.Maquina,
+        Clase = gimnasioOrigen.Clase,
+        Producto = gimnasioOrigen.Producto,
+        Tratamiento = gimnasioOrigen.Tratamiento
+    };
+
+    // Agregar la nueva instancia de Gimnasio a la base de datos
+    _context.Gimnasio.Add(gimnasioNuevo);
+
+    try
+    {
+        await _context.SaveChangesAsync();
+    }
+    catch (DbUpdateException)
+    {
+        if (GimnasioExists(gimnasioNuevo.Sucursal))
+        {
+            return Conflict();
+        }
+        else
+        {
+            throw;
+        }
+    }
+
+    return CreatedAtAction("GetGimnasio", new { id = gimnasioNuevo.Sucursal }, gimnasioNuevo);
+}
+
 
         private bool GimnasioExists(string id)
         {

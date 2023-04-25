@@ -18,6 +18,8 @@ namespace GymTec_Api.Data
         {
             modelBuilder.Entity<SucursalTelefonos>()
                 .HasKey(s => new {s.Sucursal, s.Telefono});
+            modelBuilder.Entity<Servicio>().HasKey(s => new{s.Descripcion, s.Identificador});
+            modelBuilder.Entity<Tipo_equipo>().HasKey(s => new { s.Descripcion, s.Identificador });
         }
         
         public DbSet<Cliente> Cliente { get; set; }

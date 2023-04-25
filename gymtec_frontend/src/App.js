@@ -12,6 +12,11 @@ import GestionSucursales from './VistaAdministrador/GestionSucursales';
 import GestionTratamientosSpa from './VistaAdministrador/GestionTratamientosSpa';
 import GestionPlanillas from './VistaAdministrador/GestionPlanillas';
 import LoginCliente from './VistaCliente/LoginCliente';
+import GestionProductos from './VistaAdministrador/GestionProductos';
+import GestionInventario from './VistaAdministrador/GestionInventario';
+import GestionTiposEquipo from './VistaAdministrador/GestionTiposEquipo';
+import GestionServicios from './VistaAdministrador/GestionServicios';
+import GestionEmpleados from './VistaAdministrador/GestionEmpleados';
 
 
 function App() {
@@ -26,6 +31,14 @@ function App() {
             <Route path='/gestionsucursales' element={ <GestionSucursales/> }/>
             <Route path='/gestiontratamientosspa' element={ <GestionTratamientosSpa/> }/>
             <Route path='/gestionplanillas' element={ <GestionPlanillas/> }/>
+            <Route path='/gestionproductos' element={ <GestionProductos/> }/>
+            <Route path='/gestioninventario' element={ <GestionInventario/> }/>
+            <Route path='/gestiontiposequipo' element={ <GestionTiposEquipo/> }/>
+            <Route path='/gestionservicios' element={ <GestionServicios/> }/>
+            <Route path='/gestonempleados' element={ <GestionEmpleados/> }/>
+
+
+
 
 
             <Route path='/logincliente' element={ <LoginCliente/> }/>
