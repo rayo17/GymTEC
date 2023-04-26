@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 public class Sqlite extends SQLiteOpenHelper {
@@ -29,8 +30,7 @@ public class Sqlite extends SQLiteOpenHelper {
         // an sqlite query and we are
         // setting our column names
         // along with their data types.
-
-        System.out.println("creando tablas base de datos");
+        Log.d("BASE_DE_DATOS", "SE  ESTAN CREANDO LAS TABLAS");
         String table_Sucursal= " CREATE TABLE SUCURSAL ( Nombre VARCHAR(30) NOT NULL, " +
                 "Distrito VARCHAR(30) NOT NULL, " +
                 "Canton VARCHAR(30) NOT NULL, "+
@@ -194,7 +194,7 @@ public class Sqlite extends SQLiteOpenHelper {
 
     // this method is use to add new course to our sqlite database.
     public void addNewCliente(String cedula, String Primer_nombre, String Segundo_nombre, String Primer_apellido, String Segundo_apellido, String correo, String distrito, String canton,
-                              String provincia, String contrasenna, String Fecha_nacimiento, String peso, String Imc) {
+                              String provincia, int salario, String contrasenna, String Fecha_nacimiento, String peso, String Imc) {
         // on below line we are creating a variable for
         // our sqlite database and calling writable method
         // as we are writing data in our database.
@@ -213,6 +213,7 @@ public class Sqlite extends SQLiteOpenHelper {
             values.put("Distrito", distrito);
             values.put("Canton", canton);
             values.put("Provincia", provincia);
+            values.put("Salario", salario);
             values.put("Contrasenna", contrasenna);
             values.put("Fecha_nacimiento", Fecha_nacimiento);
             values.put("Peso", peso);

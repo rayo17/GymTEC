@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.gymtec.application.database.Sqlite;
+
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -62,6 +64,8 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
 
         //Boton de seleccion de fecha
         Button seleccionarfecha_btn = (Button) findViewById(R.id.user_Fecha_nacimiento_btn);
+        Sqlite database=new Sqlite(this);
+       // database.addNewCliente("604740578", "Pepe","Andres", "Rayo", "Diaz", "drayo.dard.16@gmail.com","Chacarita","Puntarenas","Puntarenas", 50, "123456789", "16-08-2002","54","20");
 
         //Boton de registro
         Button registrarse_btn = (Button) findViewById(R.id.user_registrarse_btn);
