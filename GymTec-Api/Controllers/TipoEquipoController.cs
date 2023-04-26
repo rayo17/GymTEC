@@ -95,19 +95,17 @@ namespace GymTec_Api.Controllers
         }
 
         // DELETE: api/TipoEquipo/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTipo_equipo(string id)
+        [HttpDelete("{id}/{descripcion}")]
+        public async Task<IActionResult> DeleteTipo_equipo(string id, string descripcion)
         {
-            var tipo_equipo = await _context.Tipo_equipo.FindAsync(id);
-            if (tipo_equipo == null)
+            var sT = _context.Tipo_equipo.FirstOrDefault(sT => sT.Identificador == id && sT.Descripcion == descripcion);
+            if (sT != null)
             {
-                return NotFound();
+                _context.Tipo_equipo.Remove(sT);
+                _context.SaveChanges();
+                return Ok();
             }
-
-            _context.Tipo_equipo.Remove(tipo_equipo);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return BadRequest();
         }
 
         private bool Tipo_equipoExists(string id)

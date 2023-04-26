@@ -110,8 +110,8 @@ export const actualizarTEquipo = async (id, TEquipo) => {
 };
 
 // Función para eliminar un TipoEquipo por su ID
-export const eliminarTEquipoid = async (id) => {
-  const response = await axios.delete(`${API_URL}/TipoEquipo/${id}`);
+export const eliminarTEquipoid = async (id, descripcion) => {
+  const response = await axios.delete(`${API_URL}/TipoEquipo/${id}/${descripcion}`);
   return response.data;
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { obtenerMaquinas, agregarMaquina, actualizarMaquina, eliminarMaquinaid } from '../api';
 import './GestionProductos.css';
+import { Navbar } from "../Templates/Navbar"
 
 class GestionInventario extends React.Component {
     constructor(props) {
@@ -74,6 +75,7 @@ class GestionInventario extends React.Component {
         const { maquinas, formValues, formMode, showPopup } = this.state;
         return (
             <div className="gestion-productos-container">
+                <Navbar/>
                 <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Gestión de maquinas</h1>
                 <table className="tabla-productos">
                     <thead>
@@ -116,7 +118,7 @@ class GestionInventario extends React.Component {
                                 </div>
                                 <div>
                                     <label htmlFor="marca">Marca:</label>
-                                    <input type="text" id="marca" name="marca" value={formValues.marca} onChange={this.handleInputChange} placeholder="Primer nombre" />
+                                    <input type="text" id="marca" name="marca" value={formValues.marca} onChange={this.handleInputChange} placeholder="Marca" />
                                 </div>
                                 <div>
                                     <label htmlFor="tipo">Tipo:</label>

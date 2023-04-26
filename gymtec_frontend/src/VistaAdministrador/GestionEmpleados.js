@@ -1,6 +1,8 @@
 import React from 'react';
 import { obtenerEmpleados, agregarEmpleado, actualizarEmpleado, eliminarEmpleado } from '../api';
 import './GestionProductos.css';
+import { Navbar } from "../Templates/Navbar"
+
 
 class GestionEmpleados extends React.Component {
     constructor(props) {
@@ -74,6 +76,7 @@ class GestionEmpleados extends React.Component {
         const { empleados, formValues, formMode, showPopup } = this.state;
         return (
             <div className="gestion-productos-container">
+                <Navbar/>
                 <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Gestión de empleados</h1>
                 <table className="tabla-productos">
                     <thead>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { obtenerServicios, agregarServicio, actualizarServicio, eliminarServicio } from '../api';
 import './GestionProductos.css';
+import { Navbar } from "../Templates/Navbar"
+
 
 class GestionServicios extends React.Component {
   constructor(props) {
@@ -74,6 +76,7 @@ render() {
   const { servicios, formValues, formMode, showPopup } = this.state;
   return (
     <div className="gestion-productos-container">
+      <Navbar/>
       <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Gestión de Servicios</h1>
       <table className="tabla-productos">
         <thead>
@@ -89,7 +92,6 @@ render() {
               <td style={{ padding: '10px' }}>{producto.identificador}</td>
               <td style={{ padding: '10px' }}>{producto.descripcion}</td>
               <td>
-                <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(producto)}>Editar</button>
                 <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(producto.identificador, producto.descripcion)}>Eliminar</button>
               </td>
             </tr>
