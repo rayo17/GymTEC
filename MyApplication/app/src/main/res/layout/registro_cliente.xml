@@ -268,13 +268,14 @@
                     android:layout_height="65sp"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:layout_weight="1"
-                    android:text="@string/Register"
-                    android:textSize="18sp"
                     android:backgroundTint="#DBC7FF"
+                    android:onClick="addNewCliente"
                     android:padding="10dp"
+                    android:text="@string/Register"
                     android:textAlignment="center"
                     android:textColor="?android:attr/textColorPrimary"
-                    app:rippleColor="#AA9BC6"/>
+                    android:textSize="18sp"
+                    app:rippleColor="#AA9BC6" />
 
                 <Space
                     android:layout_width="wrap_content"

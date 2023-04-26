@@ -32,16 +32,15 @@ public class MainActivity extends AppCompatActivity {
         Button personal_info = (Button) findViewById(R.id.personal_info_btn);
         Button buscar_clases_btn = (Button) findViewById(R.id.buscar_clases_btn);
         Button mic_clases_btn = (Button) findViewById(R.id.ver_clases_btn);
-        Sqlite database= new Sqlite(this);
-        //System.out.println("conexion de la base de datos");
-        Toast.makeText(this,"conexcion de la base de datos",Toast.LENGTH_SHORT).show();
 
         //login_or_not
         if (extras==null){
+           // database.addNewCliente("604740574","Daniel","Andres","Rayo", "Diaz","drayo.dard.16@gmail.com", "Chacarita", "Puntarenas", "Puntarenas", "1234567" ,"16-08-2002", "70", "15");
             startActivity(login_intent);
             finish();
         }
         else{
+
             String username = extras.getString("Username");
             user_name_text.setText(username);
         }

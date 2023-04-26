@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
-
+import com.gymtec.application.database.Sqlite;
 public class UserAuthentication {
     //User temporal db
     private final HashMap<String, String> user_ids = new HashMap<>();
@@ -12,6 +12,7 @@ public class UserAuthentication {
 
     public UserAuthentication(){
         user_ids.put("604560524", "password");
+
     }
 
     public boolean user_exists(String user_id){

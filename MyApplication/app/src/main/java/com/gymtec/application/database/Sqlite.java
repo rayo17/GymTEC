@@ -29,6 +29,8 @@ public class Sqlite extends SQLiteOpenHelper {
         // an sqlite query and we are
         // setting our column names
         // along with their data types.
+
+        System.out.println("creando tablas base de datos");
         String table_Sucursal= " CREATE TABLE SUCURSAL ( Nombre VARCHAR(30) NOT NULL, " +
                 "Distrito VARCHAR(30) NOT NULL, " +
                 "Canton VARCHAR(30) NOT NULL, "+
@@ -152,7 +154,7 @@ public class Sqlite extends SQLiteOpenHelper {
 
         // at last we are calling a exec sql
         // method to execute above sql query
-        db.execSQL(table_Sucursal);
+         db.execSQL(table_Sucursal);
         db.execSQL(table_sucrusal_telefonos);
         db.execSQL(table_empleado);
         db.execSQL(table_Planilla);
@@ -164,6 +166,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(table_tratamiento);
         db.execSQL(table_gimnasio);
         db.execSQL(table_cliente);
+
         db.execSQL(table_clase_clientes);
         db.execSQL(table_tipo_equipo);
         db.execSQL(table_servicio);
@@ -200,31 +203,35 @@ public class Sqlite extends SQLiteOpenHelper {
         // on below line we are creating a
         // variable for content values.
         ContentValues values = new ContentValues();
+        if (db!=null){
+            values.put("Cedula", cedula);
+            values.put("Primer_nombre", Primer_nombre);
+            values.put("Segundo_nombre", Segundo_nombre);
+            values.put("Primer_apellido", Primer_apellido);
+            values.put("Segundo_apellido", Segundo_apellido);
+            values.put("Correo_electronico", correo);
+            values.put("Distrito", distrito);
+            values.put("Canton", canton);
+            values.put("Provincia", provincia);
+            values.put("Contrasenna", contrasenna);
+            values.put("Fecha_nacimiento", Fecha_nacimiento);
+            values.put("Peso", peso);
+            values.put("Imc", Imc);
+
+
+            // after adding all values we are passing
+            // content values to our table.
+            db.insert("CLIENTE", null, values);
+            //db.close();
+        }
 
         // on below line we are passing all values
         // along with its key and value pair.
-        values.put("Cedula", cedula);
-        values.put("Primer_nombre", Primer_nombre);
-        values.put("Segundo_nombre", Segundo_nombre);
-        values.put("Primer_apellido", Primer_apellido);
-        values.put("Segundo_apellido", Segundo_apellido);
-        values.put("Correo_electronico", correo);
-        values.put("Distrito", distrito);
-        values.put("Canton", canton);
-        values.put("Provincia", provincia);
-        values.put("Contrasenna", contrasenna);
-        values.put("Fecha_nacimiento", Fecha_nacimiento);
-        values.put("Peso", peso);
-        values.put("Imc", Imc);
 
-
-        // after adding all values we are passing
-        // content values to our table.
-        db.insert("CLIENTE", null, values);
 
         // at last we are closing our
         // database after adding database.
-        db.close();
+
     }
     public Cursor getCliente(String cedula, String contrasenna) {
         // on below line we are creating a variable for
@@ -247,7 +254,7 @@ public class Sqlite extends SQLiteOpenHelper {
         // at last we are closing our
         // database after adding database.
 
-        db.close();
+        //db.close();
         return cedula_contr_cliente;
     }
 
@@ -267,7 +274,7 @@ public class Sqlite extends SQLiteOpenHelper {
         // at last we are closing our
         // database after adding database.
 
-        db.close();
+        //db.close();
         return nombre_sucursal;
     }
     public void addNewClase_Cliente(String Clase, String Cliente) {
@@ -294,7 +301,7 @@ public class Sqlite extends SQLiteOpenHelper {
 
         // at last we are closing our
         // database after adding database.
-        db.close();
+        //db.close();
     }
 
 
