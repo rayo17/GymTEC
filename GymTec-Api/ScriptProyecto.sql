@@ -31,7 +31,7 @@ CREATE TABLE EMPLEADO (
 	Provincia VARCHAR(30) NOT NULL,
 	Salario INT NOT NULL,
 	Correo_electronico VARCHAR(50) NOT NULL,
-	Contrasenna VARCHAR(30) NOT NULL,
+	Contrasenna VARCHAR(50) NOT NULL,
 
 	PRIMARY KEY(Cedula)
 );
@@ -112,7 +112,7 @@ CREATE TABLE CLIENTE(
 	Distrito VARCHAR(30) NOT NULL,
 	Canton VARCHAR(30) NOT NULL,
 	Provincia VARCHAR(30) NOT NULL,
-	Contrasena VARCHAR(30) NOT NULL,
+	Contrasena VARCHAR(50) NOT NULL,
 	Fecha_nacimiento DATE NOT NULL,
 	Peso VARCHAR(4) NOT NULL,
 	Imc VARCHAR(4) NOT NULL,
