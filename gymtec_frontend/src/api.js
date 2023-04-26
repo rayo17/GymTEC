@@ -171,3 +171,9 @@ export const eliminarEmpleado = async (id) => {
   const response = await axios.delete(`${API_URL}/Empleado/${id}`);
   return response.data;
 };
+
+export const obtenerTratamientos = async (id) => {
+  const response = await axios.get(`${API_URL}/Tratamiento/${id}`);
+  return response.data;
+}
+

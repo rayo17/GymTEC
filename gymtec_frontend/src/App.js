@@ -17,6 +17,7 @@ import GestionInventario from './VistaAdministrador/GestionInventario';
 import GestionTiposEquipo from './VistaAdministrador/GestionTiposEquipo';
 import GestionServicios from './VistaAdministrador/GestionServicios';
 import GestionEmpleados from './VistaAdministrador/GestionEmpleados';
+import ConfigGimnasio from './VistaAdministrador/ConfiguracionGimnasio';
 
 
 function App() {
@@ -35,7 +36,8 @@ function App() {
             <Route path='/gestioninventario' element={ <GestionInventario/> }/>
             <Route path='/gestiontiposequipo' element={ <GestionTiposEquipo/> }/>
             <Route path='/gestionservicios' element={ <GestionServicios/> }/>
-            <Route path='/gestonempleados' element={ <GestionEmpleados/> }/>
+            <Route path='/gestionempleados' element={ <GestionEmpleados/> }/>
+            <Route path= '/configGimnasio' element={<ConfigGimnasio />}/>
 
 
 

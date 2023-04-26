@@ -50,8 +50,11 @@ export const Navbar = () => {
                         <Link className="nav-link" to='/gestionservicios'>Gestionar servicios</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to='/gestonempleados'>Gestionar empleados</Link>
-                    </li>                    
+                        <Link className="nav-link" to='/gestionempleados'>Gestionar empleados</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/configGimnasio'>Configurar Gimnasio</Link>
+                    </li>                      
                 </ul>
                 </div>
             </div>
