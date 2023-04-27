@@ -124,6 +124,30 @@ public async Task<ActionResult<Gimnasio>> CopiarGimnasio(string id, string nuevo
 
     return CreatedAtAction("GetGimnasio", new { id = gimnasioNuevo.Sucursal }, gimnasioNuevo);
 }
+[HttpGet("GimnasioINNERJOIN")]
+public async Task<ActionResult<IEnumerable<Gimnasio>>> GetallGimnasio()
+{
+    var allGym = await _context.Gimnasio
+        .Select(m => new Gimnasio {
+            Sucursal = _context.Sucursal.Where(g=>
+                g.Nombre == m.Sucursal).Select(g=>g.Nombre).FirstOrDefault(),
+            Clase = _context.Clase
+                .Where(g=>g.Identificador == m.Clase)
+                .Select(g=> g.Nombre).FirstOrDefault(),
+            Maquina = _context.Maquina
+                .Where(g=>g.Numero_serie == m.Maquina)
+                .Select(g=>g.Marca).FirstOrDefault(),
+            Producto = _context.Producto
+                .Where(g=>g.Codigo_barras == m.Producto)
+                .Select(g=>g.Nombre).FirstOrDefault(),
+            Tratamiento = _context.Tratamiento
+                .Where(g=> g.identificador == m.Tratamiento)
+                .Select(g=> g.Nombre).FirstOrDefault(),
+        })
+        .ToListAsync();
+    var allSucursal = await _context.Sucursal.ToListAsync();
+    return allGym;
+}
 
 
         private bool GimnasioExists(string id)

@@ -9,7 +9,7 @@ class ConfiguracionGimnasio extends React.Component {
         super(props);
         this.state = {
             empleados: [],
-            formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' },
+            formValues: { sucursal: '', maquina: '', clase: '', producto: '', tratamiento: '' },
             formMode: 'agregar',
             currentProductId: '',
             showPopup: false
@@ -32,7 +32,7 @@ class ConfiguracionGimnasio extends React.Component {
             await actualizarEmpleado(this.state.currentProductId, this.state.formValues);
         }
         this.getProductos();
-        this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
+        this.setState({ formValues: { sucursal: '', maquina: '', clase: '', producto: '', tratamiento: '' }, formMode: 'agregar', showPopup: false });
     };
 
     // Función para manejar el cambio de los inputs del formulario
@@ -42,20 +42,20 @@ class ConfiguracionGimnasio extends React.Component {
     };
 
     // Función para manejar el clic en el botón de editar de una fila de la tabla
-    handleEditClick = (empleado) => {
-        this.setState({ formValues: empleado, formMode: 'editar', currentProductId: empleado.cedula, showPopup: true });
+    handleEditClick = (gimnasio) => {
+        this.setState({ formValues: gimnasio, formMode: 'editar', currentProductId: gimnasio.sucursal, showPopup: true });
     };
 
     // Función para manejar el clic en el botón de eliminar de una fila de la tabla
-    handleDeleteClick = async (cedula) => {
-        await eliminarEmpleado(cedula);
+    handleDeleteClick = async (sucursal) => {
+        await eliminarEmpleado(sucursal);
         this.getProductos();
     };
     handleOuterClick(event) {
         const container = document.querySelector('.popup');
         if (container && !container.contains(event.target)) {
             this.setState({ showPopup: false });
-            this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
+            this.setState({ formValues: { sucursal: '', maquina: '', clase: '', producto: '', tratamiento: '' }, formMode: 'agregar', showPopup: false });
         }
     };
     // Se ejecuta al cargar el componente
@@ -68,7 +68,7 @@ class ConfiguracionGimnasio extends React.Component {
     };
 
     handleCerrarClick = () => {
-        this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
+        this.setState({ formValues: { sucursal: '', maquina: '', clase: '', producto: '', tratamiento: '' }, formMode: 'agregar', showPopup: false });
         this.setState({ showPopup: false });
         document.removeEventListener('mousedown', this.handleOuterClick);
     }
@@ -77,31 +77,28 @@ class ConfiguracionGimnasio extends React.Component {
         return (
             <div className="gestion-productos-container">
                 <Navbar/>
-                <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Gestión de empleados</h1>
+                <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Configuracion de Gimnasio</h1>
                 <table className="tabla-productos">
                     <thead>
                         <tr>
-                            <th style={{ padding: '10px' }}>Cedula</th>
-                            <th style={{ padding: '10px' }}>Nombre Completo</th>
-                            <th style={{ padding: '10px' }}>Ubicacion</th>
-                            <th style={{ padding: '10px' }}>salario</th>
-                            <th style={{ padding: '10px' }}>Correo</th>
-                            <th style={{ padding: '10px' }}>Contraseña</th>
-                            <th style={{ padding: '10px' }}>Acciones</th>
+                            <th style={{ padding: '10px' }}>Sucursal</th>
+                            <th style={{ padding: '10px' }}>Maquina</th>
+                            <th style={{ padding: '10px' }}>Clase</th>
+                            <th style={{ padding: '10px' }}>Producto</th>
+                            <th style={{ padding: '10px' }}>Tratamiento</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {empleados.map((empleado) => (
-                            <tr key={empleado.cedula}>
-                                <td style={{ padding: '10px' }}>{empleado.cedula}</td>
-                                <td style={{ padding: '10px' }}>{empleado.primer_nombre} {empleado.segundo_nombre} {empleado.primer_apellido} {empleado.segundo_apellido}</td>
-                                <td style={{ padding: '10px' }}>{empleado.distrito} / {empleado.canton} / {empleado.provincia}</td>
-                                <td style={{ padding: '10px' }}>₡{empleado.salario}</td>
-                                <td style={{ padding: '10px' }}>{empleado.correo_electronico}</td>
-                                <td style={{ padding: '10px' }}>{empleado.contrasenna}</td>
+                        {empleados.map((gimnasio) => (
+                            <tr key={gimnasio.sucursal}>
+                                <td style={{ padding: '10px' }}>{gimnasio.sucursal}</td>
+                                <td style={{ padding: '10px' }}>{gimnasio.maquina}</td>
+                                <td style={{ padding: '10px' }}>{gimnasio.clase}</td>
+                                <td style={{ padding: '10px' }}>{gimnasio.producto}</td>
+                                <td style={{ padding: '10px' }}>{gimnasio.tratamiento}</td>
                                 <td>
-                                    <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(empleado)}>Editar</button>
-                                    <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(empleado.cedula)}>Eliminar</button>
+                                    <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(gimnasio)}>Editar</button>
+                                    <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(gimnasio.sucursal)}>Eliminar</button>
                                 </td>
                             </tr>
                         ))}
@@ -114,15 +111,15 @@ class ConfiguracionGimnasio extends React.Component {
                             <h2>{formMode === 'agregar' ? 'Agregar Empleado' : 'Actualizar Empleado'}</h2>
                             <form onSubmit={this.handleSubmit}>
                                 <div>
-                                    <label htmlFor="cedula">Cedula:</label>
-                                    <input type="text" id="cedula" name="cedula" value={formValues.cedula} disabled={formMode === 'editar'} onChange={this.handleInputChange} placeholder="Cedula" />
+                                    <label htmlFor="sucursal">sucursal:</label>
+                                    <input type="text" id="sucursal" name="sucursal" value={formValues.sucursal} disabled={formMode === 'editar'} onChange={this.handleInputChange} placeholder="sucursal" />
                                 </div>
                                 <div>
                                     <label htmlFor="nombre">Nombre completo:</label>
-                                    <input type="text" id="primer_nombre" name="primer_nombre" value={formValues.primer_nombre} onChange={this.handleInputChange} placeholder="Primer nombre" />
-                                    <input type="text" id="segundo_nombre" name="segundo_nombre" value={formValues.segundo_nombre} onChange={this.handleInputChange} placeholder="Segundo nombre" />
-                                    <input type="text" id="primer_apellido" name="primer_apellido" value={formValues.primer_apellido} onChange={this.handleInputChange} placeholder="Primer apellido" />
-                                    <input type="text" id="segundo_apellido" name="segundo_apellido" value={formValues.segundo_apellido} onChange={this.handleInputChange} placeholder="Segundo apellido" />
+                                    <input type="text" id="maquina" name="maquina" value={formValues.maquina} onChange={this.handleInputChange} placeholder="Primer nombre" />
+                                    <input type="text" id="clase" name="clase" value={formValues.clase} onChange={this.handleInputChange} placeholder="Segundo nombre" />
+                                    <input type="text" id="producto" name="producto" value={formValues.producto} onChange={this.handleInputChange} placeholder="Primer apellido" />
+                                    <input type="text" id="tratamiento" name="tratamiento" value={formValues.tratamiento} onChange={this.handleInputChange} placeholder="Segundo apellido" />
                                 </div>
                                 <div>
                                     <label htmlFor="ubicacion">Ubicacion:</label>

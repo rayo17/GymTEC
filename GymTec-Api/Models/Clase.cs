@@ -6,6 +6,7 @@ public class Clase
 {
     [Key]
     public string Identificador { get; set; }
+    public string Nombre { get; set; }
     public int Capacidad { get; set; }
     public int Grupal { get; set; }
     public string Tipo { get; set; }
