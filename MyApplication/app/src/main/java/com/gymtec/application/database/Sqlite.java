@@ -197,6 +197,11 @@ public class Sqlite extends SQLiteOpenHelper {
         //db.close();
         return cedula_contr_cliente;
     }
+    public Cursor getCliente(String cedula) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cedula_contr_cliente = db.rawQuery("SELECT * FROM CLIENTE WHERE Cedula = " + cedula, null);
+        return cedula_contr_cliente;
+    }
 
     public Cursor getSucursal() {
         // on below line we are creating a variable for

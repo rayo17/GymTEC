@@ -1,34 +1,56 @@
 package com.gymtec.application.ui.login;
 
-import java.util.Arrays;
-import java.util.Dictionary;
 import java.util.HashMap;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
-import java.util.Hashtable;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.provider.ContactsContract;
+import android.util.Log;
+import android.widget.Toast;
+
+
 import com.gymtec.application.database.Sqlite;
-import com.gymtec.application.MainActivity;
+
 public class UserAuthentication {
     //User temporal db
     private final HashMap<String, String> user_ids = new HashMap<>();
-
+    private Sqlite database;
 
     public UserAuthentication(Context context){
-        //user_ids.put("604560524", "password");
-        Sqlite dabase=new Sqlite(context);
+        user_ids.put("604560524", "password");
+        database=new Sqlite(context);
 
 
 
     }
 
-    public boolean user_exists(String user_id){
-        return (user_ids.containsKey(user_id));
-    }
+    //
+    public boolean user_exist(String user_id) {
+        Cursor info = database.getCliente(user_id);
+        String conversion=DatabaseUtils.dumpCursorToString(info);
 
-    public boolean password_correct(String user_id, String input_password){
-        String user_password = user_ids.get(user_id);
-
-        if(user_password!=null)
-            return (user_password.equals(input_password));
+        if(info.moveToFirst()){
+            Log.d("cursor", DatabaseUtils.dumpCursorToString(info));
+            return true;
+        }
         return false;
     }
+
+    /*
+  public boolean user_exists(String user_id)
+  {
+
+      return user_ids.containsKey(user_id);
+  }
+  */
+    @SuppressLint("Range")
+    public boolean password_correct(String user_id, String input_password){
+        String user_password = user_ids.get(user_id);
+        Cursor info = database.getCliente(user_id);
+        String infoPassword=info.getString(info.getColumnIndex("Constrasenna"));
+        return (infoPassword.equals(input_password));
+
+}
 }

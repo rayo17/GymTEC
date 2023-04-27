@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         //Sqlite database=new Sqlite((this);
 
         //login_or_not
-
+        Sqlite database=new Sqlite(getApplicationContext());
+        SQLiteDatabase data=database.getWritableDatabase();
         if (extras==null){
 
             startActivity(login_intent);
@@ -54,6 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent buscar_clases = new Intent(getApplicationContext(),  Busqueda_clases.class);
                 startActivity(buscar_clases);
             }
-        });
-    }
+   });
+}
 }

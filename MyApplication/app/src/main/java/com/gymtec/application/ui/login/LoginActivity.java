@@ -43,25 +43,31 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String cedula_input = String.valueOf(cedula_editText.getText());
                 String password_input = String.valueOf(password_editText.getText());
-                 Sqlite database=new Sqlite(getApplicationContext());
-                 SQLiteDatabase data=database.getWritableDatabase();
-                //database.getCliente(cedula_input, password_input);
-                Log.d("Mensaje_prueba","se esta ejecutando el onclick");
-                //database.addNewCliente("604740574","Daniel","Andres","Rayo", "Diaz","drayo.dard.16@gmail.com", "Chacarita", "Puntarenas", "Puntarenas", "1234567" ,"16-08-2002", "70", "15");
 
 
                 if (cedula_input.length()<9){
                     Toast invalid_user = Toast.makeText(getApplicationContext(), R.string.invalid_id, Toast.LENGTH_LONG);
                     invalid_user.show();
                 }
-              /* else if(database.getCliente(cedula_input, password_input)!=null){
-                    Toast invalid_user = Toast.makeText(getApplicationContext(),R.string.welcome , Toast.LENGTH_LONG);
 
-                  */
-                else if(authenticator.user_exists(cedula_input)){
+                /*else if(authenticator.user_exists(cedula_input)){
                     Toast invalid_user = Toast.makeText(getApplicationContext(),R.string.welcome , Toast.LENGTH_LONG);
                     invalid_user.show();
+                }*/
+                else if(!authenticator.user_exist(cedula_input)){
+                    Toast invalid_user = Toast.makeText(getApplicationContext(),R.string.User_Not_Register , Toast.LENGTH_LONG);
+                    invalid_user.show();
+                    finish();
+                    Intent open_register = new Intent(getApplicationContext(), RegistroCliente.class);
+                    open_register.putExtra("cedula_input", cedula_input);
+                    open_register.putExtra("password_input", password_input);
+                    startActivity(open_register);
                 }
+                else if(!authenticator.password_correct(cedula_input,password_input)){
+                    Toast invalid_user = Toast.makeText(getApplicationContext(),R.string.User_Not_Register , Toast.LENGTH_LONG);
+
+                }
+
                 else {
                     finish();
                     Intent open_register = new Intent(getApplicationContext(), RegistroCliente.class);
@@ -71,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
             }
-        });
+    });
 
-    }
+}
 }

@@ -46,4 +46,5 @@
     <string name="end_clase">Hora final</string>
     <string name="instructor_clase">Instructor</string>
     <string name="cupo_clase">Cupo disponible</string>
+    <string name="User_Not_Register">Usuario no registrado</string>
 </resources>
