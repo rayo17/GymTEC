@@ -23,35 +23,44 @@ export const Navbar = () => {
                     </li>
 
                     <li className="nav-item">
-                        <Link className='nav-link' to='/gestionsucursales'>Gestionar sucursales</Link>
+                        <Link className='nav-link' to='/gestionsucursales'>Sucursales</Link>
                     </li>
 
                     <li className="nav-item">
-                        <Link className="nav-link" to='/gestiontratamientosspa'>Gestionar tratamientos del spa</Link>
+                        <Link className="nav-link" to='/gestiontratamientosspa'>Tratamientos del spa</Link>
                     </li>
 
                     <li className="nav-item">
-                        <Link className="nav-link" to='/gestionpuestos'>Gestionar puestos</Link>
+                        <Link className="nav-link" to='/gestionpuestos'>Puestos</Link>
                     </li>
 
                     <li className="nav-item">
-                        <Link className="nav-link" to='/gestionplanillas'>Gestionar planilla</Link>
+                        <Link className="nav-link" to='/gestionplanillas'>Planilla</Link>
                     </li>
+
                     <li className="nav-item">
-                        <Link className="nav-link" to='/gestionproductos'>Gestionar productos</Link>
+                        <Link className="nav-link" to='/gestionproductos'>Productos</Link>
                     </li>
+
                     <li className="nav-item">
-                        <Link className="nav-link" to='/gestioninventario'>Gestionar inventario</Link>
+                        <Link className="nav-link" to='/gestioninventario'>Inventario</Link>
                     </li>
+
                     <li className="nav-item">
-                        <Link className="nav-link" to='/gestiontiposequipo'>Gestionar equipo</Link>
+                        <Link className="nav-link" to='/gestiontiposequipo'>Equipo</Link>
                     </li>
+
                     <li className="nav-item">
-                        <Link className="nav-link" to='/gestionservicios'>Gestionar servicios</Link>
+                        <Link className="nav-link" to='/gestionservicios'>Servicios</Link>
                     </li>
+
                     <li className="nav-item">
-                        <Link className="nav-link" to='/gestonempleados'>Gestionar empleados</Link>
-                    </li>                    
+                        <Link className="nav-link" to='/gestionempleados'>Empleados</Link>
+                    </li>
+
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/generacionplanilla'>Generación planillas</Link>
+                    </li>
                 </ul>
                 </div>
             </div>

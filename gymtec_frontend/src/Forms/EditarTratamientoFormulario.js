@@ -8,8 +8,9 @@ class EditarTratamientoFormulario extends Component {
     super(props);
 
     this.state = {
-      identificador: "",
+      identificador: this.props.editName,
       nombre: "",
+      spa: "",
       showModal: false,
     };
 
@@ -26,7 +27,15 @@ class EditarTratamientoFormulario extends Component {
       .put("http://localhost:5236/api/tratamiento/"+this.state.identificador, {
         identificador: this.state.identificador,
         nombre: this.state.nombre,
+        spa: this.state.spa
       })
+      .then((response) => {
+        // Actualizar el estado de los pacientes con los nuevos datos ingresados
+        this.props.onEditTratamiento();
+      })
+      .catch((error) => {
+        this.setState({ error: error.message });
+      });
 
     console.log("Tratamiento editado");
     this.props.onClose();
@@ -80,6 +89,7 @@ class EditarTratamientoFormulario extends Component {
               value={this.state.identificador}
               onChange={this.handleChange}
               required
+              disabled
             />
           </div>
           <div className="form-input">
@@ -88,6 +98,16 @@ class EditarTratamientoFormulario extends Component {
               type="text"
               name="nombre"
               value={this.state.nombre}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
+          <div className="form-input">
+            <label htmlFor="spa">Spa asociado:</label>
+            <input
+              type="text"
+              name="spa"
+              value={this.state.spa}
               onChange={this.handleChange}
               required
             />

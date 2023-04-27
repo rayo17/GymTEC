@@ -144,16 +144,6 @@ class GestionSucursales extends Component {
       });
   }
 
-  handleTelefono = () => {
-    axios.get('http://localhost:5236/api/SucursalTelefonos') // obtiene la lista de sucursales desde el API
-      .then(response => {
-        this.setState({ telefonos: response.data }); // guarda la lista de sucursales en el estado
-      })
-      .catch(error => {
-        this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
-      });
-  }
-
   // función para abrir el diálogo para agregar nuevas sucursales
   openDialog() {
     this.setState({ isOpen: true });
@@ -358,7 +348,7 @@ render() {
             {/* contenido del diálogo */}
             <NuevaSucursalTelefonoFormulario 
               onClose={this.toggleTelDialog}
-              onNewTelSucursal={this.handleTelefono}
+              onNewTelSucursal={this.handleSucursal}
             />
             
           </div>
@@ -405,7 +395,7 @@ render() {
             {/* contenido del diálogo */}
             <EliminarSucursalTelefonoFormulario 
               onClose={this.toggleTeltD}
-              onDeleteTelSucursal={this.handleTelefono}
+              onDeleteTelSucursal={this.handleSucursal}
             />
             
           </div>
