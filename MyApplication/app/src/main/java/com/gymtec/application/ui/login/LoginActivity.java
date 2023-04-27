@@ -1,6 +1,8 @@
 package com.gymtec.application.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.gymtec.application.MainActivity;
 import com.gymtec.application.database.Sqlite;
 
 import android.content.Intent;
@@ -16,6 +18,8 @@ import com.gymtec.application.R;
 import com.gymtec.application.RegistroCliente;
 
 public class LoginActivity extends AppCompatActivity {
+
+    Sqlite database=new Sqlite(LoginActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         Button login_register_btn = (Button) findViewById(R.id.login_register_btn);
 
 
-        //database.addNewCliente("604740574","Daniel","Andres","Rayo", "Diaz","drayo.dard.16@gmail.com", "Chacarita", "Puntarenas", "Puntarenas", "1234567" ,"16-08-2002", "70", "15");
-
+        database.addNewCliente("604740574","Daniel","Andres","Rayo", "Diaz","drayo.dard.16@gmail.com", "Chacarita", "Puntarenas", "Puntarenas", "1234567" ,"20000816", "70", "15");
+        database.addNewCliente("123456789","Daniel","Andres","Rayo", "Diaz","drayo.dard.16@gmail.com", "Chacarita", "Puntarenas", "Puntarenas", "12345678" ,"20000816", "70", "15");
 
         login_register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,10 +54,6 @@ public class LoginActivity extends AppCompatActivity {
                     invalid_user.show();
                 }
 
-                /*else if(authenticator.user_exists(cedula_input)){
-                    Toast invalid_user = Toast.makeText(getApplicationContext(),R.string.welcome , Toast.LENGTH_LONG);
-                    invalid_user.show();
-                }*/
                 else if(!authenticator.user_exist(cedula_input)){
                     Toast invalid_user = Toast.makeText(getApplicationContext(),R.string.User_Not_Register , Toast.LENGTH_LONG);
                     invalid_user.show();
@@ -64,8 +64,8 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(open_register);
                 }
                 else if(!authenticator.password_correct(cedula_input,password_input)){
-                    Toast invalid_user = Toast.makeText(getApplicationContext(),R.string.User_Not_Register , Toast.LENGTH_LONG);
-
+                    Toast incorrect_pwd = Toast.makeText(getApplicationContext(),R.string.incorrect_password , Toast.LENGTH_LONG);
+                    incorrect_pwd.show();
                 }
 
                 else {

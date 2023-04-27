@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         //Sqlite database=new Sqlite((this);
 
         //login_or_not
-        Sqlite database=new Sqlite(getApplicationContext());
-        SQLiteDatabase data=database.getWritableDatabase();
+        Sqlite database=new Sqlite(MainActivity.this);
+
         if (extras==null){
 
             startActivity(login_intent);

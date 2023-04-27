@@ -21,9 +21,6 @@ public class UserAuthentication {
     public UserAuthentication(Context context){
         user_ids.put("604560524", "password");
         database=new Sqlite(context);
-
-
-
     }
 
     //
@@ -47,9 +44,9 @@ public class UserAuthentication {
   */
     @SuppressLint("Range")
     public boolean password_correct(String user_id, String input_password){
-        String user_password = user_ids.get(user_id);
         Cursor info = database.getCliente(user_id);
-        String infoPassword=info.getString(info.getColumnIndex("Constrasenna"));
+        info.moveToFirst();
+        String infoPassword=info.getString(info.getColumnIndex("Contrasenna"));
         return (infoPassword.equals(input_password));
 
 }

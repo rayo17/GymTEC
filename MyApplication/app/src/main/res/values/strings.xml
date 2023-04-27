@@ -47,4 +47,5 @@
     <string name="instructor_clase">Instructor</string>
     <string name="cupo_clase">Cupo disponible</string>
     <string name="User_Not_Register">Usuario no registrado</string>
+    <string name="incorrect_password">Contraseña incorrecta</string>
 </resources>
