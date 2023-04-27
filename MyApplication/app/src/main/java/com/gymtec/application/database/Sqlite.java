@@ -44,27 +44,6 @@ public class Sqlite extends SQLiteOpenHelper {
                 " PRIMARY KEY(Nombre));";
 
 
-        String table_sucrusal_telefonos = "CREATE TABLE SUCURSAL_TELEFONOS (Sucursal VARCHAR(30) NOT NULL, "+
-                "Telefono INTTEGER NOT NULL, " +
-                "PRIMARY KEY(Sucursal, Telefono));";
-
-        String table_empleado = "CREATE TABLE EMPLEADO (Cedula VARCHAR(9) NOT NULL, " +
-                "Primer_nombre VARCHAR(20) NOT NULL, "+
-                "Segundo_nombre VARCHAR(20), " +
-                "Primer_apellido VARCHAR(20) NOT NULL, " +
-                "Segundo_apellido VARCHAR(20), " +
-                "Distrito VARCHAR(30) NOT NULL, " +
-                "Canton VARCHAR(30) NOT NULL, " +
-                "Provincia VARCHAR(30) NOT NULL, " +
-                "Salario MONEY NOT NULL, " +
-                "Correo_electronico VARCHAR(50) NOT NULL, " +
-                "Contrasenna VARCHAR(30) NOT NULL, " +
-                "PRIMARY KEY(Cedula));";
-
-        String table_Planilla= "CREATE TABLE PLANILLA (Identificador VARCHAR(9) NOT NULL, Pago_mensual MONEY, Pago_horas MONEY, Pago_clase MONEY,PRIMARY KEY(Identificador))";
-        String table_Maquina="CREATE TABLE MAQUINA (Tipo VARCHAR(20) NOT NULL, Marca VARCHAR(20) NOT NULL, Numero_serie VARCHAR(10) NOT NULL, Costo MONEY NOT NULL, PRIMARY KEY(Numero_serie));";
-
-
         String table_clase = "CREATE TABLE CLASE (Identificador VARCHAR(10) NOT NULL, " +
                 "Capacidad INT NOT NULL, "+
                 "Grupal INT NOT NULL, " +
@@ -83,15 +62,6 @@ public class Sqlite extends SQLiteOpenHelper {
                 "Clase_id VARCHAR(10) NOT NULL, "+
                 "PRIMARY KEY(Tipo_id, Clase_id));";
 
-        String table_producto = "CREATE TABLE PRODUCTO (Codigo_barras VARCHAR(10) NOT NULL, " +
-                "Nombre VARCHAR(30) NOT NULL, "+
-                "Descripcion VARCHAR(50) NOT NULL, " +
-                "Costo MONEY, " +
-                "PRIMARY KEY(Codigo_barras));";
-
-        String table_tratamiento = "CREATE TABLE TRATAMIENTO (Identificador VARCHAR(10) NOT NULL, " +
-                "Nombre VARCHAR(50) NOT NULL, "+
-                "PRIMARY KEY(Identificador));";
 
         String table_gimnasio = "CREATE TABLE GIMNASIO (Sucursal VARCHAR(30) NOT NULL, " +
                 "Maquina VARCHAR(10) NOT NULL, "+
@@ -120,32 +90,17 @@ public class Sqlite extends SQLiteOpenHelper {
                 "Cliente VARCHAR(10) NOT NULL, "+
                 "PRIMARY KEY(Clase, Cliente));";
 
-        String table_tipo_equipo = "CREATE TABLE TIPO_EQUIPO (Identificador VARCHAR(30) NOT NULL, " +
-                "Descripcion VARCHAR(50) NOT NULL, "+
-                "PRIMARY KEY(Identificador, Descripcion));";
+
 
         //
-        String table_servicio = "CREATE TABLE SERVICIO (Identificador VARCHAR(30) NOT NULL, " +
-                "Descripcion VARCHAR(50) NOT NULL, "+
-                "PRIMARY KEY(Identificador, Descripcion));";
 
-
-        String alter_Sucursal="ALTER TABLE SUCURSAL_TELEFONOS " +
-                "ADD FOREIGN KEY (Sucursal) REFERENCES SUCURSAL(Nombre);";
-        String alter_Puesto  = "ALTER TABLE PUESTO " +
-                "ADD FOREIGN KEY (Identificador) REFERENCES EMPLEADO(Cedula);";
-        String  alter_Planilla = "ALTER TABLE PLANILLA ADD FOREIGN KEY (Identificador) REFERENCES EMPLEADO(Cedula);";
 
         String alter_Gym1= "ALTER TABLE GIMNASIO ADD FOREIGN KEY (Sucursal) REFERENCES SUCURSAL(Nombre);";
-        String alter_Gym2= "ALTER TABLE GIMNASIO ADD FOREIGN KEY (Maquina) REFERENCES MAQUINA(Numero_serie);";
         String alter_Gym3 = "ALTER TABLE GIMNASIO ADD FOREIGN KEY (Clase) REFERENCES CLASE(Identificador);";
-        String alter_Gym4="ALTER TABLE GIMNASIO ADD FOREIGN KEY (Producto) REFERENCES PRODUCTO(Codigo_barras);";
-        String alter_Gym5="ALTER TABLE GIMNASIO ADD FOREIGN KEY (Tratamiento) REFERENCES TRATAMIENTO(Identificador);";
         String alter_Cliente1= "ALTER TABLE CLASE_CLIENTES ADD FOREIGN KEY (Clase) REFERENCES CLASE(Identificador);";
         String alter_Cliente2="ALTER TABLE CLASE_CLIENTES " +
                 "ADD FOREIGN KEY (Cliente) REFERENCES CLIENTE(Cedula);";
         String alter_tipo_equipo=" ALTER TABLE TIPO_EQUIPO ADD FOREIGN KEY (Identificador) REFERENCES SUCURSAL(Nombre);";
-        String alter_Servicio= "ALTER TABLE SERVICIO ADD FOREIGN KEY (Identificador) REFERENCES SUCURSAL(Nombre);";
         String alter_tipo_clase1= "ALTER TABLE TIPO_CLASE ADD CONSTRAINT tipo_fk FOREIGN KEY (Tipo_id) REFERENCES TIPO(Id);";
         String alter_tipo_clase2= "ALTER TABLE TIPO_CLASE ADD CONSTRAINT clase_fk FOREIGN KEY (Clase_id) REFERENCES CLASE(Identificador);";
         String alter_clase= "ALTER TABLE CLASE ADD CONSTRAINT Week_days CHECK(1<=Dia AND  Dia<= 7);";
@@ -154,34 +109,18 @@ public class Sqlite extends SQLiteOpenHelper {
 
         // at last we are calling a exec sql
         // method to execute above sql query
-         db.execSQL(table_Sucursal);
-        db.execSQL(table_sucrusal_telefonos);
-        db.execSQL(table_empleado);
-        db.execSQL(table_Planilla);
-        db.execSQL(table_Maquina);
+        db.execSQL(table_Sucursal);
         db.execSQL(table_clase);
         db.execSQL(table_tipo);
         db.execSQL(table_tipo_clase);
-        db.execSQL(table_producto);
-        db.execSQL(table_tratamiento);
         db.execSQL(table_gimnasio);
         db.execSQL(table_cliente);
-
         db.execSQL(table_clase_clientes);
-        db.execSQL(table_tipo_equipo);
-        db.execSQL(table_servicio);
-        db.execSQL(alter_Sucursal);
-        db.execSQL(alter_Puesto);
-        db.execSQL(alter_Planilla);
         db.execSQL(alter_Gym1);
-        db.execSQL(alter_Gym2);
         db.execSQL(alter_Gym3);
-        db.execSQL(alter_Gym4);
-        db.execSQL(alter_Gym5);
         db.execSQL(alter_Cliente1);
         db.execSQL(alter_Cliente2);
         db.execSQL(alter_tipo_equipo);
-        db.execSQL(alter_Servicio);
         db.execSQL(alter_tipo_clase1);
         db.execSQL(alter_tipo_clase2);
         db.execSQL(alter_clase);
