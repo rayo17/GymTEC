@@ -8,7 +8,7 @@ class EditarPlanillaFormulario extends Component {
     super(props);
 
     this.state = {
-      identificador: "",
+      identificador: this.props.editName,
       pago_mensual: "",
       pago_horas: "",
       pago_clase: "",
@@ -31,6 +31,13 @@ class EditarPlanillaFormulario extends Component {
         pago_horas: this.state.pago_horas,
         pago_clase: this.state.pago_clase,
       })
+      .then((response) => {
+        // Actualizar el estado de los pacientes con los nuevos datos ingresados
+        this.props.onEditPlanilla();
+      })
+      .catch((error) => {
+        this.setState({ error: error.message });
+      });
 
     console.log("Planilla editada");
     this.props.onClose();
@@ -84,6 +91,7 @@ class EditarPlanillaFormulario extends Component {
               value={this.state.identificador}
               onChange={this.handleChange}
               required
+              disabled
             />
           </div>
           <div className="form-input">

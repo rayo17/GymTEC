@@ -4,6 +4,7 @@ import React from "react";
 
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
+// Administrador
 import VistaPrincipal from './VistaPrincipal';
 import VistaAdministrador from './VistaAdministrador/VistaAdministrador';
 import LoginAdmin from './VistaAdministrador/LoginAdmin';
@@ -11,7 +12,6 @@ import GestionPuestos from './VistaAdministrador/GestionPuestos';
 import GestionSucursales from './VistaAdministrador/GestionSucursales';
 import GestionTratamientosSpa from './VistaAdministrador/GestionTratamientosSpa';
 import GestionPlanillas from './VistaAdministrador/GestionPlanillas';
-import LoginCliente from './VistaCliente/LoginCliente';
 import GestionProductos from './VistaAdministrador/GestionProductos';
 import GestionInventario from './VistaAdministrador/GestionInventario';
 import GestionTiposEquipo from './VistaAdministrador/GestionTiposEquipo';
@@ -19,6 +19,11 @@ import GestionServicios from './VistaAdministrador/GestionServicios';
 import GestionEmpleados from './VistaAdministrador/GestionEmpleados';
 import ConfigGimnasio from './VistaAdministrador/ConfiguracionGimnasio';
 
+import GeneracionPlanilla from './VistaAdministrador/GeneracionPlanilla';
+
+
+// Cliente
+import LoginCliente from './VistaCliente/LoginCliente';
 
 function App() {
   return (
@@ -38,6 +43,9 @@ function App() {
             <Route path='/gestionservicios' element={ <GestionServicios/> }/>
             <Route path='/gestionempleados' element={ <GestionEmpleados/> }/>
             <Route path= '/configGimnasio' element={<ConfigGimnasio />}/>
+            <Route path='/gestionempleados' element={ <GestionEmpleados/> }/>
+
+            <Route path='/generacionplanilla' element={ <GeneracionPlanilla/> }/>
 
 
 

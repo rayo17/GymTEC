@@ -8,7 +8,7 @@ class EditarPuestoFormulario extends Component {
     super(props);
 
     this.state = {
-      identificador: "",
+      identificador: this.props.editName,
       descripcion: "",
       showModal: false,
     };
@@ -27,6 +27,13 @@ class EditarPuestoFormulario extends Component {
         identificador: this.state.identificador,
         descripcion: this.state.descripcion,
       })
+      .then((response) => {
+        // Actualizar el estado de los pacientes con los nuevos datos ingresados
+        this.props.onEditPuesto();
+      })
+      .catch((error) => {
+        this.setState({ error: error.message });
+      });
 
     console.log("Puesto editado");
     this.props.onClose();
@@ -80,6 +87,7 @@ class EditarPuestoFormulario extends Component {
               value={this.state.identificador}
               onChange={this.handleChange}
               required
+              disabled
             />
           </div>
           <div className="form-input">

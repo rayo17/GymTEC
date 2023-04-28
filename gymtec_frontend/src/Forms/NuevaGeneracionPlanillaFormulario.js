@@ -3,7 +3,7 @@ import axios from "axios";
 import { Form } from 'react-bootstrap';
 
 
-class EliminarPlanillaFormulario extends Component {
+class NuevaGeneracionPlanillaFormulario extends Component {
   constructor(props) {
     super(props);
 
@@ -25,14 +25,22 @@ class EliminarPlanillaFormulario extends Component {
 
     // Enviar los datos al backend para crear una nueva sucursal
     axios
-      .delete("http://localhost:5236/api/planillas/"+this.state.identificador, {
-        identificador: this.state.identificador,
-        pago_mensual: this.state.pago_mensual,
-        pago_horas: this.state.pago_horas,
-        pago_clase: this.state.pago_clase,
-      })
+        .post("http://localhost:5236/api/Planillas", {
+            identificador: this.state.identificador,
+            pago_mensual: this.state.pago_mensual,
+            pago_horas: this.state.pago_horas,
+            pago_clase: this.state.pago_clase,
+        })
+        .then((response) => {
+            // Actualizar el estado de los pacientes con los nuevos datos ingresados
+            this.props.onNewPlanilla();
+        })
+        .catch((error) => {
+            this.setState({ error: error.message });
+            console.log("Todo mal bro");
+        });
 
-    console.log("Planilla eliminada");
+    console.log("Nueva planilla agregada");
     this.props.onClose();
   };
 
@@ -75,13 +83,43 @@ class EliminarPlanillaFormulario extends Component {
         }}
       >
         <Form onSubmit={this.handleSubmit}>
-          <h2>Eliminar planilla</h2>
+          <h2>Nueva planilla</h2>
           <div className="form-input">
             <label htmlFor="identificador">Id:</label>
             <input
               type="text"
               name="identificador"
               value={this.state.identificador}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
+          <div className="form-input">
+            <label htmlFor="pago_mensual">Pago mensual:</label>
+            <input
+              type="text"
+              name="pago_mensual"
+              value={this.state.pago_mensual}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
+          <div className="form-input">
+            <label htmlFor="pago_horas">Pago por hora:</label>
+            <input
+              type="text"
+              name="pago_horas"
+              value={this.state.pago_horas}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
+          <div className="form-input">
+            <label htmlFor="pago_clase">Pago por clase:</label>
+            <input
+              type="text"
+              name="pago_clase"
+              value={this.state.pago_clase}
               onChange={this.handleChange}
               required
             />
@@ -97,12 +135,12 @@ class EliminarPlanillaFormulario extends Component {
               display: "block",
               margin: "0 auto",
               padding: "10px 20px"
-            }}>Eliminar planilla</button>
+            }}>Agregar planilla</button>
             </div>
 
-        </Form>
-      </div>
-    );
-  }
+      </Form>
+    </div>
+            );
+    }
 }
-export default EliminarPlanillaFormulario;
+export default NuevaGeneracionPlanillaFormulario;

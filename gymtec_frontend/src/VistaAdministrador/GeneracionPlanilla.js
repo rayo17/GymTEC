@@ -4,16 +4,16 @@ import axios from 'axios';
 
 import { CSSTransition } from 'react-transition-group';
 
-import NuevoPuestoFormulario from '../Forms/NuevoPuestoFormulario';
-import EditarPuestoFormulario from '../Forms/EditarPuestoFormulario';
+import NuevaPlanillaFormulario from '../Forms/NuevaPlanillaFormulario';
+import EditarPlanillaFormulario from '../Forms/EditarPlanillaFormulario';
 
 
-class GestionPuestos extends Component {
+class GeneracionPlanilla extends Component {
   constructor(props) {
     super(props);
   
     this.state = {
-      puestos: [], // lista de sucursales obtenidos desde el API
+      planillas: [], // lista de sucursales obtenidos desde el API
       
       showForm: false, // variable para mostrar/ocultar el formulario para agregar sucursales
       showtwoForm: false, // variable para mostrar/ocultar el formulario para añadir información adicional a un paciente existente
@@ -62,38 +62,37 @@ class GestionPuestos extends Component {
     this.setState(prevState => ({ showthreeDialog: !prevState.showthreeDialog }));
   };
 
-  getPuesto = (x) => {
+  getPlanilla = (x) => {
     this.setState({identificador: x})
     this.toggletD()
   }
 
-  deletePuesto = (puest) => {
+  deletePlanilla = (plan) => {
     axios
-      .delete("http://localhost:5236/api/Puesto/"+puest, {
+      .delete("http://localhost:5236/api/Planillas/"+plan, {
         
       })
       .then((response) => {
         // Actualizar el estado de los pacientes con los nuevos datos ingresados
-        this.handlePuesto();
+        this.handlePlanilla();
       })
       .catch((error) => {
-        alert("No ha sido posible eliminar este puesto")
+        alert("No ha sido posible eliminar esta planilla")
       });
 
-    console.log("Puesto eliminado");
+    console.log("Planilla eliminada");
   };
-
   /* PARA COMPONENTES */
   // función que se ejecuta cuando se carga el componente
   componentDidMount() {
-    this.handlePuesto(); // se obtiene la lista de sucursales
+    this.handlePlanilla(); // se obtiene la lista de sucursales
   }
 
   // función para obtener la lista de sucursales, y teléfonos desde el API
-  handlePuesto = () => {
-    axios.get('http://localhost:5236/api/Puesto') // obtiene la lista de sucursales desde el API
+  handlePlanilla = () => {
+    axios.get('http://localhost:5236/api/planillas') // obtiene la lista de sucursales desde el API
       .then(response => {
-        this.setState({ puestos: response.data }); // guarda la lista de sucursales en el estado
+        this.setState({ planillas: response.data }); // guarda la lista de sucursales en el estado
       })
       .catch(error => {
         this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
@@ -121,41 +120,45 @@ class GestionPuestos extends Component {
 
   // función que renderiza el componente
 render() {
-  const { puestos, error, showDialog, showtwoDialog } = this.state;
+  const { planillas, error, showDialog, showtwoDialog } = this.state;
 
   return (
     <div style={{ backgroundColor: '#fff', textAlign: 'center' }}>
         <Navbar/>
-  <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Puestos de empleados</h1>
+  <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Planillas de empleados</h1>
       {error && <div>Error: {error}</div>}
       <table style={{ borderCollapse: 'collapse', width: '80%', margin: '0 auto'}} className="table border shadow">
         <thead>
           <tr>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Identificador de empleado</th>
-            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Puesto</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago mensual</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago por hora</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago por clase</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Editar</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Eliminar</th>
           </tr>
         </thead>
         <tbody>
-          {puestos.map(puesto => (
-            <tr key={puesto.identificador}>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{puesto.identificador}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{puesto.descripcion}</td>
+          {planillas.map(planilla => (
+            <tr key={planilla.identificador}>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.identificador}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_mensual}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_horas} c/h </td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_clase} c/c </td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
                 <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
-                onClick={() => this.getPuesto(puesto.identificador)}>Editar</button> 
+                onClick={() => this.getPlanilla(planilla.identificador)}>Editar</button> 
               </td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
                 <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#c92d15', border: '2px solid #c92d15', cursor: 'pointer' }} 
-                onClick={() => this.deletePuesto(puesto.identificador)}>Eliminar</button>
+                onClick={() => this.deletePlanilla(planilla.identificador)}>Eliminar</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#4CAF50', border: '2px solid #4CAF50', cursor: 'pointer' }} 
-      onClick={this.toggleDialog}>Asignar puesto</button>
+      onClick={this.toggleDialog}>Agregar planilla de empleado</button>
       {showDialog && (
           <div
             style={{
@@ -190,9 +193,9 @@ render() {
             }}
           >
             {/* contenido del diálogo */}
-            <NuevoPuestoFormulario 
+            <NuevaPlanillaFormulario 
               onClose={this.toggleDialog}
-              onNewPuesto={this.handlePuesto}
+              onNewPlanilla={this.handlePlanilla}
             />
             
           </div>
@@ -236,10 +239,10 @@ render() {
             }}
           >
             {/* contenido del diálogo */}
-            <EditarPuestoFormulario
+            <EditarPlanillaFormulario
               editName={this.state.identificador}
               onClose={this.toggletD}
-              onEditPuesto={this.handlePuesto}
+              onEditPlanilla={this.handlePlanilla}
             />
             
           </div>
@@ -248,10 +251,9 @@ render() {
         </div>
         )}
 
-
       </div>
     );
   }
 }
 
-export default GestionPuestos;
+export default GeneracionPlanilla;

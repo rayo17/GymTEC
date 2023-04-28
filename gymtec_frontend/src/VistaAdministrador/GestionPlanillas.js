@@ -6,7 +6,6 @@ import { CSSTransition } from 'react-transition-group';
 
 import NuevaPlanillaFormulario from '../Forms/NuevaPlanillaFormulario';
 import EditarPlanillaFormulario from '../Forms/EditarPlanillaFormulario';
-import EliminarPlanillaFormulario from '../Forms/EliminarPlanillaFormulario';
 
 
 class GestionPlanillas extends Component {
@@ -14,7 +13,8 @@ class GestionPlanillas extends Component {
     super(props);
   
     this.state = {
-      planillas: [], // lista de sucursales obtenidos desde el API
+      sucursales: [], // lista de sucursales obtenidos desde el API
+      empleados: [],
       
       showForm: false, // variable para mostrar/ocultar el formulario para agregar sucursales
       showtwoForm: false, // variable para mostrar/ocultar el formulario para añadir información adicional a un paciente existente
@@ -63,19 +63,48 @@ class GestionPlanillas extends Component {
     this.setState(prevState => ({ showthreeDialog: !prevState.showthreeDialog }));
   };
 
+  getPlanilla = (x) => {
+    this.setState({identificador: x})
+    this.toggletD()
+  }
 
+  deletePlanilla = (plan) => {
+    axios
+      .delete("http://localhost:5236/api/Planillas/"+plan, {
+        
+      })
+      .then((response) => {
+        // Actualizar el estado de los pacientes con los nuevos datos ingresados
+        this.handlePlanilla();
+      })
+      .catch((error) => {
+        alert("No ha sido posible eliminar esta planilla")
+      });
 
+    console.log("Planilla eliminada");
+  };
   /* PARA COMPONENTES */
   // función que se ejecuta cuando se carga el componente
   componentDidMount() {
     this.handlePlanilla(); // se obtiene la lista de sucursales
+    this.handleSucursal();
   }
 
   // función para obtener la lista de sucursales, y teléfonos desde el API
-  handlePlanilla = () => {
-    axios.get('http://localhost:5236/api/planillas') // obtiene la lista de sucursales desde el API
+  handleEmpleado = () => {
+    axios.get('http://localhost:5236/api/empleado') // obtiene la lista de sucursales desde el API
       .then(response => {
-        this.setState({ planillas: response.data }); // guarda la lista de sucursales en el estado
+        this.setState({ empleados: response.data }); // guarda la lista de sucursales en el estado
+      })
+      .catch(error => {
+        this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
+      });
+  }
+
+  handleSucursal = () => {
+    axios.get('http://localhost:5236/api/sucursal') // obtiene la lista de sucursales desde el API
+      .then(response => {
+        this.setState({ sucursales: response.data }); // guarda la lista de sucursales en el estado
       })
       .catch(error => {
         this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
@@ -103,7 +132,7 @@ class GestionPlanillas extends Component {
 
   // función que renderiza el componente
 render() {
-  const { planillas, error, showDialog, showtwoDialog, showthreeDialog } = this.state;
+  const { planillas, error, showDialog, showtwoDialog } = this.state;
 
   return (
     <div style={{ backgroundColor: '#fff', textAlign: 'center' }}>
@@ -117,6 +146,8 @@ render() {
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago mensual</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago por clase</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago por hora</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Editar</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Eliminar</th>
           </tr>
         </thead>
         <tbody>
@@ -126,6 +157,14 @@ render() {
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_mensual}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_horas}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_clase}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
+                <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
+                onClick={() => this.getPlanilla(planilla.identificador)}>Editar</button> 
+              </td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
+                <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#c92d15', border: '2px solid #c92d15', cursor: 'pointer' }} 
+                onClick={() => this.deletePlanilla(planilla.identificador)}>Eliminar</button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -177,8 +216,7 @@ render() {
         </div>
         )}
 
-      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
-      onClick={this.toggletD}>Editar planilla</button>
+      
       {showtwoDialog && (
           <div
             style={{
@@ -213,56 +251,10 @@ render() {
             }}
           >
             {/* contenido del diálogo */}
-            <EditarPlanillaFormulario 
+            <EditarPlanillaFormulario
+              editName={this.state.identificador}
               onClose={this.toggletD}
               onEditPlanilla={this.handlePlanilla}
-            />
-            
-          </div>
-        </CSSTransition>
-          </div>
-        </div>
-        )}
-
-      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#c92d15', border: '2px solid #c92d15', cursor: 'pointer' }} 
-      onClick={this.togglethD}>Eliminar planilla</button>
-      {showthreeDialog && (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: "rgba(0, 0, 0, 0.5)", // fondo semitransparente
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 999 // asegurarse de que el diálogo esté por encima del resto del contenido
-            }}
-          >
-            <div>
-          <CSSTransition in={this.state.isOpen} classNames="dialog" timeout={500}>
-          <div
-            className="dialog"
-            style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              borderRadius: "5px",
-              maxWidth: "80%",
-              maxHeight: "80%",
-              overflow: "auto",
-              marginBottom: "5px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)", // sombra para dar profundidad
-            }}
-          >
-            {/* contenido del diálogo */}
-            <EliminarPlanillaFormulario 
-              onClose={this.togglethD}
-              onDeletePlanilla={this.handlePlanilla}
             />
             
           </div>

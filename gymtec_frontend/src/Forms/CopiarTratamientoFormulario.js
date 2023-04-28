@@ -3,13 +3,14 @@ import axios from "axios";
 import { Form } from 'react-bootstrap';
 
 
-class EliminarPuestoFormulario extends Component {
+class CopiarTratamientoFormulario extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      identificador: "",
-      descripcion: "",
+      identificador: this.props.editName.tratamiento.identificador,
+      nombre: this.props.editName.tratamiento.nombre,
+      spa: "",
       showModal: false,
     };
 
@@ -23,12 +24,20 @@ class EliminarPuestoFormulario extends Component {
 
     // Enviar los datos al backend para crear una nueva sucursal
     axios
-      .delete("http://localhost:5236/api/puesto/"+this.state.identificador, {
+      .post("http://localhost:5236/api/tratamiento/", {
         identificador: this.state.identificador,
-        descripcion: this.state.descripcion,
+        nombre: this.state.nombre,
+        spa: this.state.spa
       })
+      .then((response) => {
+        // Actualizar el estado de los pacientes con los nuevos datos ingresados
+        this.props.onCopyTratamiento();
+      })
+      .catch((error) => {
+        this.setState({ error: error.message });
+      });
 
-    console.log("Puesto eliminado");
+    console.log("Tratamiento copiado");
     this.props.onClose();
   };
 
@@ -71,7 +80,7 @@ class EliminarPuestoFormulario extends Component {
         }}
       >
         <Form onSubmit={this.handleSubmit}>
-          <h2>Eliminar tratamiento</h2>
+          <h2>Copiar tratamiento</h2>
           <div className="form-input">
             <label htmlFor="identificador">Id:</label>
             <input
@@ -80,9 +89,29 @@ class EliminarPuestoFormulario extends Component {
               value={this.state.identificador}
               onChange={this.handleChange}
               required
+              disabled
             />
           </div>
-          
+          <div className="form-input">
+            <label htmlFor="nombre">Nombre:</label>
+            <input
+              type="text"
+              name="nombre"
+              value={this.state.nombre}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
+          <div className="form-input">
+            <label htmlFor="spa">Spa asociado:</label>
+            <input
+              type="text"
+              name="spa"
+              value={this.state.spa}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
             <div style={{marginTop: "20px"}}>
             <button type="submit" style={{
               backgroundColor: "#fff",
@@ -93,12 +122,12 @@ class EliminarPuestoFormulario extends Component {
               display: "block",
               margin: "0 auto",
               padding: "10px 20px"
-            }}>Eliminar puesto</button>
+            }}>Copiar tratamiento</button>
             </div>
 
-        </Form>
-      </div>
-    );
-  }
+      </Form>
+    </div>
+            );
+    }
 }
-export default EliminarPuestoFormulario;
+export default CopiarTratamientoFormulario;
