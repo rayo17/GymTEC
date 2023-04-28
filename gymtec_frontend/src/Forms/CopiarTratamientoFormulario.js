@@ -10,7 +10,7 @@ class CopiarTratamientoFormulario extends Component {
     this.state = {
       identificador: this.props.editName.tratamiento.identificador,
       nombre: this.props.editName.tratamiento.nombre,
-      spa: "",
+      spa: this.props.editName.tratamiento.spa,
       showModal: false,
     };
 
@@ -89,7 +89,6 @@ class CopiarTratamientoFormulario extends Component {
               value={this.state.identificador}
               onChange={this.handleChange}
               required
-              disabled
             />
           </div>
           <div className="form-input">

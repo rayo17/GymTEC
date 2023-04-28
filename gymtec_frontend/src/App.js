@@ -42,7 +42,7 @@ function App() {
             <Route path='/gestiontiposequipo' element={ <GestionTiposEquipo/> }/>
             <Route path='/gestionservicios' element={ <GestionServicios/> }/>
             <Route path='/gestionempleados' element={ <GestionEmpleados/> }/>
-            <Route path= '/configGimnasio' element={<ConfigGimnasio />}/>
+            <Route path='/configGimnasio' element={<ConfigGimnasio />}/>
             <Route path='/gestionempleados' element={ <GestionEmpleados/> }/>
 
             <Route path='/generacionplanilla' element={ <GeneracionPlanilla/> }/>
