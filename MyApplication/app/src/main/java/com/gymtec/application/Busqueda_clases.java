@@ -3,8 +3,10 @@ package com.gymtec.application;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,17 +20,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.gymtec.application.database.Sqlite;
+
 import java.util.Calendar;
 
 public class Busqueda_clases extends AppCompatActivity implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
 
     //Arrays de datos parametros de filtrado
-    String[] sucursales = {"Escazu", "Lindora", "Cartago", "Tres Rios"};
-    String[] tipos_clase = {"Zumba", "Natacion", "Boxeo"};
-
+    String[] sucursales;
+    String[][] tipos_clase;
     String[] dias_semana = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes","Sabado","Domingo"};
 
-
+    Sqlite databaseHelper;
     //Declaracion de parametros de elementos del view
     private TimePickerFragment timePicker;
     private TextView hora_inicio_tv;
@@ -47,13 +50,39 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
     private TextView dia_final_text;
     private TextView hora_final_text;
 
+    private int selected_type_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busqueda_clases);
 
+        databaseHelper = new Sqlite(getApplicationContext());
 
+        //sucursales population
+        Cursor cursor_sucursales = databaseHelper.getSucursal();
+        cursor_sucursales.moveToFirst();
+        int cantidad_sucursales = cursor_sucursales.getCount();
+        Log.d("Sucursales", String.valueOf(cantidad_sucursales));
+        sucursales = new String[cantidad_sucursales];
 
+        for(int i = 0; i<cantidad_sucursales; i++){
+            sucursales[i] = cursor_sucursales.getString(0);
+            cursor_sucursales.moveToNext();
+        }
+
+        //tipo population
+        Cursor cursor_tipos = databaseHelper.getTipo();
+        cursor_tipos.moveToFirst();
+        int cantidad_tipos = cursor_tipos.getCount();
+        Log.d("Tipos", String.valueOf(cantidad_tipos));
+        tipos_clase = new String[cantidad_tipos][2];
+
+        for(int i = 0; i<cantidad_tipos; i++){
+            tipos_clase[i][0] = cursor_tipos.getString(0);
+            tipos_clase[i][1] = cursor_tipos.getString(1);
+            cursor_tipos.moveToNext();
+        }
 
         //View elements binding
         Button start_hour_selector = (Button) findViewById(R.id.hora_inicio_btn);
@@ -183,13 +212,15 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
         PopupMenu popupMenu = new PopupMenu(Busqueda_clases.this, tipo_btn);
 
         for(int i = 0; i< tipos_clase.length;i++){
-            popupMenu.getMenu().add(i, i+1, i, tipos_clase[i]);
+            popupMenu.getMenu().add(i, i+1, i, tipos_clase[i][1]);
         }
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 tipo_txt.setText(item.getTitle());
+                selected_type_id = Integer.parseInt(tipos_clase[item.getItemId()-1][0]);
+                Log.d("Selected type", tipos_clase[item.getItemId()-1][0]);
                 return false;
             }
         });

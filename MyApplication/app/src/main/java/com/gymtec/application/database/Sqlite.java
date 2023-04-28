@@ -15,7 +15,7 @@ public class Sqlite extends SQLiteOpenHelper {
     private static final String DB_NAME = "GYMTECTEST";
 
     // below int is our database version
-    private static final int DB_VERSION = 7;
+    private static final int DB_VERSION = 11;
 
 
     public Sqlite(Context context) {
@@ -81,6 +81,25 @@ public class Sqlite extends SQLiteOpenHelper {
 
 
 
+        //population of sucursales
+        String sucursal1 = "INSERT INTO SUCURSAL(Nombre) VALUES('San Pedro');";
+        String sucursal3 = "INSERT INTO SUCURSAL(Nombre) VALUES('Cartago');";
+        String sucursal4 = "INSERT INTO SUCURSAL(Nombre) VALUES('Curridabat');";
+        String sucursal5 = "INSERT INTO SUCURSAL(Nombre) VALUES('Lindora');";
+        String sucursal6 = "INSERT INTO SUCURSAL(Nombre) VALUES('Paraiso');";
+        String sucursal7 = "INSERT INTO SUCURSAL(Nombre) VALUES('Guachipelin');";
+        String sucursal8 = "INSERT INTO SUCURSAL(Nombre) VALUES('Santa Ana');";
+
+        //population of tipos
+        String tipo1 = "INSERT INTO TIPO(Descripcion) VALUES('Spinning');";
+        String tipo2 = "INSERT INTO TIPO(Descripcion) VALUES('Esgrima');";
+        String tipo3 = "INSERT INTO TIPO(Descripcion) VALUES('Zumba');";
+        String tipo4 = "INSERT INTO TIPO(Descripcion) VALUES('Pilates');";
+        String tipo5 = "INSERT INTO TIPO(Descripcion) VALUES('Karate');";
+        String tipo6 = "INSERT INTO TIPO(Descripcion) VALUES('Gimnasia');";
+        String tipo7 = "INSERT INTO TIPO(Descripcion) VALUES('Nado sincronizado');";
+
+
         // at last we are calling a exec sql
         // method to execute above sql query
         db.execSQL(table_Sucursal);
@@ -89,8 +108,24 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(table_tipo_clase);
         db.execSQL(table_cliente);
         db.execSQL(table_clase_clientes);
+
         this.addNewCliente(db, "123456789","Fulano","Sutano","Smith", "Diaz","correo@correogymtec.com", "DistritoX", "CantonX", "ProvinciaX", "12345678" ,"19000101", "1", "2");
 
+        db.execSQL(sucursal1);
+        db.execSQL(sucursal3);
+        db.execSQL(sucursal4);
+        db.execSQL(sucursal5);
+        db.execSQL(sucursal6);
+        db.execSQL(sucursal7);
+        db.execSQL(sucursal8);
+
+        db.execSQL(tipo1);
+        db.execSQL(tipo2);
+        db.execSQL(tipo3);
+        db.execSQL(tipo4);
+        db.execSQL(tipo5);
+        db.execSQL(tipo6);
+        db.execSQL(tipo7);
 
     }
 
@@ -218,44 +253,43 @@ public class Sqlite extends SQLiteOpenHelper {
     }
 
     public Cursor getSucursal() {
-        // on below line we are creating a variable for
-        // our sqlite database and calling writable method
-        // as we are writing data in our database.
+
         SQLiteDatabase db = this.getWritableDatabase();
 
-
-
-        // on below line we are passing all values
-        // along with its key and value pair.
-        Cursor nombre_sucursal = db.rawQuery("SELECT Nombre FROM SUCURSAL", null);
-
+        // query to get Sucursal
+        Cursor nombre_sucursales = db.rawQuery("SELECT * FROM SUCURSAL", null);
 
         // at last we are closing our
         // database after adding database.
 
         //db.close();
-        return nombre_sucursal;
+        return nombre_sucursales;
+    }
+    public Cursor getTipo() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // query to get Sucursal
+        Cursor nombre_tipo = db.rawQuery("SELECT * FROM TIPO", null);
+
+        // at last we are closing our
+        // database after adding database.
+
+        //db.close();
+        return nombre_tipo;
     }
     public void addNewClase_Cliente(String Clase, String Cliente) {
 
-        // on below line we are creating a variable for
-        // our sqlite database and calling writable method
-        // as we are writing data in our database.
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // on below line we are creating a
         // variable for content values.
         ContentValues values = new ContentValues();
 
-        // on below line we are passing all values
         // along with its key and value pair.
         values.put("Clase", Clase);
         values.put("Cliente", Cliente);
 
-
-
-        // after adding all values we are passing
-        // content values to our table.
+        // insert content values to our table.
         db.insert("CLASE_CLIENTES", null, values);
 
         // at last we are closing our
