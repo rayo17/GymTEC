@@ -13,7 +13,8 @@ class GestionPlanillas extends Component {
     super(props);
   
     this.state = {
-      planillas: [], // lista de sucursales obtenidos desde el API
+      sucursales: [], // lista de sucursales obtenidos desde el API
+      empleados: [],
       
       showForm: false, // variable para mostrar/ocultar el formulario para agregar sucursales
       showtwoForm: false, // variable para mostrar/ocultar el formulario para añadir información adicional a un paciente existente
@@ -86,13 +87,24 @@ class GestionPlanillas extends Component {
   // función que se ejecuta cuando se carga el componente
   componentDidMount() {
     this.handlePlanilla(); // se obtiene la lista de sucursales
+    this.handleSucursal();
   }
 
   // función para obtener la lista de sucursales, y teléfonos desde el API
-  handlePlanilla = () => {
-    axios.get('http://localhost:5236/api/planillas') // obtiene la lista de sucursales desde el API
+  handleEmpleado = () => {
+    axios.get('http://localhost:5236/api/empleado') // obtiene la lista de sucursales desde el API
       .then(response => {
-        this.setState({ planillas: response.data }); // guarda la lista de sucursales en el estado
+        this.setState({ empleados: response.data }); // guarda la lista de sucursales en el estado
+      })
+      .catch(error => {
+        this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
+      });
+  }
+
+  handleSucursal = () => {
+    axios.get('http://localhost:5236/api/sucursal') // obtiene la lista de sucursales desde el API
+      .then(response => {
+        this.setState({ sucursales: response.data }); // guarda la lista de sucursales en el estado
       })
       .catch(error => {
         this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno

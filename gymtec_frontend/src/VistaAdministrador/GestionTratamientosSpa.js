@@ -6,6 +6,7 @@ import { CSSTransition } from 'react-transition-group';
 
 import NuevoTratamientoFormulario from '../Forms/NuevoTratamientoFormulario';
 import EditarTratamientoFormulario from '../Forms/EditarTratamientoFormulario';
+import CopiarTratamientoFormulario from '../Forms/CopiarTratamientoFormulario';
 
 
 class GestionTratamientosSpa extends Component {
@@ -84,6 +85,12 @@ class GestionTratamientosSpa extends Component {
     console.log("Tratamiento eliminado");
   };
 
+  displayTratamiento = (trat) => {
+    console.log(trat);
+    this.setState({tratamiento: trat})
+    this.togglethD()
+  }
+
   /* PARA COMPONENTES */
   // función que se ejecuta cuando se carga el componente
   componentDidMount() {
@@ -122,7 +129,7 @@ class GestionTratamientosSpa extends Component {
 
   // función que renderiza el componente
 render() {
-  const { tratamientos, error, showDialog, showtwoDialog } = this.state;
+  const { tratamientos, error, showDialog, showtwoDialog, showthreeDialog } = this.state;
 
   return (
     <div style={{ backgroundColor: '#fff', textAlign: 'center' }}>
@@ -137,6 +144,7 @@ render() {
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Spa Asociado</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Editar</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Eliminar</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Copiar</th>
           </tr>
         </thead>
         <tbody>
@@ -152,6 +160,10 @@ render() {
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
                 <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#c92d15', border: '2px solid #c92d15', cursor: 'pointer' }} 
                 onClick={() => this.deleteTratamiento(tratamiento.identificador)}>Eliminar</button>
+              </td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
+                <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#3498db', border: '2px solid #3498db', cursor: 'pointer' }} 
+                onClick={() => this.displayTratamiento(tratamiento)}>Copiar</button>
               </td>
             </tr>
           ))}
@@ -243,6 +255,53 @@ render() {
               editName={this.state.identificador}
               onClose={this.toggletD}
               onEditTratamiento={this.handleTratamiento}
+            />
+            
+          </div>
+        </CSSTransition>
+          </div>
+        </div>
+        )}
+
+        
+        {showthreeDialog && (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: "rgba(0, 0, 0, 0.5)", // fondo semitransparente
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 999 // asegurarse de que el diálogo esté por encima del resto del contenido
+            }}
+          >
+            <div>
+          <CSSTransition in={this.state.isOpen} classNames="dialog" timeout={500}>
+          <div
+            className="dialog"
+            style={{
+              backgroundColor: "#fff",
+              padding: "20px",
+              borderRadius: "5px",
+              maxWidth: "80%",
+              maxHeight: "80%",
+              overflow: "auto",
+              marginBottom: "5px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)", // sombra para dar profundidad
+            }}
+          >
+            {/* contenido del diálogo */}
+            <CopiarTratamientoFormulario
+              editName={this.state}
+              onClose={this.togglethD}
+              onCopyTratamiento={this.handleTratamiento}
             />
             
           </div>

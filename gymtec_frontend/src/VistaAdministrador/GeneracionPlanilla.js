@@ -62,8 +62,26 @@ class GeneracionPlanilla extends Component {
     this.setState(prevState => ({ showthreeDialog: !prevState.showthreeDialog }));
   };
 
+  getPlanilla = (x) => {
+    this.setState({identificador: x})
+    this.toggletD()
+  }
 
+  deletePlanilla = (plan) => {
+    axios
+      .delete("http://localhost:5236/api/Planillas/"+plan, {
+        
+      })
+      .then((response) => {
+        // Actualizar el estado de los pacientes con los nuevos datos ingresados
+        this.handlePlanilla();
+      })
+      .catch((error) => {
+        alert("No ha sido posible eliminar esta planilla")
+      });
 
+    console.log("Planilla eliminada");
+  };
   /* PARA COMPONENTES */
   // función que se ejecuta cuando se carga el componente
   componentDidMount() {
@@ -114,8 +132,10 @@ render() {
           <tr>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Identificador de empleado</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago mensual</th>
-            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago por clase</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago por hora</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago por clase</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Editar</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Eliminar</th>
           </tr>
         </thead>
         <tbody>
@@ -123,8 +143,16 @@ render() {
             <tr key={planilla.identificador}>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.identificador}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_mensual}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_horas}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_clase}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_horas} c/h </td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_clase} c/c </td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
+                <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
+                onClick={() => this.getPlanilla(planilla.identificador)}>Editar</button> 
+              </td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
+                <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#c92d15', border: '2px solid #c92d15', cursor: 'pointer' }} 
+                onClick={() => this.deletePlanilla(planilla.identificador)}>Eliminar</button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -176,8 +204,7 @@ render() {
         </div>
         )}
 
-      <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
-      onClick={this.toggletD}>Editar planilla</button>
+      
       {showtwoDialog && (
           <div
             style={{
@@ -212,7 +239,8 @@ render() {
             }}
           >
             {/* contenido del diálogo */}
-            <EditarPlanillaFormulario 
+            <EditarPlanillaFormulario
+              editName={this.state.identificador}
               onClose={this.toggletD}
               onEditPlanilla={this.handlePlanilla}
             />
