@@ -118,9 +118,9 @@ namespace GymTec_Api.Controllers
                     Numero_serie = m.Numero_serie,
                     Tipo = m.Tipo,
                     Marca = m.Marca,
-                    Sucursal = _context.Gimnasio
-                        .Where(g => g.Maquina == m.Numero_serie)
-                        .Select(g => g.Sucursal)
+                    Sucursal = _context.Sucursal
+                        .Where(g => g.Nombre == m.Numero_serie)
+                        .Select(g => g.Nombre)
                         .FirstOrDefault(),
                     Costo = m.Costo
                 })
