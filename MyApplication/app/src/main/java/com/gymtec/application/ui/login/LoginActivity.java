@@ -1,21 +1,20 @@
 package com.gymtec.application.ui.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.gymtec.application.MainActivity;
-import com.gymtec.application.database.Sqlite;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.gymtec.application.MainActivity;
 import com.gymtec.application.R;
-import com.gymtec.application.RegistroCliente;
+import com.gymtec.application.database.Sqlite;
+import com.gymtec.application.RegistroClienteActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_activity);
 
         //Autenticador
-        UserAuthentication authenticator = new UserAuthentication(this);
+        UserAuthentication authenticator = new UserAuthentication(getApplicationContext());
 
         //Caja de texto para cedula
         EditText cedula_editText = (EditText) findViewById(R.id.cedula_login_inpt);
@@ -39,8 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         Button login_register_btn = (Button) findViewById(R.id.login_register_btn);
 
 
-        database.addNewCliente("604740574","Daniel","Andres","Rayo", "Diaz","drayo.dard.16@gmail.com", "Chacarita", "Puntarenas", "Puntarenas", "1234567" ,"20000816", "70", "15");
-        database.addNewCliente("123456789","Daniel","Andres","Rayo", "Diaz","drayo.dard.16@gmail.com", "Chacarita", "Puntarenas", "Puntarenas", "12345678" ,"20000816", "70", "15");
+
 
         login_register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,11 +55,11 @@ public class LoginActivity extends AppCompatActivity {
                 else if(!authenticator.user_exist(cedula_input)){
                     Toast invalid_user = Toast.makeText(getApplicationContext(),R.string.User_Not_Register , Toast.LENGTH_LONG);
                     invalid_user.show();
-                    finish();
-                    Intent open_register = new Intent(getApplicationContext(), RegistroCliente.class);
+                    Intent open_register = new Intent(getApplicationContext(), RegistroClienteActivity.class);
                     open_register.putExtra("cedula_input", cedula_input);
                     open_register.putExtra("password_input", password_input);
                     startActivity(open_register);
+                    finish();
                 }
                 else if(!authenticator.password_correct(cedula_input,password_input)){
                     Toast incorrect_pwd = Toast.makeText(getApplicationContext(),R.string.incorrect_password , Toast.LENGTH_LONG);
@@ -70,10 +68,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 else {
                     finish();
-                    Intent open_register = new Intent(getApplicationContext(), RegistroCliente.class);
-                    open_register.putExtra("cedula_input", cedula_input);
-                    open_register.putExtra("password_input", password_input);
-                    startActivity(open_register);
+                    Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                    Cursor user = database.getCliente(cedula_input, password_input);
+                    user.moveToFirst();
+                    @SuppressLint("Range") String user_fname = user.getString(user.getColumnIndex("Primer_nombre"));
+                    @SuppressLint("Range") String user_lname = user.getString(user.getColumnIndex("Primer_apellido"));
+                    home.putExtra("nombre", user_fname);
+                    home.putExtra("apellido", user_lname);
+                    startActivity(home);
                 }
 
             }

@@ -15,39 +15,24 @@ import com.gymtec.application.database.Sqlite;
 
 public class UserAuthentication {
     //User temporal db
-    private final HashMap<String, String> user_ids = new HashMap<>();
-    private Sqlite database;
+
+    private final Sqlite databaseHandler;
+
 
     public UserAuthentication(Context context){
-        user_ids.put("604560524", "password");
-        database=new Sqlite(context);
+        databaseHandler=new Sqlite(context);
     }
 
     //
     public boolean user_exist(String user_id) {
-        Cursor info = database.getCliente(user_id);
-        String conversion=DatabaseUtils.dumpCursorToString(info);
-
-        if(info.moveToFirst()){
-            Log.d("cursor", DatabaseUtils.dumpCursorToString(info));
-            return true;
-        }
-        return false;
+        Cursor info = databaseHandler.getCliente(user_id);
+        return info.moveToFirst();
     }
 
-    /*
-  public boolean user_exists(String user_id)
-  {
 
-      return user_ids.containsKey(user_id);
-  }
-  */
-    @SuppressLint("Range")
     public boolean password_correct(String user_id, String input_password){
-        Cursor info = database.getCliente(user_id);
-        info.moveToFirst();
-        String infoPassword=info.getString(info.getColumnIndex("Contrasenna"));
-        return (infoPassword.equals(input_password));
+        Cursor info = databaseHandler.getCliente(user_id,input_password);
+        return info.moveToFirst();
 
-}
+    }
 }

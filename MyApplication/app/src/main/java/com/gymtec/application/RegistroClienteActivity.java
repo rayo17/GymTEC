@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.gymtec.application.database.Sqlite;
@@ -22,8 +21,9 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Calendar;
 
-public class RegistroCliente extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class RegistroClienteActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    Sqlite database;
     //Text Boxes
     EditText name_edittext;
     EditText lname_edittext;
@@ -47,6 +47,7 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
         Bundle extras = getIntent().getExtras();
         setContentView(R.layout.registro_cliente);
 
+        database=new Sqlite(getApplicationContext());
         //referencing UI
         fecha_edittext= (TextView) findViewById(R.id.user_date_text);
         age_edittext = (EditText) findViewById(R.id.user_Edad_edittext);
@@ -64,7 +65,7 @@ public class RegistroCliente extends AppCompatActivity implements DatePickerDial
 
         //Boton de seleccion de fecha
         Button seleccionarfecha_btn = (Button) findViewById(R.id.user_Fecha_nacimiento_btn);
-        Sqlite database=new Sqlite(this);
+
        // database.addNewCliente("604740578", "Pepe","Andres", "Rayo", "Diaz", "drayo.dard.16@gmail.com","Chacarita","Puntarenas","Puntarenas", 50, "123456789", "16-08-2002","54","20");
 
         //Boton de registro

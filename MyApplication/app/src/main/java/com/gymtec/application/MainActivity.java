@@ -1,6 +1,8 @@
 package com.gymtec.application;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import com.gymtec.application.ui.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
     TextView user_name_text;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -34,20 +37,19 @@ public class MainActivity extends AppCompatActivity {
         Button personal_info = (Button) findViewById(R.id.personal_info_btn);
         Button buscar_clases_btn = (Button) findViewById(R.id.buscar_clases_btn);
         Button mic_clases_btn = (Button) findViewById(R.id.ver_clases_btn);
-        //Sqlite database=new Sqlite((this);
 
         //login_or_not
-        Sqlite database=new Sqlite(MainActivity.this);
-
         if (extras==null){
 
             startActivity(login_intent);
             finish();
+
         }
         else{
 
-            String username = extras.getString("Username");
-            user_name_text.setText(username);
+            String username = extras.getString("nombre");
+            String lastname = extras.getString("apellido");
+            user_name_text.setText(username+" "+lastname);
         }
         buscar_clases_btn.setOnClickListener(new View.OnClickListener() {
             @Override

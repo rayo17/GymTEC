@@ -5,6 +5,6 @@ import junit.framework.TestCase;
 import org.junit.runner.RunWith;
 
 
-public class RegistroClienteTest extends TestCase {
+public class RegistroClienteActivityTest extends TestCase {
 
 }
