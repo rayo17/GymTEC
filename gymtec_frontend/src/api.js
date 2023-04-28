@@ -172,8 +172,19 @@ export const eliminarEmpleado = async (id) => {
   return response.data;
 };
 
-export const obtenerTratamientos = async (id) => {
+export const obtenerTratamiento = async (id) => {
   const response = await axios.get(`${API_URL}/Tratamiento/${id}`);
   return response.data;
 }
-
+export const obtenerTratamientos = async() => {
+  const response = await axios.get(`${API_URL}/Tratamiento`);
+  return response.data;
+}
+export const obtenerClases = async()=>{
+  const response = await axios.get(`${API_URL}/Clase`);
+  return response.data;
+}
+export const obtenerSucursales = async()=>{
+  const response = await axios.get(`${API_URL}/Sucursal`);
+  return response.data;
+}

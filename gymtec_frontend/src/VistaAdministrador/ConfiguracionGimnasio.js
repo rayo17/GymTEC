@@ -1,5 +1,8 @@
 import React from 'react';
-import { obtenerGimnasios, agregarEmpleado, actualizarEmpleado, eliminarEmpleado } from '../api';
+import {
+    obtenerGimnasios, obtenerProductos, obtenerMaquinas, obtenerClases, obtenerTratamientos, obtenerSucursales,
+    agregarEmpleado, actualizarEmpleado, eliminarEmpleado
+} from '../api';
 import './GestionProductos.css';
 import { Navbar } from "../Templates/Navbar"
 
@@ -8,7 +11,12 @@ class ConfiguracionGimnasio extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            empleados: [],
+            sucursales: [],
+            gimnasios: [],
+            productos: [],
+            maquinas: [],
+            clases: [],
+            tratamientos: [],
             formValues: { sucursal: '', maquina: '', clase: '', producto: '', tratamiento: '' },
             formMode: 'agregar',
             currentProductId: '',
@@ -17,10 +25,21 @@ class ConfiguracionGimnasio extends React.Component {
         this.handleOuterClick = this.handleOuterClick.bind(this);
     }
 
-    // Función para obtener los empleados desde la API
+    // Función para obtener los gimnasios desde la API
     getProductos = async () => {
         const data = await obtenerGimnasios();
-        this.setState({ empleados: data });
+        const datap = await obtenerProductos();
+        const maq = await obtenerMaquinas();
+        const clas = await obtenerClases();
+        const trat = await obtenerTratamientos();
+        const suc = await obtenerSucursales();
+        this.setState({ productos: datap });
+        this.setState({ gimnasios: data });
+        this.setState({ maquinas: maq });
+        this.setState({ clases: clas });
+        this.setState({ tratamientos: trat });
+        this.setState({ sucursales: suc });
+        console.log(data)
     };
 
     // Función para manejar el envío del formulario
@@ -73,10 +92,10 @@ class ConfiguracionGimnasio extends React.Component {
         document.removeEventListener('mousedown', this.handleOuterClick);
     }
     render() {
-        const { empleados, formValues, formMode, showPopup } = this.state;
+        const { gimnasios, productos, clases, maquinas, tratamientos, sucursales } = this.state;
         return (
             <div className="gestion-productos-container">
-                <Navbar/>
+                <Navbar />
                 <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Configuracion de Gimnasio</h1>
                 <table className="tabla-productos">
                     <thead>
@@ -86,10 +105,11 @@ class ConfiguracionGimnasio extends React.Component {
                             <th style={{ padding: '10px' }}>Clase</th>
                             <th style={{ padding: '10px' }}>Producto</th>
                             <th style={{ padding: '10px' }}>Tratamiento</th>
+                            <th style={{ padding: '10px' }}>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {empleados.map((gimnasio) => (
+                        {gimnasios.map((gimnasio) => (
                             <tr key={gimnasio.sucursal}>
                                 <td style={{ padding: '10px' }}>{gimnasio.sucursal}</td>
                                 <td style={{ padding: '10px' }}>{gimnasio.maquina}</td>
@@ -102,49 +122,75 @@ class ConfiguracionGimnasio extends React.Component {
                                 </td>
                             </tr>
                         ))}
+                        {productos.map((producto) => (
+                            <tr key={producto.codigo_barras}>
+                                <td style={{ padding: '10px' }}>{producto.codigo_barras}</td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td style={{ padding: '10px' }}>{producto.nombre}</td>
+                                <td style={{ padding: '10px' }}></td>
+
+                                <td>
+                                    <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(producto)}>Asignar</button>
+                                    <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(producto.codigo_barras)}>Eliminar</button>
+                                </td>
+                            </tr>
+                        ))}
+                        {clases.map((clase) => (
+                            <tr key={clase.codigo_barras}>
+                                <td style={{ padding: '10px' }}>{clase.identificador}</td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td style={{ padding: '10px' }}>{clase.nombre}</td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td>
+                                    <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(clase)}>Asignar</button>
+                                    <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(clase.identificador)}>Eliminar</button>
+                                </td>
+                            </tr>
+                        ))}
+                        {maquinas.map((maquina) => (
+                            <tr key={maquina.numero_serie}>
+                                <td style={{ padding: '10px' }}>{maquina.numero_serie}</td>
+                                <td style={{ padding: '10px' }}>{maquina.tipo}</td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td>
+                                    <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(maquina)}>Asignar</button>
+                                    <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(maquina.numero_serie)}>Eliminar</button>
+                                </td>
+                            </tr>
+                        ))}
+                        {tratamientos.map((tratamiento) => (
+                            <tr key={tratamiento.identificador}>
+                                <td style={{ padding: '10px' }}>{tratamiento.identificador}</td>
+                                <td style={{ padding: '10px' }}>{tratamiento.nombre}</td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td>
+                                    <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(tratamiento)}>Asignar</button>
+                                    <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(tratamiento.numero_serie)}>Eliminar</button>
+                                </td>
+                            </tr>
+                        ))}
+                        {sucursales.map(sucursale => (
+                            <tr key={sucursale.nombre}>
+                                <td style={{ padding: '10px' }}>{sucursale.nombre}</td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td style={{ padding: '10px' }}></td>
+                                <td style={{ padding: '10px' }}>
+                                    <button className="btn-accion btn-editar"
+                                        onClick={() => this.getSucursal(sucursale.nombre)}>Editar</button>
+                                    <button className="btn-accion btn-editar"
+                                        onClick={() => this.deleteSucursal(sucursale.nombre)}>Eliminar</button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
-                <button className="btn-agregar" onClick={() => this.setState({ showPopup: true })}>Agregar</button>
-                {showPopup && (
-                    <div className="popup-container">
-                        <div className="popup">
-                            <h2>{formMode === 'agregar' ? 'Agregar Empleado' : 'Actualizar Empleado'}</h2>
-                            <form onSubmit={this.handleSubmit}>
-                                <div>
-                                    <label htmlFor="sucursal">sucursal:</label>
-                                    <input type="text" id="sucursal" name="sucursal" value={formValues.sucursal} disabled={formMode === 'editar'} onChange={this.handleInputChange} placeholder="sucursal" />
-                                </div>
-                                <div>
-                                    <label htmlFor="nombre">Nombre completo:</label>
-                                    <input type="text" id="maquina" name="maquina" value={formValues.maquina} onChange={this.handleInputChange} placeholder="Primer nombre" />
-                                    <input type="text" id="clase" name="clase" value={formValues.clase} onChange={this.handleInputChange} placeholder="Segundo nombre" />
-                                    <input type="text" id="producto" name="producto" value={formValues.producto} onChange={this.handleInputChange} placeholder="Primer apellido" />
-                                    <input type="text" id="tratamiento" name="tratamiento" value={formValues.tratamiento} onChange={this.handleInputChange} placeholder="Segundo apellido" />
-                                </div>
-                                <div>
-                                    <label htmlFor="ubicacion">Ubicacion:</label>
-                                    <input type="text" id="distrito" name="distrito" value={formValues.distrito} onChange={this.handleInputChange} placeholder="distrito" />
-                                    <input type="text" id="canton" name="canton" value={formValues.canton} onChange={this.handleInputChange} placeholder="canton" />
-                                    <input type="text" id="provincia" name="provincia" value={formValues.provincia} onChange={this.handleInputChange} placeholder="provincia" />
-                                </div>
-                                <div>
-                                    <label htmlFor="salario">salario:</label>
-                                    <input type="number" id="salario" name="salario" value={formValues.salario} onChange={this.handleInputChange} placeholder="salario" />
-                                </div>
-                                <div>
-                                    <label htmlFor="Correo">Correo:</label>
-                                    <input type="text" id="correo_electronico" name="correo_electronico" value={formValues.correo_electronico} onChange={this.handleInputChange} placeholder="Correo electronico" />
-                                </div>
-                                <div>
-                                    <label htmlFor="contrasenna">Contraseña:</label>
-                                    <input type="text" id="contrasenna" name="contrasenna" value={formValues.contrasenna} disabled={formMode === 'editar'} onChange={this.handleInputChange} placeholder="Contraseña" />
-                                </div>
-                                <button type="submit" className="btn-submit">{formMode === 'agregar' ? 'Agregar' : 'Actualizar'}</button>
-                                {formMode === 'editar' && (<button type="button" className="btn-cancelar" onClick={() => this.setState({ showPopup: false })}>Cancelar</button>)}
-                            </form>
-                        </div>
-                    </div>
-                )}
             </div>
         );
     }
