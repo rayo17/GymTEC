@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Button mic_clases_btn = (Button) findViewById(R.id.ver_clases_btn);
 
         //login_or_not
-        if (extras==null){
+        if (extras==null || extras.getString("nombre") == null){
 
             startActivity(login_intent);
             finish();

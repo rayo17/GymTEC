@@ -48,4 +48,5 @@
     <string name="cupo_clase">Cupo disponible</string>
     <string name="User_Not_Register">Usuario no registrado</string>
     <string name="incorrect_password">Contraseña incorrecta</string>
+    <string name="No_filter">Todos/as</string>
 </resources>

@@ -34,8 +34,7 @@ public class Sqlite extends SQLiteOpenHelper {
                 " PRIMARY KEY(Nombre));";
 
 
-        String table_clase = "CREATE TABLE CLASE (Identificador VARCHAR(10) NOT NULL, " +
-                "Nombre VARCHAR(20) NOT NULL,"+
+        String table_clase = "CREATE TABLE CLASE (Identificador INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 "Capacidad INT NOT NULL, "+
                 "Grupal INT NOT NULL, " +
                 "Tipo VARCHAR(30) NOT NULL, " +
@@ -44,15 +43,12 @@ public class Sqlite extends SQLiteOpenHelper {
                 "Hora_inicio VARCHAR(5) NOT NULL, " +
                 "Hora_fin VARCHAR(5) NOT NULL, " +
                 "Sucursal VARCHAR(30),"+
-                "PRIMARY KEY(Identificador));";
+                "FOREIGN KEY (Sucursal) REFERENCES SUCURSAL(Nombre),"+
+                "FOREIGN KEY (Tipo) REFERENCES TIPO(Id));";
 
         String table_tipo = "CREATE TABLE TIPO (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 "Descripcion VARCHAR(30)  NOT NULL);";
 
-        String table_tipo_clase = "CREATE TABLE TIPO_CLASE (Tipo_id INTEGER NOT NULL,  " +
-                "Clase_id VARCHAR(10) NOT NULL,"+
-                "FOREIGN KEY (Tipo_id) REFERENCES TIPO(Id),"+
-                "FOREIGN KEY (Clase_id) REFERENCES CLASE(Identificador));";
 
         String table_cliente = "CREATE TABLE CLIENTE (Cedula VARCHAR(10) NOT NULL, " +
                 "Primer_nombre VARCHAR(20) NOT NULL, "+
@@ -91,21 +87,43 @@ public class Sqlite extends SQLiteOpenHelper {
         String sucursal8 = "INSERT INTO SUCURSAL(Nombre) VALUES('Santa Ana');";
 
         //population of tipos
-        String tipo1 = "INSERT INTO TIPO(Descripcion) VALUES('Spinning');";
-        String tipo2 = "INSERT INTO TIPO(Descripcion) VALUES('Esgrima');";
-        String tipo3 = "INSERT INTO TIPO(Descripcion) VALUES('Zumba');";
-        String tipo4 = "INSERT INTO TIPO(Descripcion) VALUES('Pilates');";
-        String tipo5 = "INSERT INTO TIPO(Descripcion) VALUES('Karate');";
-        String tipo6 = "INSERT INTO TIPO(Descripcion) VALUES('Gimnasia');";
-        String tipo7 = "INSERT INTO TIPO(Descripcion) VALUES('Nado sincronizado');";
+        String tipo1 = "INSERT INTO TIPO(Descripcion) VALUES('Indoor Cycling');";
+        String tipo2 = "INSERT INTO TIPO(Descripcion) VALUES('Pilates');";
+        String tipo3 = "INSERT INTO TIPO(Descripcion) VALUES('Yoga');";
+        String tipo4 = "INSERT INTO TIPO(Descripcion) VALUES('Zumba');";
+        String tipo5 = "INSERT INTO TIPO(Descripcion) VALUES('Natación');";
 
+        //population of clases
+        String clase1 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(22,1,3,1,'Jose Ramirez','12:00', 'Curridabat');";
+        String clase2 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(15,1,4,3,'Ernesto Zamora','7:00','8:00','Santa Ana');";
+        String clase3 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(30,1,2, 6, 'Roxanna Cisneros','8:00','10:00','Lindora');";
+        String clase4 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(10,1,5,1, 'Benjamín Quesada','16:00','17:30','Curridabat');";
+        String clase5 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(1,0,5,7 'Yendry Castillo','14:00','15:30','Cartago');";
+        String clase6 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(40,1,4,2 'Roberta Gonzalez','17:00','19:00','Guachipelin');";
+        String clase7 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(12,1,2,5 'Mariana Santamaría','18:00','19:30','Cartago');";
+        String clase8 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(8,1,1,7 'Marcos Guzman','10:00','11:00','San Pedro');";
+        String clase9 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(20,1,3,3 'George Smith','19:00','20:30','Santa Ana');";
+        String clase10 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase11= "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase12 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase13= "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase14= "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase15 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase16 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase17 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase18 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase19 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase20 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase21= "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase22= "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase23= "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
+        String clase24= "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES();";
 
         // at last we are calling a exec sql
         // method to execute above sql query
         db.execSQL(table_Sucursal);
         db.execSQL(table_clase);
         db.execSQL(table_tipo);
-        db.execSQL(table_tipo_clase);
         db.execSQL(table_cliente);
         db.execSQL(table_clase_clientes);
 
@@ -124,8 +142,6 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(tipo3);
         db.execSQL(tipo4);
         db.execSQL(tipo5);
-        db.execSQL(tipo6);
-        db.execSQL(tipo7);
 
     }
 
@@ -230,7 +246,7 @@ public class Sqlite extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cedula_contr_cliente = db.rawQuery("SELECT * FROM CLIENTE WHERE Cedula = "+cedula+
-                " AND Contrasenna = "+contrasenna, null);
+                " AND Contrasenna = "+"'"+contrasenna+"'", null);
 
 
         //db.close();
