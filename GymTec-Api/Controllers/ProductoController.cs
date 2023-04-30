@@ -110,6 +110,32 @@ namespace GymTec_Api.Controllers
             return producto;
         }
 
+        [HttpGet("conSucursal")]
+        public async Task<ActionResult<IEnumerable<ProductoSucursalInfo>>> GetProductosConSucursal()
+        {
+            var productosConSucursal = await _context.Producto
+                .Select(p => new ProductoSucursalInfo
+                {
+                    Codigo_barras = p.Codigo_barras,
+                    Nombre = p.Nombre,
+                    Sucursales = _context.ProductoSucursal
+                        .Where(ps => ps.Producto == p.Codigo_barras)
+                        .Select(ps => _context.Sucursal
+                            .Where(s => s.Nombre == ps.Sucursal)
+                            .Select(s => s.Nombre)
+                            .ToList()  // Convertir a lista de cadenas
+                        )
+                        .SelectMany(sucursales => sucursales)  // "Aplanar" la lista de listas
+                        .ToList()
+                })
+                .ToListAsync();
+
+
+            return productosConSucursal;
+        }
+
+
+
         private bool ProductoExists(string id)
         {
             return _context.Producto.Any(e => e.Codigo_barras == id);

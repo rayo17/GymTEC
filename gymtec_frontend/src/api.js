@@ -180,11 +180,63 @@ export const obtenerTratamientos = async() => {
   const response = await axios.get(`${API_URL}/Tratamiento`);
   return response.data;
 }
-export const obtenerClases = async()=>{
-  const response = await axios.get(`${API_URL}/Clase`);
+export const obtenerClasesS = async()=>{
+  const response = await axios.get(`${API_URL}/Clase/conSucursal`);
   return response.data;
 }
 export const obtenerSucursales = async()=>{
   const response = await axios.get(`${API_URL}/Sucursal`);
+  return response.data;
+}
+export const obtenerSucursalTratamiento = async() =>{
+  const response = await axios.get(`${API_URL}/Tratamiento/conSucursal`);
+  return response.data;
+}
+export const eliminarSucursalTratamiento = async(sucursal, tratamiento) => {
+  const response = await axios.delete(`${API_URL}/TratamientoSucursal/${sucursal}/${tratamiento}`);
+  return response.data;
+}
+export const obtenerSucursalProducto = async() =>{
+  const response = await axios.get(`${API_URL}/Producto/conSucursal`);
+  return response.data;
+}
+export const eliminarSucursalProducto = async(sucursal, producto) => {
+  const response = await axios.delete(`${API_URL}/ProductoSucursal/${sucursal}/${producto}`);
+  return response.data;
+}
+export const eliminarTratamiento = async(id)=>{
+  const response = await axios.delete(`${API_URL}/Tratamiento/${id}`);
+  return response.data;
+}
+export const eliminarClase = async(id)=>{
+  const response = await axios.delete(`${API_URL}/Clase/${id}`);
+  return response.data;
+}
+export const asisgnarMaquina = async(id, sucursal)=>{
+  const response = await axios.put(`${API_URL}/Maquinas/maquina/${id}/sucursal/${sucursal}`);
+  return response.data;
+}
+export const asignarProducto = async(id, sucursal)=>{
+  const response = await axios.post(`${API_URL}/ProductoSucursal/producto/${id}/sucursal/${sucursal}`);
+  return response.data;
+}
+export const asignarTratamiento = async(id, sucursal) => {
+  const response = await axios.post(`${API_URL}/TratamientoSucursal/${id}/${sucursal}`);
+  return response.data;
+}
+export const obtenerClases = async()=>{
+  const response = await axios.get(`${API_URL}/Clase`);
+  return response.data;
+}
+export const actualizarClase = async(id, clase)=>{
+  const response = await axios.put(`${API_URL}/Clase/${id}`, clase);
+  return response.data;
+}
+export const agregarClase = async(clase)=>{
+  const response = await axios.post(`${API_URL}/Clase`, clase);
+  return response.data;
+}
+export const eliminarAsoMaquina = async(id)=>{
+  const response = await axios.delete(`${API_URL}/Maquinas/${id}/sucursal`);
   return response.data;
 }

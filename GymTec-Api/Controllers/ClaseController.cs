@@ -45,6 +45,10 @@ namespace GymTec_Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Clase>> PostClase(Clase clase)
         {
+            if (clase.Sucursal == "")
+            {
+                clase.Sucursal = null;
+            }
             _context.Clase.Add(clase);
             try
             {
@@ -69,6 +73,10 @@ namespace GymTec_Api.Controllers
         [HttpPut("{identificador}")]
         public async Task<IActionResult> PutClase(string identificador, Clase clase)
         {
+            if (clase.Sucursal == "")
+            {
+                clase.Sucursal = null;
+            }
             if (identificador != clase.Identificador)
             {
                 return BadRequest();
@@ -109,6 +117,20 @@ namespace GymTec_Api.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+        [HttpGet("conSucursal")]
+        public async Task<ActionResult<IEnumerable<ClaseSucursal>>> GetClaseConSucursal()
+        {
+            var clasesConSucursal = await _context.Clase
+                .Select(p => new ClaseSucursal {
+                    Identificador = p.Identificador,
+                    Clase = p.Nombre,
+                    Sucursal = _context.Sucursal.Where(s => s.Nombre == p.Sucursal).Select(s => s.Nombre)
+                        .FirstOrDefault()
+                        })
+                .ToListAsync();
+
+            return clasesConSucursal;
         }
 
         private bool ClaseExists(string identificador)

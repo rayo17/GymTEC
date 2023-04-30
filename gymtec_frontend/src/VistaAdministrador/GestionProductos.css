@@ -173,3 +173,19 @@ tr:hover {
   color: #912723;
   cursor: pointer;
 }
+.minimalist-option {
+  background-color: transparent;
+  color: #555;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px;
+}
+.select-box {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}

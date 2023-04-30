@@ -119,16 +119,58 @@ namespace GymTec_Api.Controllers
                     Tipo = m.Tipo,
                     Marca = m.Marca,
                     Sucursal = _context.Sucursal
-                        .Where(g => g.Nombre == m.Numero_serie)
+                        .Where(g => g.Nombre == m.Sucursal)
                         .Select(g => g.Nombre)
                         .FirstOrDefault(),
                     Costo = m.Costo
                 })
                 .ToListAsync();
-
+            
             return maquinasConGimnasio;
         }
+
+        // DELETE: api/Maquinas/5/sucursal
+        [HttpDelete("{id}/sucursal")]
+        public async Task<IActionResult> DeleteMaquinaSucursal(string id)
+        {
+            var maquina = await _context.Maquina.FindAsync(id);
         
+            if (maquina == null)
+            {
+                return NotFound();
+            }
+        
+            maquina.Sucursal = null;
+        
+            await _context.SaveChangesAsync();
+        
+            return NoContent();
+        }
+
+        [HttpPut("maquina/{id}/sucursal/{nombreSucursal}")]
+        public async Task<IActionResult> UpdateMaquinaSucursal(string id, string nombreSucursal)
+        {
+            var maquina = await _context.Maquina.FindAsync(id);
+
+            if (maquina == null)
+            {
+                return NotFound();
+            }
+
+            maquina.Sucursal = nombreSucursal;
+
+
+            if (maquina.Sucursal == null)
+            {
+                return NotFound("No se encontró la sucursal especificada.");
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+
         private bool MaquinaExists(string id)
         {
             return _context.Maquina.Any(e => e.Numero_serie == id);
