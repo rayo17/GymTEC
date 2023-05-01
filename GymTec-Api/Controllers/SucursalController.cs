@@ -26,6 +26,21 @@ namespace GymTec_Api.Controllers
         {
             return await _context.Sucursal.ToListAsync();
         }
+        [HttpGet("conTodo")]
+        public async Task<ActionResult<IEnumerable<SucursalDTO>>> GetAllData()
+        {
+            var sucursales = await _context.Sucursal
+                .Select(s => new SucursalDTO
+                {
+                    Id = s.Nombre,
+                    Productos = _context.ProductoSucursal.Where(ps => ps.Sucursal == s.Nombre).Select(ps => ps.Producto).ToList(),
+                    Clases = _context.ClaseSucursal.Where(cs => cs.Sucursal == s.Nombre).Select(cs => cs.Clase).ToList(),
+                    Tratamientos = _context.TratamientoSucursal.Where(ms => ms.Sucursal == s.Nombre).Select(ms => ms.Tratamiento).ToList()
+                })
+                .ToListAsync();
+
+            return sucursales;
+        }
 
         // GET: api/Sucursal/NombreSucursal
         [HttpGet("{nombre}")]
@@ -111,10 +126,10 @@ namespace GymTec_Api.Controllers
                 _context.SucursalTelefonos.Remove(s);
             }
             
-            var sucTrat = _context.Tratamiento.Where(t => t.Spa == nombre);
+            var sucTrat = _context.TratamientoSucursal.Where(t => t.Sucursal == nombre);
             foreach (var t in sucTrat)
             {
-                _context.Tratamiento.Remove(t);
+                _context.TratamientoSucursal.Remove(t);
             }
 
             _context.SaveChanges();

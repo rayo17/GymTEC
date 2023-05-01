@@ -240,3 +240,20 @@ export const eliminarAsoMaquina = async(id)=>{
   const response = await axios.delete(`${API_URL}/Maquinas/${id}/sucursal`);
   return response.data;
 }
+export const obtenerSucursalClase = async() =>{
+  const response = await axios.get(`${API_URL}/Clase/conSucursal`);
+  return response.data;
+}
+export const eliminarSucursalClase = async(sucursal, clase) => {
+  const response = await axios.delete(`${API_URL}/Clase/ClaseSucursal/${sucursal}/${clase}`);
+  return response.data;
+}
+export const asignarClase = async(id, sucursal) => {
+  const response = await axios.post(`${API_URL}/Clase/ClaseSucursal/${id}/${sucursal}`);
+  return response.data;
+}
+export const SucursalTodo = async() =>{
+  const response = await axios.get(`${API_URL}/Sucursal/conTodo`);
+  return response.data;
+
+}

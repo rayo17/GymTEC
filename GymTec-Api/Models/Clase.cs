@@ -14,5 +14,4 @@ public class Clase
     public string Instructor { get; set; }
     public string Hora_inicio { get; set; }
     public string Hora_fin { get; set; }
-    public string? Sucursal { get; set; }
 }

@@ -22,6 +22,7 @@ namespace GymTec_Api.Data
             modelBuilder.Entity<Tipo_equipo>().HasKey(s => new { s.Descripcion, s.Identificador });
             modelBuilder.Entity<TratamientoSucursal>().HasKey(s => new { s.Sucursal, s.Tratamiento });
             modelBuilder.Entity<ProductoSucursal>().HasKey(s => new { s.Sucursal, s.Producto });
+            modelBuilder.Entity<ClaseSucursal>().HasKey(s => new{s.Sucursal, s.Clase});
 
         }
         
@@ -43,6 +44,8 @@ namespace GymTec_Api.Data
         public DbSet<TratamientoSucursal> TratamientoSucursal { get; set; }
         
         public DbSet<ProductoSucursal> ProductoSucursal { get; set; }
+        
+        public DbSet<ClaseSucursal> ClaseSucursal { get; set; }
 
 
     }

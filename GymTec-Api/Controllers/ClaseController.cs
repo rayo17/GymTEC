@@ -41,42 +41,28 @@ namespace GymTec_Api.Controllers
             return clase;
         }
 
-        // POST: api/Clase
         [HttpPost]
         public async Task<ActionResult<Clase>> PostClase(Clase clase)
         {
-            if (clase.Sucursal == "")
+            if (!ModelState.IsValid)
             {
-                clase.Sucursal = null;
+                return BadRequest(ModelState);
             }
+
             _context.Clase.Add(clase);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (ClaseExists(clase.Identificador))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetClase), new { identificador = clase.Identificador }, clase);
         }
-
-        // PUT: api/Clase/5
+        // GET: api/TratamientoSucursal
+        [HttpGet("ClaseSucursal")]
+        public IEnumerable<ClaseSucursal> GetClaseSucursal()
+        {
+            return _context.ClaseSucursal.ToList();
+        }
         [HttpPut("{identificador}")]
         public async Task<IActionResult> PutClase(string identificador, Clase clase)
         {
-            if (clase.Sucursal == "")
-            {
-                clase.Sucursal = null;
-            }
             if (identificador != clase.Identificador)
             {
                 return BadRequest();
@@ -103,6 +89,52 @@ namespace GymTec_Api.Controllers
             return NoContent();
         }
 
+        private bool ClaseExists(string identificador)
+        {
+            return _context.Clase.Any(e => e.Identificador == identificador);
+        }
+
+
+
+        // POST: api/TratamientoSucursal
+        [HttpPost("ClaseSucursal/{id}/{nombreSucursal}")]
+        public async Task<IActionResult> ClaseSucursalPost(string id, string nombreSucursal)
+        {
+            var clase = await _context.Clase.FindAsync(id);
+            
+            if (clase == null)
+            {
+                return NotFound();
+            }
+
+            var clase1 = new ClaseSucursal { Clase = id, Sucursal = nombreSucursal };
+            _context.ClaseSucursal.Add(clase1);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+
+        // DELETE: api/TratamientoSucursal/sucursal/tratamiento
+        [HttpDelete("ClaseSucursal/{sucursal}/{clase}")]
+        public async Task<IActionResult> DeleteClaseSucursal([FromRoute] string sucursal, [FromRoute] string clase)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var claseSucursal = await _context.ClaseSucursal.FindAsync(sucursal, clase);
+            if (claseSucursal == null)
+            {
+                return NotFound();
+            }
+
+            _context.ClaseSucursal.Remove(claseSucursal);
+            await _context.SaveChangesAsync();
+
+            return Ok(claseSucursal);
+        }
+
         // DELETE: api/Clase/5
         [HttpDelete("{identificador}")]
         public async Task<IActionResult> DeleteClase(string identificador)
@@ -118,24 +150,46 @@ namespace GymTec_Api.Controllers
 
             return NoContent();
         }
-        [HttpGet("conSucursal")]
-        public async Task<ActionResult<IEnumerable<ClaseSucursal>>> GetClaseConSucursal()
+        // GET: api/TratamientoSucursal/sucursal
+        [HttpGet("ClaseSucursal/{sucursal}")]
+        public IActionResult GetClaseSucursal([FromRoute] string sucursal)
         {
-            var clasesConSucursal = await _context.Clase
-                .Select(p => new ClaseSucursal {
-                    Identificador = p.Identificador,
-                    Clase = p.Nombre,
-                    Sucursal = _context.Sucursal.Where(s => s.Nombre == p.Sucursal).Select(s => s.Nombre)
-                        .FirstOrDefault()
-                        })
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var claseSucursal = _context.ClaseSucursal.Where(ts => ts.Sucursal == sucursal);
+
+            if (claseSucursal == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(claseSucursal);
+        }
+        [HttpGet("conSucursal")]
+        public async Task<ActionResult<IEnumerable<ClaseSucursalInfo>>> GetClasesConSucursal()
+        {
+            var tratamientosConSucursal = await _context.Clase
+                .Select(p => new ClaseSucursalInfo {
+                    identificador = p.Identificador,
+                    Nombre = p.Nombre,
+                    Sucursales = _context.ClaseSucursal
+                        .Where(ps => ps.Clase == p.Identificador)
+                        .Select(ps => _context.Sucursal
+                                .Where(s => s.Nombre == ps.Sucursal)
+                                .Select(s => s.Nombre)
+                                .ToList()  // Convertir a lista de cadenas
+                        )
+                        .SelectMany(sucursales => sucursales)  // "Aplanar" la lista de listas
+                        .ToList()  // Convertir a lista de cadenas
+                })
                 .ToListAsync();
 
-            return clasesConSucursal;
-        }
 
-        private bool ClaseExists(string identificador)
-        {
-            return _context.Clase.Any(e => e.Identificador == identificador);
+
+            return tratamientosConSucursal;
         }
     }
 }

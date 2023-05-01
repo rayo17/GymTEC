@@ -1,5 +1,5 @@
 import React from 'react';
-import { obtenerClases, agregarClase, actualizarClase, eliminarClase, obtenerSucursales } from '../api';
+import { obtenerClases, agregarClase, actualizarClase, eliminarClase } from '../api';
 import './GestionProductos.css';
 import { Navbar } from "../Templates/Navbar"
 
@@ -7,9 +7,8 @@ class Clases extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sucursales: [],
             clases: [],
-            formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', sucursal: '', nombre: '', identificador: '' },
+            formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', nombre: '', identificador: '' },
             formMode: 'agregar',
             currentClaseId: '',
             showPopup: false
@@ -20,8 +19,6 @@ class Clases extends React.Component {
     // Función para obtener los clases desde la API
     getProductos = async () => {
         const data = await obtenerClases();
-        const suc = await obtenerSucursales();
-        this.setState({ sucursales: suc });
         this.setState({ clases: data });
     };
 
@@ -36,7 +33,7 @@ class Clases extends React.Component {
             await actualizarClase(this.state.currentClaseId, this.state.formValues);
         }
         this.getProductos();
-        this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', sucursal: '', nombre: '', identificador: '' }, formMode: 'agregar', showPopup: false });
+        this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', nombre: '', identificador: '' }, formMode: 'agregar', showPopup: false });
     };
 
     // Función para manejar el cambio de los inputs del formulario
@@ -59,7 +56,7 @@ class Clases extends React.Component {
         const container = document.querySelector('.popup');
         if (container && !container.contains(event.target)) {
             this.setState({ showPopup: false });
-            this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', sucursal: '', nombre: '', identificador: '' }, formMode: 'agregar', showPopup: false });
+            this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', nombre: '', identificador: '' }, formMode: 'agregar', showPopup: false });
         }
     };
     // Se ejecuta al cargar el componente
@@ -72,12 +69,12 @@ class Clases extends React.Component {
     };
 
     handleCerrarClick = () => {
-        this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', sucursal: '', nombre: '', identificador: '' }, formMode: 'agregar', showPopup: false });
+        this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', nombre: '', identificador: '' }, formMode: 'agregar', showPopup: false });
         this.setState({ showPopup: false });
         document.removeEventListener('mousedown', this.handleOuterClick);
     }
     render() {
-        const { clases, formValues, formMode, showPopup, sucursales } = this.state;
+        const { clases, formValues, formMode, showPopup } = this.state;
         return (
             <div className="gestion-productos-container">
                 <Navbar />
@@ -89,8 +86,6 @@ class Clases extends React.Component {
                             <th style={{ padding: '10px' }}>Instructor</th>
                             <th style={{ padding: '10px' }}>Tipo</th>
                             <th style={{ padding: '10px' }}>Capacidad</th>
-                            <th style={{ padding: '10px' }}>asociado</th>
-                            <th style={{ padding: '10px' }}>Sucursal</th>
                             <th style={{ padding: '10px' }}>Dia</th>
                             <th style={{ padding: '10px' }}>Hora Inicio</th>
                             <th style={{ padding: '10px' }}>Hora Fin</th>
@@ -104,8 +99,6 @@ class Clases extends React.Component {
                                 <td style={{ padding: '10px' }}>{clase.instructor}</td>
                                 <td style={{ padding: '10px' }}>{clase.tipo}</td>
                                 <td style={{ padding: '10px' }}>{clase.capacidad}</td>
-                                <td style={{ padding: '10px' }}>{clase.sucursal ? "Si" : "No"}</td>
-                                <td style={{ padding: '10px' }}>{clase.sucursal ? clase.sucursal : "No asociado"}</td>
                                 <td style={{ padding: '10px' }}>{clase.dia}</td>
                                 <td style={{ padding: '10px' }}>{clase.hora_inicio}</td>
                                 <td style={{ padding: '10px' }}>{clase.hora_fin}</td>
@@ -163,17 +156,6 @@ class Clases extends React.Component {
                                 <div>
                                     <label htmlFor="hora_fin">Hora fin:</label>
                                     <input type="time" id="hora_fin" name="hora_fin" value={formValues.hora_fin} onChange={this.handleInputChange} placeholder="hora_fin" />
-                                </div>
-                                <div>
-                                    <label htmlFor="sucursal">Sucursal:</label>
-                                    <select className="select-box" id="sucursal" name="sucursal" value={formValues.sucursal === "" ? null : formValues.sucursal} onChange={this.handleInputChange}>
-                                        <option value="">Selecciona una sucursal</option>
-                                        {sucursales.map((sucursal) => (
-                                            <option className="minimalist-option" key={sucursal.nombre} value={sucursal.nombre}>
-                                                {sucursal.nombre}
-                                            </option>
-                                        ))}
-                                    </select>
                                 </div>
                                 <button type="submit" className="btn-submit">{formMode === 'agregar' ? 'Agregar' : 'Actualizar'}</button>
                                 {formMode === 'editar' && (<button type="button" className="btn-cancelar" onClick={() => this.setState({ showPopup: false })}>Cancelar</button>)}
