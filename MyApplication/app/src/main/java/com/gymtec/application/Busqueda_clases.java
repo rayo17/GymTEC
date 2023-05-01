@@ -47,9 +47,8 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
     private TextView sucursal_txt;
     private TextView tipo_txt;
     private TextView dia_inicio_text;
-    private TextView hora_inicio_text;
     private TextView dia_final_text;
-    private TextView hora_final_text;
+
 
     private int selected_type_id;
 
@@ -162,16 +161,16 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
                 String[] filtros= new String[num_filtros];
 
                 //column names to make a null filter
-                String[] nombre_columnas = {"Sucursal", "Tipo", "1", "Hora_inicio", "7", "Hora_fin"};
+                String[] nombre_columnas = {"Sucursal", "Tipo", "'1'", "Hora_inicio", "'7'", "Hora_fin"};
 
                 //text values of the TextViews
                 String[] textvalues = new String[num_filtros];
                 textvalues[0] = (String) sucursal_txt.getText();
                 textvalues[1] = (String) tipo_txt.getText();
                 textvalues[2] = (String) dia_inicio_text.getText();
-                textvalues[3] = (String) hora_inicio_text.getText();
+                textvalues[3] = (String) hora_inicio_tv.getText();
                 textvalues[4] = (String) dia_final_text.getText();
-                textvalues[5] = (String) hora_final_text.getText();
+                textvalues[5] = (String) hora_final_tv.getText();
 
                 //setting the values for the filters
                 for(int i = 0;i<num_filtros;i++){
@@ -186,7 +185,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
 
                         }
                         //if the filter is a day of the week
-                        else if(i == 3 || i == 5){
+                        else if(i == 2 || i == 4){
                             filtros[i] = "'"+dias_dictionary.get(textvalues[i])+"'";
                         } else{
                             filtros[i] = "'"+textvalues[i]+"'";
@@ -234,9 +233,21 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
         //hora y minutos obtenidos
-        String hora = String.valueOf(hourOfDay);
-        String minuto = String.valueOf(minute);
-        String hora_minutos = hora + ":" + minuto;
+        String hora;
+        String minuto;
+        if (hourOfDay<10){
+            hora = "0"+String.valueOf(hourOfDay);
+        } else{
+            hora = String.valueOf(hourOfDay);
+        }
+
+        if (minute<10){
+            minuto = "0"+String.valueOf(minute);
+        } else{
+            minuto = String.valueOf(minute);
+        }
+
+        String hora_minutos = hora+":"+minuto;
 
         if (timePicker.flag == timePicker.FLAG_START_HOUR) {
             hora_inicio_tv.setText(hora_minutos);

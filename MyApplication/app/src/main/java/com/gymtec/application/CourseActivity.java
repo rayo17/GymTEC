@@ -32,12 +32,16 @@ public class CourseActivity extends AppCompatActivity {
             String dia = intent.getStringExtra("dia");
             String hora_inicio = intent.getStringExtra("hora inicio");
             String hora_final = intent.getStringExtra("hora final");
+            String instructor = intent.getStringExtra("instructor");
+            String capacidad = intent.getStringExtra("capacidad");
 
             binding.tipoClaseInfo.setText(tipo);
             binding.sucursalClaseInfo.setText(sucursal);
             binding.diaClaseInfo.setText(dia);
             binding.horaInicioClaseInfo.setText(hora_inicio);
             binding.horaFinalClaseInfo.setText(hora_final);
+            binding.instructorClaseInfo.setText(instructor);
+            binding.cuposDisponiblesClaseInfo.setText(capacidad);
         }
 
         binding.registrarClaseBtn.setOnClickListener(new View.OnClickListener() {

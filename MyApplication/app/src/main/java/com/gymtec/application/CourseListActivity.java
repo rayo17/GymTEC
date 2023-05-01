@@ -3,10 +3,13 @@ package com.gymtec.application;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.gymtec.application.database.Sqlite;
 import com.gymtec.application.databinding.ActivityCourseListBinding;
 
 import java.util.ArrayList;
@@ -14,24 +17,44 @@ import java.util.ArrayList;
 public class CourseListActivity extends AppCompatActivity {
 
     ActivityCourseListBinding binding;
+    Sqlite databaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCourseListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        String[] tipos =  {"Ciclismo", "Boxeo", "Spinning", "Pilates","Boxeo","Ciclismo","Tiro al blaco"};
-        String[] horas_inicio = {"12:00", "9:00", "7:00", "20:00","20:00","9:00", "3:00"};
-        String[] horas_final = {"13:00", "10:00", "9:30", "21:45","10:00","9:30","4:30"};
-        String[] dias = {"Lunes", "Lunes", "Miércoles", "Domingo","Viernes", "Miercoles", "Sabado"};
-        String[] sucursales = {"Escazu", "Lindora", "Cartago", "Tres Rios", "Leon XIII", "Desamparados","Desamparados"};
+        databaseHelper = new Sqlite(getApplicationContext());
+        Bundle extras = getIntent().getExtras();
 
         ArrayList<Course> courseArrayList = new ArrayList<>();
-
-        for(int i = 0;i<tipos.length;i++){
-            Course course = new Course(tipos[i],sucursales[i],dias[i],horas_inicio[i], horas_final[i]);
-            courseArrayList.add(course);
+        Cursor clases_filtradas = databaseHelper.getClass(
+                extras.getString("filtro_sucursal"),
+                extras.getString("filtro_tipo"),
+                extras.getString("filtro_dia_inicio"),
+                extras.getString("filtro_hora_inicio"),
+                extras.getString("filtro_dia_final"),
+                extras.getString("filtro_hora_final"));
+        int cantidad_clases = clases_filtradas.getCount();
+        Log.d("Cantidad de clases obtenidas", String.valueOf(cantidad_clases));
+        if(clases_filtradas.moveToFirst()){
+            for(int i = 0;i<cantidad_clases;i++){
+                Course course = new Course(
+                        clases_filtradas.getString(0),
+                        clases_filtradas.getString(1),
+                        clases_filtradas.getString(2),
+                        clases_filtradas.getString(3),
+                        clases_filtradas.getString(4),
+                        clases_filtradas.getString(5),
+                        clases_filtradas.getString(6),
+                        clases_filtradas.getString(7)
+                );
+                courseArrayList.add(course);
+                clases_filtradas.moveToNext();
+            }
         }
+
+
 
         CourseListAdapter listAdapter = new CourseListAdapter(CourseListActivity.this, courseArrayList);
         binding.listview.setAdapter(listAdapter);
@@ -40,12 +63,14 @@ public class CourseListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(CourseListActivity.this, CourseActivity.class);
-                i.putExtra("tipo", tipos[position]);
-                i.putExtra("sucursal", sucursales[position]);
-                i.putExtra("dia", dias[position]);
-                i.putExtra("hora inicio", horas_inicio[position]);
-                i.putExtra("hora final", horas_final[position]);
-
+                i.putExtra("tipo", courseArrayList.get(position).tipo);
+                i.putExtra("sucursal", courseArrayList.get(position).sucursal);
+                i.putExtra("dia", courseArrayList.get(position).dia);
+                i.putExtra("hora inicio", courseArrayList.get(position).hora_inicio);
+                i.putExtra("hora final", courseArrayList.get(position).hora_final);
+                i.putExtra("instructor", courseArrayList.get(position).instructor);
+                i.putExtra("capacidad", courseArrayList.get(position).capacidad);
+                i.putExtra("identificador", courseArrayList.get(position).identificador);
                 startActivity(i);
             }
         });
