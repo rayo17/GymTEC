@@ -23,39 +23,7 @@ export const Navbar = () => {
                     </li>
 
                     <li className="nav-item">
-                        <Link className='nav-link' to='/gestionsucursales'>Sucursales</Link>
-                    </li>
-
-                    <li className="nav-item">
-                        <Link className="nav-link" to='/gestiontratamientosspa'>Tratamientos del spa</Link>
-                    </li>
-
-                    <li className="nav-item">
-                        <Link className="nav-link" to='/gestionpuestos'>Puestos</Link>
-                    </li>
-
-                    <li className="nav-item">
-                        <Link className="nav-link" to='/gestionplanillas'>Planilla</Link>
-                    </li>
-
-                    <li className="nav-item">
-                        <Link className="nav-link" to='/gestionproductos'>Productos</Link>
-                    </li>
-
-                    <li className="nav-item">
-                        <Link className="nav-link" to='/gestioninventario'>Inventario</Link>
-                    </li>
-
-                    <li className="nav-item">
-                        <Link className="nav-link" to='/gestiontiposequipo'>Equipo</Link>
-                    </li>
-
-                    <li className="nav-item">
-                        <Link className="nav-link" to='/gestionservicios'>Servicios</Link>
-                    </li>
-
-                    <li className="nav-item">
-                        <Link className="nav-link" to='/gestionempleados'>Empleados</Link>
+                        <Link className="nav-link" to='/vistaAdministrador'>Gestiones</Link>
                     </li>
 
                     <li className="nav-item">
