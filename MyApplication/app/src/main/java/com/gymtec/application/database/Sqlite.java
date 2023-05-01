@@ -72,7 +72,6 @@ public class Sqlite extends SQLiteOpenHelper {
                 "PRIMARY KEY(Clase, Cliente));";
 
         //CONSTRAINT
-
         String alter_clase= "ALTER TABLE CLASE ADD CONSTRAINT Week_days CHECK(1<=Dia AND  Dia<= 7);";
 
 
@@ -147,15 +146,16 @@ public class Sqlite extends SQLiteOpenHelper {
 
     }
 
-    public Cursor get_local_client(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor nombre = db.rawQuery("SELECT Primer_nombre, Primer_apellido FROM CLIENTE;", null);
-        return nombre;
-    }
     public void empty_Clients(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM CLIENTE;");
     }
+
+    public void empty_Clase_clientes(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM CLASE_CLIENTES;");
+    }
+
     /**
      * Adds new client to the db
      * @param cedula client´s id
@@ -333,7 +333,7 @@ public class Sqlite extends SQLiteOpenHelper {
         //db.close();
         return nombre_tipo;
     }
-    public void addNewClase_Cliente(String Clase, String Cliente) {
+    public void addNewClase_Cliente(String clase_id, String cliente_cedula) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -341,22 +341,25 @@ public class Sqlite extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         // along with its key and value pair.
-        values.put("Clase", Clase);
-        values.put("Cliente", Cliente);
+        values.put("Clase", clase_id);
+        values.put("Cliente", cliente_cedula);
 
         // insert content values to our table.
         db.insert("CLASE_CLIENTES", null, values);
 
-        // at last we are closing our
-        // database after adding database.
-        //db.close();
     }
 
 
+    /**
+     *
+     * @return cursor with the clases that the local user is subscribed to
+     */
     public Cursor getClass_cliente(){
         SQLiteDatabase db=this.getWritableDatabase();
-        Cursor Class_cliente = db.rawQuery("SELECT Cliente FROM CLASE_CLIENTES", null);
-        return Class_cliente;
+        Cursor clase=db.rawQuery("SELECT TIPO.Descripcion, CLASE.Sucursal, CLASE.Dia, CLASE.Hora_inicio, CLASE.Hora_fin, CLASE.Instructor, CLASE.Capacidad, CLASE.Identificador  FROM  CLASE_CLIENTES \n"+
+                " JOIN CLASE ON CLASE_CLIENTES.Clase = CLASE.Identificador"+
+                " JOIN TIPO ON CLASE.Tipo = TIPO.Id;", null);
+        return clase;
     }
 
     /**
@@ -382,7 +385,6 @@ public class Sqlite extends SQLiteOpenHelper {
                 " AND Hora_fin <= "+hora_f+";", null);
         return Class;
     }
-
 
 
     @Override

@@ -200,7 +200,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
                 view_clases.putExtra("filtro_hora_inicio", filtros[3]);
                 view_clases.putExtra("filtro_dia_final", filtros[4]);
                 view_clases.putExtra("filtro_hora_final", filtros[5]);
-
+                view_clases.putExtra("flag", "search");
                 startActivity(view_clases);
             }
         });

@@ -83,6 +83,7 @@ public class UserinfoActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     databaseHelper.empty_Clients();
+                    databaseHelper.empty_Clase_clientes();
                     Intent login = new Intent(getApplicationContext(), LoginActivity.class);
                     login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     finishAffinity();

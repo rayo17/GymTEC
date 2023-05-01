@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         user_name_text = (TextView) findViewById(R.id.user_name_show_text);
         Button personal_info = (Button) findViewById(R.id.personal_info_btn);
         Button buscar_clases_btn = (Button) findViewById(R.id.buscar_clases_btn);
-        Button mic_clases_btn = (Button) findViewById(R.id.ver_clases_btn);
+        Button mis_clases_btn = (Button) findViewById(R.id.ver_clases_btn);
 
         Cursor cliente = databaseHelper.getCliente();
 
@@ -66,6 +66,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent persona_info = new Intent(getApplicationContext(), UserinfoActivity.class);
                 startActivity(persona_info);
+            }
+        });
+
+        mis_clases_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mis_clases_display = new Intent(getApplicationContext(), CourseListActivity.class);
+                mis_clases_display.putExtra("flag", "view");
+                startActivity(mis_clases_display);
             }
         });
 }

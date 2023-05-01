@@ -2,7 +2,9 @@ package com.gymtec.application;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,13 +21,14 @@ public class CourseActivity extends AppCompatActivity {
      */
 
     ActivityCourseBinding binding;
-
+    Sqlite databaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCourseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        databaseHelper = new Sqlite(getApplicationContext());
 
         Intent intent = this.getIntent();
 
@@ -50,6 +53,13 @@ public class CourseActivity extends AppCompatActivity {
         binding.registrarClaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                Cursor cliente = databaseHelper.getCliente();
+                cliente.moveToFirst();
+                @SuppressLint("Range") String cedula = cliente.getString(cliente.getColumnIndex("Cedula"));
+
+                databaseHelper.addNewClase_Cliente( intent.getStringExtra("identificador"),cedula);
                 Toast registered = Toast.makeText(getApplicationContext(), "Clase registrada con éxito", Toast.LENGTH_LONG);
                 registered.show();
                 finish();
