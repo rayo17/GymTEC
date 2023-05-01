@@ -47,7 +47,7 @@ public class Sqlite extends SQLiteOpenHelper {
                 "FOREIGN KEY (Tipo) REFERENCES TIPO(Id));";
 
         String table_tipo = "CREATE TABLE TIPO (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                " VARCHAR(30)  NOT NULL);";
+                " Descripcion VARCHAR(30)  NOT NULL);";
 
 
         String table_cliente = "CREATE TABLE CLIENTE (Cedula VARCHAR(10) NOT NULL, " +
@@ -147,21 +147,30 @@ public class Sqlite extends SQLiteOpenHelper {
 
     }
 
+    public Cursor get_local_client(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor nombre = db.rawQuery("SELECT Primer_nombre, Primer_apellido FROM CLIENTE;", null);
+        return nombre;
+    }
+    public void empty_Clients(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM CLIENTE;");
+    }
     /**
-     * Creates new tuple in table Clientes
-     * @param cedula
-     * @param Primer_nombre
-     * @param Segundo_nombre
-     * @param Primer_apellido
-     * @param Segundo_apellido
-     * @param correo
-     * @param distrito
-     * @param canton
-     * @param provincia
-     * @param contrasenna
-     * @param Fecha_nacimiento
-     * @param peso
-     * @param Imc
+     * Adds new client to the db
+     * @param cedula client´s id
+     * @param Primer_nombre client´s first name
+     * @param Segundo_nombre client´s middle name
+     * @param Primer_apellido client´s lastname 1
+     * @param Segundo_apellido client´s lastname 2
+     * @param correo client´s email
+     * @param distrito client´s district
+     * @param canton client´s town
+     * @param provincia client´s province
+     * @param contrasenna client´s password
+     * @param Fecha_nacimiento client´s birthdate
+     * @param peso client´s weight
+     * @param Imc client´s IMC
      */
     public void addNewCliente(String cedula, String Primer_nombre, String Segundo_nombre, String Primer_apellido, String Segundo_apellido, String correo, String distrito, String canton,
                               String provincia, String contrasenna, String Fecha_nacimiento, String peso, String Imc) {
@@ -201,6 +210,23 @@ public class Sqlite extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Adds new client to the database
+     * @param db database
+     * @param cedula client´s id
+     * @param Primer_nombre client´s first name
+     * @param Segundo_nombre client´s middle name
+     * @param Primer_apellido client´s lastname 1
+     * @param Segundo_apellido client´s lastname 2
+     * @param correo client´s email
+     * @param distrito client´s district
+     * @param canton client´s town
+     * @param provincia client´s province
+     * @param contrasenna client´s password
+     * @param Fecha_nacimiento client´s birthdate
+     * @param peso client´s weight
+     * @param Imc client´s IMC
+     */
     public void addNewCliente(SQLiteDatabase db,String cedula, String Primer_nombre, String Segundo_nombre, String Primer_apellido, String Segundo_apellido, String correo, String distrito, String canton,
                               String provincia, String contrasenna, String Fecha_nacimiento, String peso, String Imc) {
         // on below line we are creating a variable for
@@ -270,6 +296,16 @@ public class Sqlite extends SQLiteOpenHelper {
         return cedula_cliente;
     }
 
+    public Cursor getCliente() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cliente = db.rawQuery("SELECT * FROM CLIENTE;", null);
+        return cliente;
+    }
+
+    /**
+     *
+     * @return todas las sucursales en la base de datos
+     */
     public Cursor getSucursal() {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -282,6 +318,11 @@ public class Sqlite extends SQLiteOpenHelper {
 
         return nombre_sucursales;
     }
+
+    /**
+     *
+     * @return todos los tipos de clase en la base de datos
+     */
     public Cursor getTipo() {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -316,8 +357,6 @@ public class Sqlite extends SQLiteOpenHelper {
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor Class_cliente = db.rawQuery("SELECT Cliente FROM CLASE_CLIENTES", null);
         return Class_cliente;
-
-
     }
 
     /**

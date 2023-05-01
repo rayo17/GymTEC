@@ -5,7 +5,7 @@
     android:id="@+id/ed"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistroCliente">
+    tools:context=".RegistroClienteActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -43,25 +43,58 @@
                     android:padding="1sp"
                     android:scrollIndicators="top">
 
-                    <EditText
-                        android:id="@+id/user_Name_edittext"
-                        style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:ems="10"
-                        android:hint="Nombre"
-                        android:inputType="textPersonName"
-                        android:textSize="18sp" />
+                        android:layout_height="65sp"
+                        android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/user_Apellidos_edittext"
-                        style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
+                        <EditText
+                            android:id="@+id/user_Name_edittext"
+                            style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:layout_weight="1"
+                            android:hint="Nombre 1"
+                            android:inputType="textCapWords"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/user_2ndName_edittext"
+                            style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
+                            android:layout_width="match_parent"
+                            android:layout_height="65sp"
+                            android:layout_weight="1"
+                            android:hint="Nombre 2"
+                            android:inputType="text|textCapWords"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
-                        android:ems="10"
-                        android:hint="Apellidos"
-                        android:inputType="textPersonName"
-                        android:textSize="18sp" />
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/user_Apellido1_edittext"
+                            style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:layout_weight="1"
+                            android:hint="Apellido 1"
+                            android:inputType="text|textCapWords"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/user_Apellido2_edittext"
+                            style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
+                            android:layout_width="match_parent"
+                            android:layout_height="65sp"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="Apellido 2"
+                            android:inputType="text|textCapWords"
+                            android:textSize="18sp" />
+                    </LinearLayout>
 
                     <EditText
                         android:id="@+id/user_Cedula_edittext"
@@ -138,7 +171,7 @@
                             android:layout_weight="1"
                             android:ems="10"
                             android:hint="@string/prompt_province"
-                            android:inputType="textPersonName"
+                            android:inputType="text|textCapWords"
                             android:textSize="18sp" />
 
                         <EditText
@@ -149,7 +182,7 @@
                             android:layout_weight="1"
                             android:ems="10"
                             android:hint="@string/prompt_canton"
-                            android:inputType="textPersonName"
+                            android:inputType="text|textCapWords"
                             android:textSize="18sp" />
 
                         <EditText
@@ -160,7 +193,7 @@
                             android:layout_weight="1"
                             android:ems="10"
                             android:hint="@string/prompt_district"
-                            android:inputType="textPersonName"
+                            android:inputType="text|textCapWords"
                             android:textSize="18sp" />
 
                     </LinearLayout>

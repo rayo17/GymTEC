@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gymtec.application.database.Sqlite;
 import com.gymtec.application.databinding.ActivityCourseBinding;
 
 public class CourseActivity extends AppCompatActivity {
@@ -18,11 +19,13 @@ public class CourseActivity extends AppCompatActivity {
      */
 
     ActivityCourseBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCourseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         Intent intent = this.getIntent();
 

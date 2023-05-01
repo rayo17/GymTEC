@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,12 +22,14 @@ import com.gymtec.application.ui.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
     TextView user_name_text;
+    Sqlite databaseHelper;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         Intent login_intent = new Intent(this, LoginActivity.class);
         Bundle extras = getIntent().getExtras();
+        databaseHelper = new Sqlite(getApplicationContext());
 
 
 
@@ -38,17 +41,16 @@ public class MainActivity extends AppCompatActivity {
         Button buscar_clases_btn = (Button) findViewById(R.id.buscar_clases_btn);
         Button mic_clases_btn = (Button) findViewById(R.id.ver_clases_btn);
 
-        //login_or_not
-        if (extras==null || extras.getString("nombre") == null){
+        Cursor cliente = databaseHelper.getCliente();
 
+        if (!cliente.moveToFirst()){
             startActivity(login_intent);
             finish();
-
         }
         else{
 
-            String username = extras.getString("nombre");
-            String lastname = extras.getString("apellido");
+            String username = cliente.getString(1);
+            String lastname = cliente.getString(3);
             user_name_text.setText(username+" "+lastname);
         }
         buscar_clases_btn.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +59,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent buscar_clases = new Intent(getApplicationContext(),  Busqueda_clases.class);
                 startActivity(buscar_clases);
             }
-   });
+         });
+
+        personal_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent persona_info = new Intent(getApplicationContext(), UserinfoActivity.class);
+                startActivity(persona_info);
+            }
+        });
 }
 }

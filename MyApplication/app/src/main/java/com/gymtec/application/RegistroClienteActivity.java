@@ -6,6 +6,7 @@ import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -17,16 +18,20 @@ import android.widget.TextView;
 import com.gymtec.application.database.Sqlite;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Calendar;
 
 public class RegistroClienteActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    Sqlite database;
+    Sqlite databaseHelper;
     //Text Boxes
     EditText name_edittext;
+
+    EditText snd_name_edittext;
     EditText lname_edittext;
+    EditText lname2_edittext;
     EditText id_edittext;
     EditText age_edittext;
     TextView fecha_edittext;
@@ -47,12 +52,12 @@ public class RegistroClienteActivity extends AppCompatActivity implements DatePi
         Bundle extras = getIntent().getExtras();
         setContentView(R.layout.registro_cliente);
 
-        database=new Sqlite(getApplicationContext());
+        databaseHelper=new Sqlite(getApplicationContext());
         //referencing UI
         fecha_edittext= (TextView) findViewById(R.id.user_date_text);
         age_edittext = (EditText) findViewById(R.id.user_Edad_edittext);
         name_edittext = (EditText) findViewById(R.id.user_Name_edittext);
-        lname_edittext = (EditText) findViewById(R.id.user_Apellidos_edittext);
+        lname_edittext = (EditText) findViewById(R.id.user_Apellido1_edittext);
         id_edittext = (EditText) findViewById(R.id.user_Cedula_edittext);
         canton_edittext = (EditText) findViewById(R.id.user_canton_edittext);
         province_edittext = (EditText) findViewById(R.id.user_provincia_edittext);
@@ -62,11 +67,10 @@ public class RegistroClienteActivity extends AppCompatActivity implements DatePi
         weight_edittext = (EditText) findViewById(R.id.user_weight_edittext);
         imc_edittext = (EditText) findViewById(R.id.user_imc_edittext);
         password_edittext = (EditText) findViewById(R.id.user_passwordregistry_edittext);
-
+        snd_name_edittext = (EditText) findViewById(R.id.user_2ndName_edittext);
+        lname2_edittext = (EditText) findViewById(R.id.user_Apellido2_edittext);
         //Boton de seleccion de fecha
         Button seleccionarfecha_btn = (Button) findViewById(R.id.user_Fecha_nacimiento_btn);
-
-       // database.addNewCliente("604740578", "Pepe","Andres", "Rayo", "Diaz", "drayo.dard.16@gmail.com","Chacarita","Puntarenas","Puntarenas", 50, "123456789", "16-08-2002","54","20");
 
         //Boton de registro
         Button registrarse_btn = (Button) findViewById(R.id.user_registrarse_btn);
@@ -91,10 +95,28 @@ public class RegistroClienteActivity extends AppCompatActivity implements DatePi
         registrarse_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = String.valueOf(name_edittext.getText()) +" "+ String.valueOf(lname_edittext.getText());
-                Intent main_screen= new Intent(getApplicationContext(), MainActivity.class);
-                main_screen.putExtra("Username", username);
-                startActivity(main_screen);
+                String id = String.valueOf(id_edittext.getText());
+                String username = String.valueOf(name_edittext.getText());
+                String snd_name = String.valueOf(snd_name_edittext.getText());
+                String apellido1 = String.valueOf(lname_edittext.getText());
+                String apellido2 = String.valueOf(lname2_edittext.getText());
+                String correo_e = String.valueOf(email_edittext.getText());
+                String distrito = String.valueOf(district_edittext.getText());
+                String canton = String.valueOf(canton_edittext.getText());
+                String provincia = String.valueOf(province_edittext.getText());
+                String pwd = String.valueOf(password_edittext.getText());
+                String bdate = String.valueOf(fecha_edittext.getText());
+                String weight = String.valueOf(weight_edittext.getText());
+                String imc = String.valueOf(imc_edittext.getText());
+                databaseHelper.empty_Clients();
+                databaseHelper.addNewCliente(
+                        id, username,snd_name,apellido1,apellido2,correo_e,distrito,canton,provincia,
+                        pwd, bdate, weight, imc);
+
+                Intent home = new Intent(RegistroClienteActivity.this, MainActivity.class);
+                home.putExtra("nombre", username);
+                home.putExtra("apellido", apellido1);
+                startActivity(home);
                 finish();
             }
         });
@@ -109,8 +131,9 @@ public class RegistroClienteActivity extends AppCompatActivity implements DatePi
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, day);
 
+        SimpleDateFormat SDFormat = new SimpleDateFormat("yyyy-MM-dd");
         fecha_numerica = String.valueOf(year)+String.valueOf(month)+String.valueOf(day);
-        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+        String currentDateString = SDFormat.format(c.getTime());
 
 
         fecha_edittext.setText(currentDateString);
