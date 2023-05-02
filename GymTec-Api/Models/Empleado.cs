@@ -17,5 +17,6 @@ public class Empleado
     public int Salario { get; set; }
     public string Sucursal { get; set; }
     public string Correo_electronico { get; set; }
+    public int Clases_impartidas { get; set; }
     public string Contrasenna { get; set; }
 }
