@@ -116,6 +116,8 @@ public class RegistroClienteActivity extends AppCompatActivity implements DatePi
                 Intent home = new Intent(RegistroClienteActivity.this, MainActivity.class);
                 home.putExtra("nombre", username);
                 home.putExtra("apellido", apellido1);
+                home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finishAffinity();
                 startActivity(home);
                 finish();
             }

@@ -61,7 +61,11 @@ public class CourseActivity extends AppCompatActivity {
 
                 databaseHelper.addNewClase_Cliente( intent.getStringExtra("identificador"),cedula);
                 Toast registered = Toast.makeText(getApplicationContext(), "Clase registrada con éxito", Toast.LENGTH_LONG);
+                finishAffinity();
                 registered.show();
+                Intent home = new Intent(CourseActivity.this, MainActivity.class);
+                finishAffinity();
+                startActivity(home);
                 finish();
             }
         });
