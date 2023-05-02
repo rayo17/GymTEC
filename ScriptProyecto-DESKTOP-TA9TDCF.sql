@@ -7,8 +7,8 @@ CREATE TABLE SUCURSAL (
 	Horario_atencion VARCHAR(100) NOT NULL,
 	Administrador VARCHAR(9) NOT NULL,
 	Capacidad_maxima INT NOT NULL,
-	Activacion_spa INT NOT NULL,
-	Activacion_tienda INT NOT NULL,
+	Activacion_spa VARCHAR(15) NOT NULL,
+	Activacion_tienda VARCHAR(15) NOT NULL,
 
 	PRIMARY KEY(Nombre)
 );
@@ -32,21 +32,23 @@ CREATE TABLE EMPLEADO (
 	Salario INT NOT NULL,
 	Sucursal VARCHAR(30),
 	Correo_electronico VARCHAR(50) NOT NULL,
-	Contrasenna VARCHAR(30) NOT NULL,
+	Contrasenna VARCHAR(50) NOT NULL,
+	Clases_Impartidas INT NOT NULL,
+	Puesto INT NOT NULL,
 
 	PRIMARY KEY(Cedula)
 );
 
 CREATE TABLE PUESTO (
-	Identificador VARCHAR(9) NOT NULL,
-	Descripcion VARCHAR(20) NOT NULL,
+	Identificador INT IDENTITY(1,1) NOT NULL,
+	Descripcion VARCHAR(30) NOT NULL,
 
 	PRIMARY KEY(Identificador)
 );
 
 CREATE TABLE PLANILLA (
-	Identificador VARCHAR(9) NOT NULL,
-	Tipo VARCHAR(15) NOT NULL,
+	Identificador INT IDENTITY(1,1) NOT NULL,
+	Descripcion VARCHAR(15) NOT NULL,
 
 	PRIMARY KEY(Identificador)
 );
