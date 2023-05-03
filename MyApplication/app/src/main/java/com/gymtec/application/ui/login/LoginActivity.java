@@ -80,7 +80,8 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(home);
                         }
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        Toast incorrect_pwd = Toast.makeText(getApplicationContext(),"No Connection" , Toast.LENGTH_LONG);
+                        incorrect_pwd.show();
                     }
                 }
 

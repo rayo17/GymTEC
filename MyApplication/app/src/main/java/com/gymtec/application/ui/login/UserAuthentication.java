@@ -15,6 +15,8 @@ import com.gymtec.application.R;
 import com.gymtec.application.database.RemoteDBsendGet;
 import com.gymtec.application.database.Sqlite;
 
+import org.json.JSONObject;
+
 public class UserAuthentication {
     //User temporal db
     RemoteDBsendGet remotedb;
@@ -37,9 +39,28 @@ public class UserAuthentication {
     }
 
 
-    public boolean password_correct(String user_id, String input_password){
-        Cursor info = databaseHandler.getCliente(user_id,input_password);
-        return info.moveToFirst();
+    public boolean password_correct(String user_id, String input_password) throws Exception {
+        String url_root = this.ctx.getResources().getString(R.string.api_url);
+        String request = this.ctx.getResources().getString(R.string.clientPasswordCheck)+user_id+"/"+input_password;
+        if(this.remotedb.responseCode(url_root+request)==200){
+            JSONObject client_data = new JSONObject(this.remotedb.sendGet(url_root+request));
+            String cedula = client_data.getString("cedula");
+            String p_nombre = client_data.getString("primer_nombre");
+            String s_nombre = client_data.getString("segundo_nombre");
+            String p_apellido = client_data.getString("primer_apellido");
+            String s_apellido = client_data.getString("segundo_apellido");
+            String email = client_data.getString("correo_electronico");
+            String distrito = client_data.getString("distrito");
+            String canton = client_data.getString("canton");
+            String provincia = client_data.getString("provincia");
+            String pwd = client_data.getString("contrasenna");
+            String bdate = client_data.getString("fecha_nacimiento");
+            String peso = client_data.getString("peso");
+            String imc = client_data.getString("imc");
+            this.databaseHandler.addNewCliente(cedula,p_nombre,s_nombre,p_apellido,s_apellido,email,distrito,canton,provincia,pwd,bdate,peso,imc);
+            return true;
 
+        }
+        return false;
     }
 }

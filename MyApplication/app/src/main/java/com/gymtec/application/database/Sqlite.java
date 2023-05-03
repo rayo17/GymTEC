@@ -15,7 +15,7 @@ public class Sqlite extends SQLiteOpenHelper {
     private static final String DB_NAME = "GYMTECTEST";
 
     // below int is our database version
-    private static final int DB_VERSION = 13;
+    private static final int DB_VERSION = 14;
 
 
     public Sqlite(Context context) {
@@ -93,6 +93,7 @@ public class Sqlite extends SQLiteOpenHelper {
         String tipo5 = "INSERT INTO TIPO(Descripcion) VALUES('Natación');";
 
         //population of clases
+
         String clase1 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(22,1,3,1,'Jose Ramirez','12:00','13:00', 'Curridabat');";
         String clase2 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(15,1,4,3,'Ernesto Zamora','07:00','08:00','Santa Ana');";
         String clase3 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(30,1,2,6, 'Roxanna Cisneros','08:00','10:00','Lindora');";
@@ -115,8 +116,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(table_cliente);
         db.execSQL(table_clase_clientes);
 
-        this.addNewCliente(db, "123456789","Fulano","Sutano","Smith", "Diaz","correo@correogymtec.com", "DistritoX", "CantonX", "ProvinciaX", "12345678" ,"19000101", "1", "2");
-
+        /**
         db.execSQL(sucursal1);
         db.execSQL(sucursal3);
         db.execSQL(sucursal4);
@@ -142,7 +142,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(clase9);
         db.execSQL(clase10);
         db.execSQL(clase11);
-        db.execSQL(clase12);
+        db.execSQL(clase12);**/
 
     }
 
