@@ -109,7 +109,7 @@ namespace GymTec_Api.Controllers
                 }
             }
 
-            return CreatedAtAction("GetCliente", new { id = cliente.Cedula }, cliente);
+            return Ok(cliente);
         }
 
         // PUT: api/Cliente/5

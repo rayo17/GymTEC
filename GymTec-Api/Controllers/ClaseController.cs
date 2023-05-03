@@ -111,7 +111,7 @@ namespace GymTec_Api.Controllers
 
         // DELETE: api/TratamientoSucursal/sucursal/tratamiento
         [HttpDelete("ClaseSucursal/{sucursal}/{clase}")]
-        public async Task<IActionResult> DeleteClaseSucursal([FromRoute] string sucursal, [FromRoute] string clase)
+        public async Task<IActionResult> DeleteClaseSucursal([FromRoute] string sucursal, [FromRoute] int clase)
         {
             if (!ModelState.IsValid)
             {
@@ -132,7 +132,7 @@ namespace GymTec_Api.Controllers
 
         // DELETE: api/Clase/5
         [HttpDelete("{identificador}")]
-        public async Task<IActionResult> DeleteClase(string identificador)
+        public async Task<IActionResult> DeleteClase(int identificador)
         {
             var clase = await _context.Clase.FindAsync(identificador);
             if (clase == null)

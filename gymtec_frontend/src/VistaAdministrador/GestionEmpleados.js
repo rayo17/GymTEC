@@ -9,7 +9,7 @@ class GestionEmpleados extends React.Component {
         super(props);
         this.state = {
             empleados: [],
-            formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' },
+            formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna:'', sucursal: null, puesto:'', planilla:'', clases_impartidas: 0 },
             formMode: 'agregar',
             currentProductId: '',
             showPopup: false
@@ -25,14 +25,22 @@ class GestionEmpleados extends React.Component {
 
     // Función para manejar el envío del formulario
     handleSubmit = async (event) => {
+
+        
         event.preventDefault();
         if (this.state.formMode === 'agregar') {
+            if(this.state.formValues.sucursal === ''){
+                this.setState({formValues: {sucursal: null}});
+                console.log(this.state.formValues);
+                await agregarEmpleado(this.state.formValues);
+            }
+            console.log(this.state.formValues);
             await agregarEmpleado(this.state.formValues);
         } else {
             await actualizarEmpleado(this.state.currentProductId, this.state.formValues);
         }
         this.getProductos();
-        this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
+        this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna:'', sucursal: null, puesto:'', planilla:'', clases_impartidas: 0 }, formMode: 'agregar', showPopup: false });
     };
 
     // Función para manejar el cambio de los inputs del formulario
@@ -55,7 +63,7 @@ class GestionEmpleados extends React.Component {
         const container = document.querySelector('.popup');
         if (container && !container.contains(event.target)) {
             this.setState({ showPopup: false });
-            this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
+            this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna:'', sucursal: null, puesto:'', planilla:'', clases_impartidas: 0 }, formMode: 'agregar', showPopup: false });
         }
     };
     // Se ejecuta al cargar el componente
@@ -68,7 +76,7 @@ class GestionEmpleados extends React.Component {
     };
 
     handleCerrarClick = () => {
-        this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna: '' }, formMode: 'agregar', showPopup: false });
+        this.setState({ formValues: { cedula: '', primer_nombre: '', segundo_nombre: '', primer_apellido: '', segundo_apellido: '', distrito: '', canton: '', provincia: '', salario: '', correo_electronico: '', contrasenna:'', sucursal: null, puesto:'', planilla:'', clases_impartidas: 0 }, formMode: 'agregar', showPopup: false });
         this.setState({ showPopup: false });
         document.removeEventListener('mousedown', this.handleOuterClick);
     }
@@ -84,6 +92,9 @@ class GestionEmpleados extends React.Component {
                             <th style={{ padding: '10px' }}>Cedula</th>
                             <th style={{ padding: '10px' }}>Nombre Completo</th>
                             <th style={{ padding: '10px' }}>Ubicacion</th>
+                            <th style={{ padding: '10px' }}>Puesto</th>
+                            <th style={{ padding: '10px' }}>Sucursal</th>
+                            <th style={{ padding: '10px' }}>Planilla</th>
                             <th style={{ padding: '10px' }}>salario</th>
                             <th style={{ padding: '10px' }}>Correo</th>
                             <th style={{ padding: '10px' }}>Contraseña</th>
@@ -96,6 +107,10 @@ class GestionEmpleados extends React.Component {
                                 <td style={{ padding: '10px' }}>{empleado.cedula}</td>
                                 <td style={{ padding: '10px' }}>{empleado.primer_nombre} {empleado.segundo_nombre} {empleado.primer_apellido} {empleado.segundo_apellido}</td>
                                 <td style={{ padding: '10px' }}>{empleado.distrito} / {empleado.canton} / {empleado.provincia}</td>
+                                <td style={{ padding: '10px' }}>{empleado.puesto}</td>
+                                <td style={{ padding: '10px' }}>{empleado.sucursal}</td>
+                                <td style={{ padding: '10px' }}>{empleado.planilla}</td>
+
                                 <td style={{ padding: '10px' }}>₡{empleado.salario}</td>
                                 <td style={{ padding: '10px' }}>{empleado.correo_electronico}</td>
                                 <td style={{ padding: '10px' }}>{empleado.contrasenna}</td>
@@ -131,8 +146,20 @@ class GestionEmpleados extends React.Component {
                                     <input type="text" id="provincia" name="provincia" value={formValues.provincia} onChange={this.handleInputChange} placeholder="provincia" />
                                 </div>
                                 <div>
-                                    <label htmlFor="salario">salario:</label>
+                                    <label htmlFor="salario">Salario:</label>
                                     <input type="number" id="salario" name="salario" value={formValues.salario} onChange={this.handleInputChange} placeholder="salario" />
+                                </div>
+                                <div>
+                                    <label htmlFor="sucursal">Sucursal:</label>
+                                    <input type="string" id="sucursal" name="sucursal" value={formValues.sucursal} onChange={this.handleInputChange} placeholder="sucrsal" />
+                                </div>
+                                <div>
+                                    <label htmlFor="planilla">Planilla:</label>
+                                    <input type="number" id="planilla" name="planilla" value={formValues.planilla} disabled={formMode === 'editar'} onChange={this.handleInputChange} placeholder="planilla" />
+                                </div>
+                                <div>
+                                    <label htmlFor="puesto">Puesto:</label>
+                                    <input type="number" id="puesto" name="puesto" value={formValues.puesto} disabled={formMode === 'editar'} onChange={this.handleInputChange} placeholder="puesto" />
                                 </div>
                                 <div>
                                     <label htmlFor="Correo">Correo:</label>

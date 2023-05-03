@@ -50,13 +50,38 @@ namespace GymTec_Api.Controllers
 
             return CreatedAtAction(nameof(GetServicio), new { id = servicio.Identificador }, servicio);
         }
+        
+        // PUT: api/Servicio/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutServicio(int id, Servicio servicio)
+        {
+            if (id != servicio.Identificador)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(servicio).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+                    return NotFound();
+            }
+
+            return NoContent();
+        }
+
 
 
         // DELETE: api/SucursalTelefonos/5
-        [HttpDelete("{id}/{descripcion}")]
-        public ActionResult Delete(int id, string descripcion)
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
         {
-            var sT = _context.Servicio.FirstOrDefault(sT => sT.Identificador == id && sT.Descripcion == descripcion);
+            var sT = _context.Servicio.FirstOrDefault(sT => sT.Identificador == id);
             if (sT != null)
             {
                 _context.Servicio.Remove(sT);

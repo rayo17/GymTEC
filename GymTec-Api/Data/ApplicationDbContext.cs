@@ -18,7 +18,6 @@ namespace GymTec_Api.Data
         {
             modelBuilder.Entity<SucursalTelefonos>()
                 .HasKey(s => new {s.Sucursal, s.Telefono});
-            modelBuilder.Entity<Tipo_equipo>().HasKey(s => new { s.Descripcion, s.Identificador });
             modelBuilder.Entity<TratamientoSucursal>().HasKey(s => new { s.Sucursal, s.Tratamiento });
             modelBuilder.Entity<ProductoSucursal>().HasKey(s => new { s.Sucursal, s.Producto });
             modelBuilder.Entity<ClaseSucursal>().HasKey(s => new{s.Sucursal, s.Clase});
