@@ -13,8 +13,7 @@ class GestionPlanillas extends Component {
     super(props);
   
     this.state = {
-      sucursales: [], // lista de sucursales obtenidos desde el API
-      empleados: [],
+      planillas: [],
       
       showForm: false, // variable para mostrar/ocultar el formulario para agregar sucursales
       showtwoForm: false, // variable para mostrar/ocultar el formulario para añadir información adicional a un paciente existente
@@ -87,29 +86,19 @@ class GestionPlanillas extends Component {
   // función que se ejecuta cuando se carga el componente
   componentDidMount() {
     this.handlePlanilla(); // se obtiene la lista de sucursales
-    this.handleSucursal();
   }
 
   // función para obtener la lista de sucursales, y teléfonos desde el API
-  handleEmpleado = () => {
-    axios.get('http://localhost:5236/api/empleado') // obtiene la lista de sucursales desde el API
+  handlePlanilla = () => {
+    axios.get('http://localhost:5236/api/planillas') // obtiene la lista de sucursales desde el API
       .then(response => {
-        this.setState({ empleados: response.data }); // guarda la lista de sucursales en el estado
+        this.setState({ planillas: response.data }); // guarda la lista de sucursales en el estado
       })
       .catch(error => {
         this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
       });
   }
 
-  handleSucursal = () => {
-    axios.get('http://localhost:5236/api/sucursal') // obtiene la lista de sucursales desde el API
-      .then(response => {
-        this.setState({ sucursales: response.data }); // guarda la lista de sucursales en el estado
-      })
-      .catch(error => {
-        this.setState({ error: error.message }); // guarda el error en el estado en caso de que haya alguno
-      });
-  }
 
   // función para abrir el diálogo para agregar nuevas sucursales
   openDialog() {
@@ -143,9 +132,7 @@ render() {
         <thead>
           <tr>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Identificador de empleado</th>
-            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago mensual</th>
-            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago por clase</th>
-            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Pago por hora</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Tipo de pago</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Editar</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Eliminar</th>
           </tr>
@@ -154,9 +141,7 @@ render() {
           {planillas.map(planilla => (
             <tr key={planilla.identificador}>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.identificador}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_mensual}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_horas}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.pago_clase}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.tipo}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
                 <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
                 onClick={() => this.getPlanilla(planilla.identificador)}>Editar</button> 

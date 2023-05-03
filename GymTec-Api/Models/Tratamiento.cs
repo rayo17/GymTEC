@@ -7,4 +7,5 @@ public class Tratamiento
     [Key]
     public string identificador { get; set; }
     public string Nombre { get; set; }
+    public string Spa { get; set; }
 }

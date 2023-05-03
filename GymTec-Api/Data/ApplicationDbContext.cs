@@ -46,6 +46,10 @@ namespace GymTec_Api.Data
         public DbSet<ProductoSucursal> ProductoSucursal { get; set; }
         
         public DbSet<ClaseSucursal> ClaseSucursal { get; set; }
+        public DbSet<Gimnasio> Gimnasio { get; set; }
+        public DbSet<Clase_cliente> Clase_cliente { get; set; }
+        public DbSet<Tipo_equipo> Tipo_equipo { get; set; }
+        public DbSet<Servicio> Servicio { get; set; }
 
 
     }

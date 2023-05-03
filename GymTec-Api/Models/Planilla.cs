@@ -7,8 +7,7 @@ public class Planilla
 {
     [Key] 
     public string Identificador { get; set; }
-    public int Pago_mensual { get; set; }
-    public int Pago_horas { get; set; }
-    public int Pago_clase { get; set; }
-    
+
+    public string Tipo { get; set; }
+
 }
