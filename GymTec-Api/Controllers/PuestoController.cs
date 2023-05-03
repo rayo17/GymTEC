@@ -51,14 +51,8 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (PuestoExists(puesto.Identificador))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return Conflict();
+
             }
 
             return CreatedAtAction(nameof(GetPuesto), new { identificador = puesto.Identificador }, puesto);
@@ -66,7 +60,7 @@ namespace GymTec_Api.Controllers
 
         // PUT: api/Puesto/5
         [HttpPut("{identificador}")]
-        public async Task<IActionResult> PutPuesto(string identificador, Puesto puesto)
+        public async Task<IActionResult> PutPuesto(int identificador, Puesto puesto)
         {
             if (identificador != puesto.Identificador)
             {
@@ -81,14 +75,9 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PuestoExists(identificador))
-                {
+
                     return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    
             }
 
             return NoContent();
@@ -110,7 +99,7 @@ namespace GymTec_Api.Controllers
             return NoContent();
         }
 
-        private bool PuestoExists(string identificador)
+        private bool PuestoExists(int identificador)
         {
             return _context.Puesto.Any(e => e.Identificador == identificador);
         }

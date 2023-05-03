@@ -43,7 +43,7 @@ namespace GymTec_Api.Controllers
 
         // PUT: api/Planillas/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPlanilla(string id, Planilla planilla)
+        public async Task<IActionResult> PutPlanilla(int id, Planilla planilla)
         {
             if (id != planilla.Identificador)
             {
@@ -82,14 +82,8 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (PlanillaExists(planilla.Identificador))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return Conflict();
+                
             }
 
             return CreatedAtAction("GetPlanilla", new { id = planilla.Identificador }, planilla);
@@ -111,7 +105,7 @@ namespace GymTec_Api.Controllers
             return planilla;
         }
 
-        private bool PlanillaExists(string id)
+        private bool PlanillaExists(int id)
         {
             return _context.Planilla.Any(e => e.Identificador == id);
         }

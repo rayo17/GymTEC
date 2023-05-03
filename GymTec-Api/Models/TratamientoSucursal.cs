@@ -6,5 +6,5 @@ public class TratamientoSucursal
 {
     [ForeignKey("Sucursal")] 
     public string Sucursal { get; set; }
-    public string Tratamiento { get; set; }
+    public int Tratamiento { get; set; }
 }

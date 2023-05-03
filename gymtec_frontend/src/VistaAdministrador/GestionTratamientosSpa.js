@@ -141,7 +141,6 @@ render() {
           <tr>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Identificador</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Nombre</th>
-            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Spa Asociado</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Editar</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Eliminar</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Copiar</th>
@@ -152,7 +151,6 @@ render() {
             <tr key={tratamiento.identificador}>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{tratamiento.identificador}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{tratamiento.nombre}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{tratamiento.spa}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
                 <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
                 onClick={() => this.getTratamiento(tratamiento.identificador)}>Editar</button> 

@@ -118,10 +118,6 @@ class Clases extends React.Component {
                             <h2>{formMode === 'agregar' ? 'Agregar clase' : 'Actualizar clase'}</h2>
                             <form onSubmit={this.handleSubmit}>
                                 <div>
-                                    <label htmlFor="identificador">Id:</label>
-                                    <input type="text" id="identificador" name="identificador" value={formValues.identificador} disabled={formMode === 'editar'} onChange={this.handleInputChange} placeholder="id" />
-                                </div>
-                                <div>
                                     <label htmlFor="grupal">Grupal:</label>
                                     <select className="select-box" id="grupal" name="grupal" value={formValues.grupal} onChange={this.handleInputChange}>
                                         <option value="1">Individual</option>

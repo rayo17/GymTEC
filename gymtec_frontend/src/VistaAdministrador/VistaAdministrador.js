@@ -14,6 +14,7 @@ import ServicioIcon from '../Imgs/ServicioIcon.png'
 import SucursalIcon from '../Imgs/SucursalIcon.png'
 import TrtamientoIcon from '../Imgs/TratamientoIcon.png'
 import InventarioIcon from '../Imgs/InventarioIcon.png'
+import ClaseIcon from '../Imgs/ClaseIcon.png'
 
 
 const VistaAdministrador = () => {
@@ -57,6 +58,14 @@ const VistaAdministrador = () => {
                 imageUrl={PlanillaIcon}
                 body='Gestionar planillas'
                 url='/gestionplanillas'
+              />
+            </div>
+            <div className='col'>
+              <MiniCard
+                title='Clases'
+                imageUrl={ClaseIcon}
+                body='Gestionar clases'
+                url='/clases'
               />
             </div>
 
@@ -108,6 +117,7 @@ const VistaAdministrador = () => {
                 url='/gestionproductos'
               />
             </div>
+            
 
           </div>
 

@@ -13,7 +13,7 @@ public class Sucursal
     public string Horario_atencion { get; set; }
     public string Administrador { get; set; }
     public int Capacidad_maxima { get; set; }
-    public int Activacion_spa { get; set; }
-    public int Activacion_tienda { get; set; }
+    public string Activacion_spa { get; set; }
+    public string Activacion_tienda { get; set; }
 
 }

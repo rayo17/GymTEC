@@ -179,7 +179,7 @@ class ConfiguracionGimnasio extends React.Component {
                             <th style={{ padding: '10px' }}>Maquina</th>
                             <th style={{ padding: '10px' }}>Producto</th>
                             <th style={{ padding: '10px' }}>Tratamiento</th>
-                            <th style={{ padding: '10px' }}>Clases</th>
+                            <th style={{ padding: '10px' }}>Clase</th>
                             <th style={{ padding: '10px' }}>Acciones</th>
                         </tr>
                     </thead>
@@ -190,7 +190,7 @@ class ConfiguracionGimnasio extends React.Component {
                                 <td style={{ padding: '10px' }}></td>
                                 <td style={{ padding: '10px' }}></td>
                                 <td style={{ padding: '10px' }}></td>
-                                <td style={{ padding: '10px' }}>{clase.nombre}</td>
+                                <td style={{ padding: '10px' }}>#{clase.identificador}</td>
 
 
                                 <td>

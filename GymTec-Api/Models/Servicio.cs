@@ -6,8 +6,8 @@ namespace GymTec_Api.Models;
 
 public class Servicio
 {
-    [ForeignKey("Identificador")]
-    public string Identificador { get; set; }
+    [Key]
+    public int? Identificador { get; set; }
     public string Descripcion { get; set; }
     
     

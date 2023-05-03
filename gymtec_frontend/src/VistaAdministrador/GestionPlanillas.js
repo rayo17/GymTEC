@@ -132,7 +132,7 @@ render() {
         <thead>
           <tr>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Identificador de empleado</th>
-            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Tipo de pago</th>
+            <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Decripcion</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Editar</th>
             <th style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>Eliminar</th>
           </tr>
@@ -141,7 +141,7 @@ render() {
           {planillas.map(planilla => (
             <tr key={planilla.identificador}>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.identificador}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.tipo}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{planilla.descripcion}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
                 <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
                 onClick={() => this.getPlanilla(planilla.identificador)}>Editar</button> 

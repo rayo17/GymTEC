@@ -6,8 +6,8 @@ namespace GymTec_Api.Models;
 public class Planilla
 {
     [Key] 
-    public string Identificador { get; set; }
+    public int? Identificador { get; set; }
 
-    public string Tipo { get; set; }
+    public string Descripcion { get; set; }
 
 }

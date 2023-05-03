@@ -18,11 +18,11 @@ namespace GymTec_Api.Data
         {
             modelBuilder.Entity<SucursalTelefonos>()
                 .HasKey(s => new {s.Sucursal, s.Telefono});
-            modelBuilder.Entity<Servicio>().HasKey(s => new{s.Descripcion, s.Identificador});
             modelBuilder.Entity<Tipo_equipo>().HasKey(s => new { s.Descripcion, s.Identificador });
             modelBuilder.Entity<TratamientoSucursal>().HasKey(s => new { s.Sucursal, s.Tratamiento });
             modelBuilder.Entity<ProductoSucursal>().HasKey(s => new { s.Sucursal, s.Producto });
             modelBuilder.Entity<ClaseSucursal>().HasKey(s => new{s.Sucursal, s.Clase});
+            
 
         }
         
@@ -37,16 +37,12 @@ namespace GymTec_Api.Data
         public DbSet<Maquina> Maquina { get; set; }
         public DbSet<Producto> Producto { get; set; }
         public DbSet<Tratamiento> Tratamiento { get; set; }
-        public DbSet<Clase_cliente> Clase_cliente { get; set; }
-        public DbSet<Tipo_equipo> Tipo_equipo { get; set; }
-        public DbSet<Servicio> Servicio { get; set; }
-        
+
         public DbSet<TratamientoSucursal> TratamientoSucursal { get; set; }
         
         public DbSet<ProductoSucursal> ProductoSucursal { get; set; }
         
         public DbSet<ClaseSucursal> ClaseSucursal { get; set; }
-        public DbSet<Gimnasio> Gimnasio { get; set; }
         public DbSet<Clase_cliente> Clase_cliente { get; set; }
         public DbSet<Tipo_equipo> Tipo_equipo { get; set; }
         public DbSet<Servicio> Servicio { get; set; }

@@ -23,11 +23,15 @@ export const Navbar = () => {
                     </li>
 
                     <li className="nav-item">
-                        <Link className="nav-link" to='/vistaAdministrador'>Gestiones</Link>
+                        <Link className="nav-link" to='/administrador'>Gestiones</Link>
                     </li>
 
                     <li className="nav-item">
                         <Link className="nav-link" to='/generacionplanilla'>Generación planillas</Link>
+                    </li>
+
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/configGimnasio'>Configuracion gimnasio</Link>
                     </li>
                 </ul>
                 </div>
