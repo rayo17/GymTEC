@@ -52,30 +52,36 @@ public class LoginActivity extends AppCompatActivity {
                     invalid_user.show();
                 }
 
-                else if(!authenticator.user_exist(cedula_input)){
-                    Toast invalid_user = Toast.makeText(getApplicationContext(),R.string.User_Not_Register , Toast.LENGTH_LONG);
-                    invalid_user.show();
-                    Intent open_register = new Intent(getApplicationContext(), RegistroClienteActivity.class);
-                    open_register.putExtra("cedula_input", cedula_input);
-                    open_register.putExtra("password_input", password_input);
-                    startActivity(open_register);
-                    finish();
-                }
-                else if(!authenticator.password_correct(cedula_input,password_input)){
-                    Toast incorrect_pwd = Toast.makeText(getApplicationContext(),R.string.incorrect_password , Toast.LENGTH_LONG);
-                    incorrect_pwd.show();
-                }
-
                 else {
-                    finish();
-                    Intent home = new Intent(getApplicationContext(), MainActivity.class);
-                    Cursor user = database.getCliente(cedula_input, password_input);
-                    user.moveToFirst();
-                    @SuppressLint("Range") String user_fname = user.getString(user.getColumnIndex("Primer_nombre"));
-                    @SuppressLint("Range") String user_lname = user.getString(user.getColumnIndex("Primer_apellido"));
-                    home.putExtra("nombre", user_fname);
-                    home.putExtra("apellido", user_lname);
-                    startActivity(home);
+                    try {
+                        if(!authenticator.user_exist(cedula_input)){
+                            Toast invalid_user = Toast.makeText(getApplicationContext(),R.string.User_Not_Register , Toast.LENGTH_LONG);
+                            invalid_user.show();
+                            Intent open_register = new Intent(getApplicationContext(), RegistroClienteActivity.class);
+                            open_register.putExtra("cedula_input", cedula_input);
+                            open_register.putExtra("password_input", password_input);
+                            startActivity(open_register);
+                            finish();
+                        }
+                        else if(!authenticator.password_correct(cedula_input,password_input)){
+                            Toast incorrect_pwd = Toast.makeText(getApplicationContext(),R.string.incorrect_password , Toast.LENGTH_LONG);
+                            incorrect_pwd.show();
+                        }
+
+                        else {
+                            finish();
+                            Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                            Cursor user = database.getCliente(cedula_input, password_input);
+                            user.moveToFirst();
+                            @SuppressLint("Range") String user_fname = user.getString(user.getColumnIndex("Primer_nombre"));
+                            @SuppressLint("Range") String user_lname = user.getString(user.getColumnIndex("Primer_apellido"));
+                            home.putExtra("nombre", user_fname);
+                            home.putExtra("apellido", user_lname);
+                            startActivity(home);
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
             }

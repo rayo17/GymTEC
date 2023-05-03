@@ -62,7 +62,7 @@ namespace GymTec_Api.Controllers
         }
         
         // GET: api/Cliente/Exists
-        [HttpGet("{cedula}/Exists")]
+        [HttpGet("Exists/{cedula}")]
         public ActionResult  Get(string cedula)
         {
             var cliente = _context.Cliente.FirstOrDefault(e => e.Cedula == cedula);
