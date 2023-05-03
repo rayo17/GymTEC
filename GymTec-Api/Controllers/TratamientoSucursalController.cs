@@ -48,7 +48,7 @@ namespace GymTec_Api.Controllers
 
         // POST: api/TratamientoSucursal
         [HttpPost("{id}/{nombreSucursal}")]
-        public async Task<IActionResult> PostTratamientoSucursal(string id, string nombreSucursal)
+        public async Task<IActionResult> PostTratamientoSucursal(int id, string nombreSucursal)
         {
             var tratamiento = await _context.Tratamiento.FindAsync(id);
             
@@ -65,7 +65,7 @@ namespace GymTec_Api.Controllers
 
         // DELETE: api/TratamientoSucursal/sucursal/tratamiento
         [HttpDelete("{sucursal}/{tratamiento}")]
-        public async Task<IActionResult> DeleteTratamientoSucursal([FromRoute] string sucursal, [FromRoute] string tratamiento)
+        public async Task<IActionResult> DeleteTratamientoSucursal([FromRoute] string sucursal, [FromRoute] int tratamiento)
         {
             if (!ModelState.IsValid)
             {

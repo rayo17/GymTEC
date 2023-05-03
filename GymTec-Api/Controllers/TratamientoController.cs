@@ -42,7 +42,7 @@ namespace GymTec_Api.Controllers
 
         // PUT: api/Tratamiento/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTratamiento(string id, Tratamiento tratamiento)
+        public async Task<IActionResult> PutTratamiento(int id, Tratamiento tratamiento)
         {
             if (id != tratamiento.identificador)
             {
@@ -57,14 +57,7 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TratamientoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return NoContent();
@@ -81,14 +74,7 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (TratamientoExists(tratamiento.identificador))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return Conflict();
             }
 
             return CreatedAtAction("GetTratamiento", new { id = tratamiento.identificador }, tratamiento);
@@ -96,7 +82,7 @@ namespace GymTec_Api.Controllers
 
         // DELETE: api/Tratamiento/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Tratamiento>> DeleteTratamiento(string id)
+        public async Task<ActionResult<Tratamiento>> DeleteTratamiento(int id)
         {
             var tratamiento = await _context.Tratamiento.FindAsync(id);
             if (tratamiento == null)
@@ -133,7 +119,7 @@ namespace GymTec_Api.Controllers
             return tratamientosConSucursal;
         }
 
-        private bool TratamientoExists(string id)
+        private bool TratamientoExists(int id)
         {
             return _context.Tratamiento.Any(e => e.identificador == id);
         }

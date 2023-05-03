@@ -9,9 +9,7 @@ class EditarPlanillaFormulario extends Component {
 
     this.state = {
       identificador: this.props.editName,
-      pago_mensual: "",
-      pago_horas: "",
-      pago_clase: "",
+      tipo: "Mensual",
       showModal: false,
     };
 
@@ -27,9 +25,7 @@ class EditarPlanillaFormulario extends Component {
     axios
       .put("http://localhost:5236/api/planillas/"+this.state.identificador, {
         identificador: this.state.identificador,
-        pago_mensual: this.state.pago_mensual,
-        pago_horas: this.state.pago_horas,
-        pago_clase: this.state.pago_clase,
+        tipo: this.state.tipo,
       })
       .then((response) => {
         // Actualizar el estado de los pacientes con los nuevos datos ingresados
@@ -84,7 +80,7 @@ class EditarPlanillaFormulario extends Component {
         <Form onSubmit={this.handleSubmit}>
           <h2>Editar planilla</h2>
           <div className="form-input">
-            <label htmlFor="identificador">Id:</label>
+            <label htmlFor="identificador">Identificación empleado:</label>
             <input
               type="text"
               name="identificador"
@@ -95,34 +91,13 @@ class EditarPlanillaFormulario extends Component {
             />
           </div>
           <div className="form-input">
-            <label htmlFor="pago_mensual">Pago mensual:</label>
-            <input
-              type="text"
-              name="pago_mensual"
-              value={this.state.pago_mensual}
-              onChange={this.handleChange}
-              required
-            />
-          </div>
-          <div className="form-input">
-            <label htmlFor="pago_horas">Pago por hora:</label>
-            <input
-              type="text"
-              name="pago_horas"
-              value={this.state.pago_horas}
-              onChange={this.handleChange}
-              required
-            />
-          </div>
-          <div className="form-input">
-            <label htmlFor="pago_clase">Pago por clase:</label>
-            <input
-              type="text"
-              name="pago_clase"
-              value={this.state.pago_clase}
-              onChange={this.handleChange}
-              required
-            />
+            <label htmlFor="tipo">Tipo:</label>
+            <br></br>
+            <select name="tipo" onChange={this.handleChange}>
+              <option>Mensual</option>
+              <option>Por hora</option>
+              <option>Por clase</option>
+            </select>
           </div>
 
             <div style={{marginTop: "20px"}}>

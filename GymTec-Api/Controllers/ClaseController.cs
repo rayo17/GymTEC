@@ -61,7 +61,7 @@ namespace GymTec_Api.Controllers
             return _context.ClaseSucursal.ToList();
         }
         [HttpPut("{identificador}")]
-        public async Task<IActionResult> PutClase(string identificador, Clase clase)
+        public async Task<IActionResult> PutClase(int identificador, Clase clase)
         {
             if (identificador != clase.Identificador)
             {
@@ -76,20 +76,15 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ClaseExists(identificador))
-                {
+
                     return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    
             }
 
             return NoContent();
         }
 
-        private bool ClaseExists(string identificador)
+        private bool ClaseExists(int identificador)
         {
             return _context.Clase.Any(e => e.Identificador == identificador);
         }
@@ -98,7 +93,7 @@ namespace GymTec_Api.Controllers
 
         // POST: api/TratamientoSucursal
         [HttpPost("ClaseSucursal/{id}/{nombreSucursal}")]
-        public async Task<IActionResult> ClaseSucursalPost(string id, string nombreSucursal)
+        public async Task<IActionResult> ClaseSucursalPost(int id, string nombreSucursal)
         {
             var clase = await _context.Clase.FindAsync(id);
             
@@ -174,7 +169,6 @@ namespace GymTec_Api.Controllers
             var tratamientosConSucursal = await _context.Clase
                 .Select(p => new ClaseSucursalInfo {
                     identificador = p.Identificador,
-                    Nombre = p.Nombre,
                     Sucursales = _context.ClaseSucursal
                         .Where(ps => ps.Clase == p.Identificador)
                         .Select(ps => _context.Sucursal

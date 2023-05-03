@@ -28,7 +28,7 @@ namespace GymTec_Api.Controllers
 
         // GET: api/Servicio/5
         [HttpGet("{id}")]
-        public Servicio GetServicio(string id)
+        public Servicio GetServicio(int id)
         {
             return _context.Servicio.FirstOrDefault(sT => sT.Identificador == id);
         }
@@ -44,15 +44,9 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (ServicioExists(servicio.Identificador, servicio.Descripcion))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                return Conflict();
+                
+        }
 
             return CreatedAtAction(nameof(GetServicio), new { id = servicio.Identificador }, servicio);
         }
@@ -60,7 +54,7 @@ namespace GymTec_Api.Controllers
 
         // DELETE: api/SucursalTelefonos/5
         [HttpDelete("{id}/{descripcion}")]
-        public ActionResult Delete(string id, string descripcion)
+        public ActionResult Delete(int id, string descripcion)
         {
             var sT = _context.Servicio.FirstOrDefault(sT => sT.Identificador == id && sT.Descripcion == descripcion);
             if (sT != null)
@@ -72,7 +66,7 @@ namespace GymTec_Api.Controllers
             return BadRequest();
         }
 
-        private bool ServicioExists(string id, string descripcion)
+        private bool ServicioExists(int id, string descripcion)
         {
             return _context.Servicio.Any(e => e.Identificador == id && e.Descripcion == descripcion);
         }
