@@ -110,8 +110,8 @@ export const actualizarTEquipo = async (id, TEquipo) => {
 };
 
 // Función para eliminar un TipoEquipo por su ID
-export const eliminarTEquipoid = async (id, descripcion) => {
-  const response = await axios.delete(`${API_URL}/TipoEquipo/${id}/${descripcion}`);
+export const eliminarTEquipoid = async (id) => {
+  const response = await axios.delete(`${API_URL}/TipoEquipo/${id}`);
   return response.data;
 };
 
@@ -139,8 +139,8 @@ export const actualizarServicio = async (id, Servicio) => {
 };
 
 // Función para eliminar un TipoEquipo por su ID
-export const eliminarServicio = async (id, descripcion) => {
-  const response = await axios.delete(`${API_URL}/Servicio/${id}/${descripcion}`);
+export const eliminarServicio = async (id) => {
+  const response = await axios.delete(`${API_URL}/Servicio/${id}`);
   return response.data;
 };
 //Funcion para obtener los  tipo-equipo que hay

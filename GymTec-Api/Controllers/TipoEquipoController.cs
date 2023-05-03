@@ -42,7 +42,7 @@ namespace GymTec_Api.Controllers
 
         // PUT: api/TipoEquipo/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTipo_equipo(string id, Tipo_equipo tipo_equipo)
+        public async Task<IActionResult> PutTipo_equipo(int id, Tipo_equipo tipo_equipo)
         {
             if (id != tipo_equipo.Identificador)
             {
@@ -81,24 +81,17 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (Tipo_equipoExists(tipo_equipo.Identificador))
-                {
                     return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
             }
 
             return CreatedAtAction("GetTipo_equipo", new { id = tipo_equipo.Identificador }, tipo_equipo);
         }
 
         // DELETE: api/TipoEquipo/5
-        [HttpDelete("{id}/{descripcion}")]
-        public async Task<IActionResult> DeleteTipo_equipo(string id, string descripcion)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTipo_equipo(int id)
         {
-            var sT = _context.Tipo_equipo.FirstOrDefault(sT => sT.Identificador == id && sT.Descripcion == descripcion);
+            var sT = _context.Tipo_equipo.FirstOrDefault(sT => sT.Identificador == id);
             if (sT != null)
             {
                 _context.Tipo_equipo.Remove(sT);
@@ -108,7 +101,7 @@ namespace GymTec_Api.Controllers
             return BadRequest();
         }
 
-        private bool Tipo_equipoExists(string id)
+        private bool Tipo_equipoExists(int id)
         {
             return _context.Tipo_equipo.Any(e => e.Identificador == id);
         }

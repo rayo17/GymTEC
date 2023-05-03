@@ -9,7 +9,7 @@ class GestionServicios extends React.Component {
     super(props);
     this.state = {
       servicios: [],
-      formValues: { identificador:'', descripcion:''},
+      formValues: {  descripcion:'', identificador: null},
       formMode: 'agregar',
       currentProductId: '',
       showPopup: false
@@ -17,7 +17,7 @@ class GestionServicios extends React.Component {
     this.handleOuterClick = this.handleOuterClick.bind(this);
   }
 
-  // Función para obtener los formValues: { identificador:'', descripcion:''} desde la API
+  // Función para obtener los formValues: {  descripcion:'', identificador: null} desde la API
   getServicios = async () => {
     const data = await obtenerServicios();
     this.setState({ servicios: data });
@@ -29,10 +29,11 @@ class GestionServicios extends React.Component {
     if (this.state.formMode === 'agregar') {
       await agregarServicio(this.state.formValues);
     } else {
+      console.log(this.state)
       await actualizarServicio(this.state.currentProductId, this.state.formValues);
     }
     this.getServicios();
-    this.setState({ formValues: { identificador:'', descripcion:''}, formMode: 'agregar', showPopup: false });
+    this.setState({ formValues: {  descripcion:'', identificador: null}, formMode: 'agregar', showPopup: false });
   };
 
   // Función para manejar el cambio de los inputs del formulario
@@ -47,15 +48,15 @@ class GestionServicios extends React.Component {
   };
 
   // Función para manejar el clic en el botón de eliminar de una fila de la tabla
-  handleDeleteClick = async (identificador, descripcion) => {
-    await eliminarServicio(identificador, descripcion);
+  handleDeleteClick = async (identificador) => {
+    await eliminarServicio(identificador);
     this.getServicios();
   };
   handleOuterClick(event) {
     const container = document.querySelector('.popup');
     if (container && !container.contains(event.target)) {
       this.setState({ showPopup: false });
-      this.setState({ formValues: { identificador:'', descripcion:''}, formMode: 'agregar', showPopup: false });
+      this.setState({ formValues: {  descripcion:'', identificador: null}, formMode: 'agregar', showPopup: false });
     }
   };
   // Se ejecuta al cargar el componente
@@ -68,7 +69,7 @@ class GestionServicios extends React.Component {
   };
 
   handleCerrarClick = () => {
-    this.setState({ formValues: { identificador:'', descripcion:''}, formMode: 'agregar', showPopup: false });
+    this.setState({ formValues: {  descripcion:'', identificador: null}, formMode: 'agregar', showPopup: false });
     this.setState({ showPopup: false });
     document.removeEventListener('mousedown', this.handleOuterClick);
   }
@@ -92,7 +93,8 @@ render() {
               <td style={{ padding: '10px' }}>{producto.identificador}</td>
               <td style={{ padding: '10px' }}>{producto.descripcion}</td>
               <td>
-                <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(producto.identificador, producto.descripcion)}>Eliminar</button>
+                <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(producto.identificador)}>Eliminar</button>
+                <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(producto)}>Editar</button>
               </td>
             </tr>
           ))}
@@ -104,10 +106,6 @@ render() {
           <div className="popup">
             <h2>{formMode === 'agregar' ? 'Agregar Servicio' : 'Actualizar Servicio'}</h2>
             <form onSubmit={this.handleSubmit}>
-              <div>
-                <label htmlFor="identificador">Identificador:</label>
-                <input type="text" id="identificador" name="identificador" value={formValues.identificador} disabled={formMode === 'editar'} onChange={this.handleInputChange} />
-              </div>
               <div>
                 <label htmlFor="descripcion">Descripción:</label>
                 <textarea id="descripcion" name="descripcion" value={formValues.descripcion} onChange={this.handleInputChange}></textarea>

@@ -8,7 +8,7 @@ class Clases extends React.Component {
         super(props);
         this.state = {
             clases: [],
-            formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', nombre: '', identificador: '' },
+            formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: ''},
             formMode: 'agregar',
             currentClaseId: '',
             showPopup: false
@@ -33,7 +33,7 @@ class Clases extends React.Component {
             await actualizarClase(this.state.currentClaseId, this.state.formValues);
         }
         this.getProductos();
-        this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', nombre: '', identificador: '' }, formMode: 'agregar', showPopup: false });
+        this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: ''}, formMode: 'agregar', showPopup: false });
     };
 
     // Función para manejar el cambio de los inputs del formulario
@@ -56,7 +56,7 @@ class Clases extends React.Component {
         const container = document.querySelector('.popup');
         if (container && !container.contains(event.target)) {
             this.setState({ showPopup: false });
-            this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', nombre: '', identificador: '' }, formMode: 'agregar', showPopup: false });
+            this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: ''}, formMode: 'agregar', showPopup: false });
         }
     };
     // Se ejecuta al cargar el componente
@@ -69,7 +69,7 @@ class Clases extends React.Component {
     };
 
     handleCerrarClick = () => {
-        this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '', nombre: '', identificador: '' }, formMode: 'agregar', showPopup: false });
+        this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: ''}, formMode: 'agregar', showPopup: false });
         this.setState({ showPopup: false });
         document.removeEventListener('mousedown', this.handleOuterClick);
     }
@@ -123,11 +123,6 @@ class Clases extends React.Component {
                                         <option value="1">Individual</option>
                                         <option value="2">Grupal</option>
                                     </select>
-                                </div>
-
-                                <div>
-                                    <label htmlFor="nombre">Nombre:</label>
-                                    <input type="text" id="nombre" name="nombre" value={formValues.nombre} onChange={this.handleInputChange} placeholder="nombre" />
                                 </div>
                                 <div>
                                     <label htmlFor="instructor">Instructor:</label>

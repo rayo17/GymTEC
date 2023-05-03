@@ -9,7 +9,7 @@ class GestionTiposEquipo extends React.Component {
     super(props);
     this.state = {
       equipos: [],
-      formValues: { identificador:'', descripcion:''},
+      formValues: { identificador: null, descripcion:''},
       formMode: 'agregar',
       currentProductId: '',
       showPopup: false
@@ -17,7 +17,7 @@ class GestionTiposEquipo extends React.Component {
     this.handleOuterClick = this.handleOuterClick.bind(this);
   }
 
-  // Función para obtener los formValues: { identificador:'', descripcion:''} desde la API
+  // Función para obtener los formValues: { identificador: null, descripcion:''} desde la API
   getequipos = async () => {
     const data = await obtenertipoEquipos();
     this.setState({ equipos: data });
@@ -27,12 +27,13 @@ class GestionTiposEquipo extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     if (this.state.formMode === 'agregar') {
+      console.log(this.state.formValues)
       await agregarTEquipo(this.state.formValues);
     } else {
       await actualizarTEquipo(this.state.currentProductId, this.state.formValues);
     }
     this.getequipos();
-    this.setState({ formValues: { identificador:'', descripcion:''}, formMode: 'agregar', showPopup: false });
+    this.setState({ formValues: { identificador: null, descripcion:''}, formMode: 'agregar', showPopup: false });
   };
 
   // Función para manejar el cambio de los inputs del formulario
@@ -55,7 +56,7 @@ class GestionTiposEquipo extends React.Component {
     const container = document.querySelector('.popup');
     if (container && !container.contains(event.target)) {
       this.setState({ showPopup: false });
-      this.setState({ formValues: { identificador:'', descripcion:''}, formMode: 'agregar', showPopup: false });
+      this.setState({ formValues: { identificador: null, descripcion:''}, formMode: 'agregar', showPopup: false });
     }
   };
   // Se ejecuta al cargar el componente
@@ -68,7 +69,7 @@ class GestionTiposEquipo extends React.Component {
   };
 
   handleCerrarClick = () => {
-    this.setState({ formValues: { identificador:'', descripcion:''}, formMode: 'agregar', showPopup: false });
+    this.setState({ formValues: { identificador: null, descripcion:''}, formMode: 'agregar', showPopup: false });
     this.setState({ showPopup: false });
     document.removeEventListener('mousedown', this.handleOuterClick);
   }
@@ -92,7 +93,8 @@ render() {
               <td style={{ padding: '10px' }}>{producto.identificador}</td>
               <td style={{ padding: '10px' }}>{producto.descripcion}</td>
               <td>
-                <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(producto.identificador, producto.descripcion)}>Eliminar</button>
+                <button className="btn-accion btn-eliminar" onClick={() => this.handleDeleteClick(producto.identificador)}>Eliminar</button>
+                <button className="btn-accion btn-editar" onClick={() => this.handleEditClick(producto)}>Editar</button>
               </td>
             </tr>
           ))}
@@ -104,10 +106,6 @@ render() {
           <div className="popup">
             <h2>{formMode === 'agregar' ? 'Agregar Tipo de Equipo' : 'Actualizar Tipo de Equipo'}</h2>
             <form onSubmit={this.handleSubmit}>
-              <div>
-                <label htmlFor="identificador">Identificador:</label>
-                <input type="text" id="identificador" name="identificador" value={formValues.identificador} disabled={formMode === 'editar'} onChange={this.handleInputChange} />
-              </div>
               <div>
                 <label htmlFor="descripcion">Descripción:</label>
                 <textarea id="descripcion" name="descripcion" value={formValues.descripcion} onChange={this.handleInputChange}></textarea>
