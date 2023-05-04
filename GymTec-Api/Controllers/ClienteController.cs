@@ -72,7 +72,6 @@ namespace GymTec_Api.Controllers
             }
 
             return Ok(cliente);
-<<<<<<< HEAD
         }
         
         [HttpGet("{cedula}/{password}")]
@@ -90,8 +89,6 @@ namespace GymTec_Api.Controllers
             }
 
             return BadRequest();
-=======
->>>>>>> f202d31d40007867ed3f0c67c11d94e2b0c77d45
         }
 
         // PUT: api/Cliente/5
