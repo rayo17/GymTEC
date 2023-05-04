@@ -50,7 +50,8 @@ public class UserinfoActivity extends AppCompatActivity {
             String cedula = cliente.getString(cliente.getColumnIndex("Cedula"));
             binding.cedulaTextview.setText(cedula);
 
-            String fecha_nacimiento = cliente.getString(cliente.getColumnIndex("Fecha_nacimiento"));
+            String fecha_nacimiento_contiempo = cliente.getString(cliente.getColumnIndex("Fecha_nacimiento"));
+            String fecha_nacimiento = fecha_nacimiento_contiempo.substring(0,10);
             binding.fechaNacimientoTextview.setText(fecha_nacimiento);
 
             String provincia = cliente.getString(cliente.getColumnIndex("Provincia"));

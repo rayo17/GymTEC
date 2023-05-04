@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
@@ -54,34 +58,24 @@ public class LoginActivity extends AppCompatActivity {
 
                 else {
                     try {
-                        if(!authenticator.user_exist(cedula_input)){
-                            Toast invalid_user = Toast.makeText(getApplicationContext(),R.string.User_Not_Register , Toast.LENGTH_LONG);
+                        if (!authenticator.user_exist(cedula_input)) {
+                            Toast invalid_user = Toast.makeText(getApplicationContext(), R.string.User_Not_Register, Toast.LENGTH_LONG);
                             invalid_user.show();
                             Intent open_register = new Intent(getApplicationContext(), RegistroClienteActivity.class);
                             open_register.putExtra("cedula_input", cedula_input);
                             open_register.putExtra("password_input", password_input);
                             startActivity(open_register);
                             finish();
-                        }
-                        else if(!authenticator.password_correct(cedula_input,password_input)){
-                            Toast incorrect_pwd = Toast.makeText(getApplicationContext(),R.string.incorrect_password , Toast.LENGTH_LONG);
+                        } else if (!authenticator.password_correct(cedula_input, password_input)) {
+                            Toast incorrect_pwd = Toast.makeText(getApplicationContext(), R.string.incorrect_password, Toast.LENGTH_LONG);
                             incorrect_pwd.show();
-                        }
-
-                        else {
+                        } else {
                             finish();
                             Intent home = new Intent(getApplicationContext(), MainActivity.class);
-                            Cursor user = database.getCliente(cedula_input, password_input);
-                            user.moveToFirst();
-                            @SuppressLint("Range") String user_fname = user.getString(user.getColumnIndex("Primer_nombre"));
-                            @SuppressLint("Range") String user_lname = user.getString(user.getColumnIndex("Primer_apellido"));
-                            home.putExtra("nombre", user_fname);
-                            home.putExtra("apellido", user_lname);
                             startActivity(home);
                         }
                     } catch (Exception e) {
-                        Toast incorrect_pwd = Toast.makeText(getApplicationContext(),"No Connection" , Toast.LENGTH_LONG);
-                        incorrect_pwd.show();
+                        throw new RuntimeException(e);
                     }
                 }
 

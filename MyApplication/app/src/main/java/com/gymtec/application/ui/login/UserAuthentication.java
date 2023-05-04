@@ -35,6 +35,7 @@ public class UserAuthentication {
     public boolean user_exist(String user_id) throws Exception {
         String url_root = this.ctx.getResources().getString(R.string.api_url);
         String request = this.ctx.getResources().getString(R.string.clientExists)+user_id;
+        Log.d("Exists Response", String.valueOf(this.remotedb.responseCode(url_root+request)));
         return this.remotedb.responseCode(url_root + request) == 200;
     }
 
@@ -53,7 +54,7 @@ public class UserAuthentication {
             String distrito = client_data.getString("distrito");
             String canton = client_data.getString("canton");
             String provincia = client_data.getString("provincia");
-            String pwd = client_data.getString("contrasenna");
+            String pwd = client_data.getString("contrasena");
             String bdate = client_data.getString("fecha_nacimiento");
             String peso = client_data.getString("peso");
             String imc = client_data.getString("imc");
