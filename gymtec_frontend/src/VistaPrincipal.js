@@ -25,7 +25,7 @@ const VistaPrincipal = () => {
                         title='Cliente'
                         imageUrl={ClientIcon}
                         body='Entrar como cliente'
-                        url='logincliente'
+                        url='/logincliente'
                     />
                 </div>
 
