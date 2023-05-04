@@ -25,6 +25,8 @@ import GeneracionPlanilla from './VistaAdministrador/GeneracionPlanilla';
 
 // Cliente
 import LoginCliente from './VistaCliente/LoginCliente';
+import Signup from './VistaCliente/Signup';
+import VistaCliente from './VistaCliente/VistaCliente';
 
 function App() {
   return (
@@ -43,17 +45,16 @@ function App() {
             <Route path='/gestiontiposequipo' element={ <GestionTiposEquipo/> }/>
             <Route path='/gestionservicios' element={ <GestionServicios/> }/>
             <Route path='/gestionempleados' element={ <GestionEmpleados/> }/>
-            <Route path= '/configGimnasio' element={<ConfigGimnasio />}/>
+            <Route path='/configGimnasio' element={<ConfigGimnasio />}/>
             <Route path='/gestionempleados' element={ <GestionEmpleados/> }/>
             <Route path='/clases' element={<Clases/> }/>
 
             <Route path='/generacionplanilla' element={ <GeneracionPlanilla/> }/>
 
-
-
-
-
+            
             <Route path='/logincliente' element={ <LoginCliente/> }/>
+            <Route path='/signup' element={ <Signup/> }/>
+            <Route path='/cliente' element={ <VistaCliente/> }/>
           </Routes>
       </Router>
       

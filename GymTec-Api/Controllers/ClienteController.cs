@@ -80,16 +80,10 @@ namespace GymTec_Api.Controllers
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
         {
             // Encriptar contraseña en formato MD5
-            using (MD5 md5 = MD5.Create())
+            using (MD5 md5Hash = MD5.Create())
             {
-                byte[] inputBytes = Encoding.ASCII.GetBytes(cliente.Contrasena);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    sb.Append(hashBytes[i].ToString("X2"));
-                }
-                cliente.Contrasena = sb.ToString();
+                string contrasenaMD5 = GetMd5Hash(md5Hash, cliente.Contrasena);
+                cliente.Contrasena = contrasenaMD5;
             }
 
             _context.Cliente.Add(cliente);
@@ -110,6 +104,23 @@ namespace GymTec_Api.Controllers
             }
 
             return Ok(cliente);
+        }
+        
+        [HttpGet("{cedula}/{password}")]
+        public ActionResult Get(string cedula, string password)
+        {
+            var md5 = MD5.Create();
+            var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(password));
+            var hashedPassword = BitConverter.ToString(hash).Replace("-", "").ToLower();
+
+            var cliente = _context.Cliente.FirstOrDefault(c => c.Cedula == cedula && c.Contrasena == hashedPassword);
+
+            if (cliente != null)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
         }
 
         // PUT: api/Cliente/5
@@ -161,6 +172,21 @@ namespace GymTec_Api.Controllers
         private bool ClienteExists(string cedula)
         {
             return _context.Cliente.Any(e => e.Cedula == cedula);
+        }
+        
+        
+        private string GetMd5Hash(MD5 md5Hash, string input)
+        {
+            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            StringBuilder sBuilder = new StringBuilder();
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            return sBuilder.ToString();
         }
     }
 }
