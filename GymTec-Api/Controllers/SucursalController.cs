@@ -41,6 +41,17 @@ namespace GymTec_Api.Controllers
 
             return sucursales;
         }
+        // GET: api/Sucursal/Nombres
+        [HttpGet("Nombres")]
+        public async Task<ActionResult<IEnumerable<SucursalNombre>>> GetNombresSucursales()
+        {   
+            var sucursales = await _context.Sucursal.Select(s => new SucursalNombre
+            {
+                Nombre = s.Nombre
+            }).ToListAsync();
+            return sucursales;
+        }
+       
 
         // GET: api/Sucursal/NombreSucursal
         [HttpGet("{nombre}")]

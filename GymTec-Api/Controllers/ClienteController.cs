@@ -30,7 +30,7 @@ namespace GymTec_Api.Controllers
         }
 
         // GET: api/Cliente/Datos
-        [HttpGet("{cedula}/{password}")]
+        [HttpGet("Obtener/{cedula}/{password}")]
         public async Task<ActionResult<Cliente>> GetClientwithPassword(string cedula, string password)
         {
             var md5 = MD5.Create();
@@ -60,6 +60,7 @@ namespace GymTec_Api.Controllers
 
             return cliente;
         }
+        
         
         // GET: api/Cliente/Exists
         [HttpGet("Exists/{cedula}")]

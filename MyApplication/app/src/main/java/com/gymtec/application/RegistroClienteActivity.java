@@ -6,25 +6,34 @@ import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gymtec.application.database.Sqlite;
+import com.gymtec.application.maindb_access.models.Cliente;
+import com.gymtec.application.maindb_access.models.Methods;
+import com.gymtec.application.maindb_access.models.RemoteDBsendGet;
 
-import java.text.DateFormat;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Calendar;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RegistroClienteActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    RemoteDBsendGet remotedb;
     Sqlite databaseHelper;
     //Text Boxes
     EditText name_edittext;
@@ -32,7 +41,7 @@ public class RegistroClienteActivity extends AppCompatActivity implements DatePi
     EditText snd_name_edittext;
     EditText lname_edittext;
     EditText lname2_edittext;
-    EditText id_edittext;
+    TextView id_edittext;
     EditText age_edittext;
     TextView fecha_edittext;
     EditText province_edittext;
@@ -52,13 +61,14 @@ public class RegistroClienteActivity extends AppCompatActivity implements DatePi
         Bundle extras = getIntent().getExtras();
         setContentView(R.layout.registro_cliente);
 
+        remotedb = new RemoteDBsendGet();
         databaseHelper=new Sqlite(getApplicationContext());
         //referencing UI
         fecha_edittext= (TextView) findViewById(R.id.user_date_text);
         age_edittext = (EditText) findViewById(R.id.user_Edad_edittext);
         name_edittext = (EditText) findViewById(R.id.user_Name_edittext);
         lname_edittext = (EditText) findViewById(R.id.user_Apellido1_edittext);
-        id_edittext = (EditText) findViewById(R.id.user_Cedula_edittext);
+        id_edittext = (TextView) findViewById(R.id.user_Cedula_edittext);
         canton_edittext = (EditText) findViewById(R.id.user_canton_edittext);
         province_edittext = (EditText) findViewById(R.id.user_provincia_edittext);
         canton_edittext = (EditText) findViewById(R.id.user_canton_edittext);
@@ -108,18 +118,64 @@ public class RegistroClienteActivity extends AppCompatActivity implements DatePi
                 String bdate = String.valueOf(fecha_edittext.getText());
                 String weight = String.valueOf(weight_edittext.getText());
                 String imc = String.valueOf(imc_edittext.getText());
-                databaseHelper.empty_Clients();
-                databaseHelper.addNewCliente(
-                        id, username,snd_name,apellido1,apellido2,correo_e,distrito,canton,provincia,
-                        pwd, bdate, weight, imc);
 
-                Intent home = new Intent(RegistroClienteActivity.this, MainActivity.class);
-                home.putExtra("nombre", username);
-                home.putExtra("apellido", apellido1);
-                home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                finishAffinity();
-                startActivity(home);
-                finish();
+                if(id.equals("")
+                        ||username.equals("")
+                        ||apellido1.equals("")
+                        ||correo_e.equals("")
+                        ||distrito.equals("")
+                        ||canton.equals("")
+                        ||provincia.equals("")
+                        ||pwd.equals("")
+                        ||bdate.equals("")
+                        ||weight.equals("")
+                        ||imc.equals("")
+                ){
+                    Toast.makeText(RegistroClienteActivity.this, "Rellene todos los campos que tienen un *", Toast.LENGTH_LONG).show();
+                } else {
+                    Methods methods = RemoteDBsendGet.getRetrofitInstance().create(Methods.class);
+                    Call<Cliente> call = methods.getUserData(new Cliente(id,username,snd_name,apellido1,apellido2,correo_e,distrito,canton,provincia,pwd,bdate,weight,imc));
+                    call.enqueue(new Callback<Cliente>() {
+                        @Override
+                        public void onResponse(Call<Cliente> call, Response<Cliente> response) {
+                            if(response.isSuccessful()){
+                                databaseHelper.empty_Clients();
+                                databaseHelper.addNewCliente(
+                                        id, username,snd_name,apellido1,apellido2,correo_e,distrito,canton,provincia,
+                                        pwd, bdate, weight, imc);
+                                Toast.makeText(RegistroClienteActivity.this,"Cliente registrado con éxito",Toast.LENGTH_LONG).show();
+                                Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                                finishAffinity();
+                                startActivity(home);
+                                finish();
+                            } else {
+                                String response_code = null;
+                                try {
+                                    response_code = response.errorBody().string();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                Log.d("Error 4000",response_code);
+                                Toast.makeText(getApplicationContext(),response_code , Toast.LENGTH_LONG).show();
+
+
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Cliente> call, Throwable t) {
+                            String error= t.toString();
+                            Log.d("ERROR REGISTERING CLIENT",error);
+                            Toast.makeText(RegistroClienteActivity.this,error,Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+
+                }
+
+
             }
         });
     }

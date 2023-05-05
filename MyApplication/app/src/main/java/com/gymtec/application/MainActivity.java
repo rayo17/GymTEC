@@ -17,12 +17,17 @@ import com.gymtec.application.database.Sqlite;
 
 
 import com.gymtec.application.database.Sqlite;
+import com.gymtec.application.maindb_access.models.RemoteDBsendGet;
 import com.gymtec.application.ui.login.LoginActivity;
+
+import org.json.JSONArray;
 
 
 public class MainActivity extends AppCompatActivity {
     TextView user_name_text;
     Sqlite databaseHelper;
+
+    RemoteDBsendGet remotedb;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Intent login_intent = new Intent(this, LoginActivity.class);
         Bundle extras = getIntent().getExtras();
         databaseHelper = new Sqlite(getApplicationContext());
-
-
+        remotedb = new RemoteDBsendGet();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -56,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
         buscar_clases_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try {
+
+                    JSONArray json_sucursales = new JSONArray(remotedb.sendGet(getResources().getString(R.string.api_url)+getResources().getString(R.string.getSucursales)));
+                    databaseHelper.add_Sucursales_from_json(json_sucursales);
+                } catch (Exception e) {
+                    Log.d("Error",e.toString());
+                    Toast.makeText(MainActivity.this,e.toString(),Toast.LENGTH_LONG).show();
+                }
                 Intent buscar_clases = new Intent(getApplicationContext(),  Busqueda_clases.class);
                 startActivity(buscar_clases);
             }

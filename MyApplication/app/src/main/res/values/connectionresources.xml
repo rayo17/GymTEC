@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="api_url">https://192.168.203.179:443</string>
+    <string name="api_url">https://192.168.239.179:7233</string>
     <string name="clientExists">/api/Cliente/Exists/</string>
-    <string name="clientPasswordCheck">/api/Cliente/</string>
+    <string name="clientPasswordCheck">/api/Cliente/Obtener/</string>
+    <string name="getClases">/api/Clase</string>
+    <string name="getSucursales">/api/Sucursal/Nombres</string>
+    <string name="getClaseCliente">/api/ClaseCliente</string>
+    <string name="getTipo">/api/Servicio</string>
+
+    <string name="postCliente">/api/Cliente</string>
+    <string name="postClaseCliente">/api/ClaseCliente</string>
 </resources>

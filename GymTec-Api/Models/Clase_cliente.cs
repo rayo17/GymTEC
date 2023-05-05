@@ -7,5 +7,6 @@ public class Clase_cliente
     [Key]
     public string Clase { get; set; }
     public string Cliente { get; set; }
+    public string Sucursal { get; set; }
     
 }

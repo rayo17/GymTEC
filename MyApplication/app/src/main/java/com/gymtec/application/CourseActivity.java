@@ -59,7 +59,7 @@ public class CourseActivity extends AppCompatActivity {
                 cliente.moveToFirst();
                 @SuppressLint("Range") String cedula = cliente.getString(cliente.getColumnIndex("Cedula"));
 
-                databaseHelper.addNewClase_Cliente( intent.getStringExtra("identificador"),cedula);
+                databaseHelper.addNewClase_Cliente( intent.getStringExtra("identificador"),cedula, intent.getStringExtra("sucursal"));
                 Toast registered = Toast.makeText(getApplicationContext(), "Clase registrada con éxito", Toast.LENGTH_LONG);
                 finishAffinity();
                 registered.show();

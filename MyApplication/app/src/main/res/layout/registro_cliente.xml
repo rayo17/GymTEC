@@ -54,7 +54,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="65dp"
                             android:layout_weight="1"
-                            android:hint="Nombre 1"
+                            android:hint="*Nombre 1"
                             android:inputType="textCapWords"
                             android:textSize="18sp" />
 
@@ -80,7 +80,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="65dp"
                             android:layout_weight="1"
-                            android:hint="Apellido 1"
+                            android:hint="*Apellido 1"
                             android:inputType="text|textCapWords"
                             android:textSize="18sp" />
 
@@ -91,18 +91,18 @@
                             android:layout_height="65sp"
                             android:layout_weight="1"
                             android:ems="10"
-                            android:hint="Apellido 2"
+                            android:hint="*Apellido 2"
                             android:inputType="text|textCapWords"
                             android:textSize="18sp" />
                     </LinearLayout>
 
-                    <EditText
+                    <TextView
                         android:id="@+id/user_Cedula_edittext"
                         style="@style/Widget.Material3.TextInputEditText.FilledBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="65dp"
                         android:ems="10"
-                        android:hint="@string/prompt_cedula"
+                        android:hint="*Cédula"
                         android:inputType="number|textPersonName"
                         android:textSize="18sp" />
 
@@ -112,7 +112,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="65sp"
                         android:ems="10"
-                        android:hint="@string/prompt_age"
+                        android:hint="*Edad"
                         android:inputType="number|textPersonName"
                         android:textSize="18sp" />
 
@@ -130,7 +130,7 @@
                             android:layout_weight="1"
                             android:ems="10"
                             android:gravity="center"
-                            android:hint="@string/prompt_birthdate"
+                            android:hint="*Fecha de nacimiento"
                             android:textColor="?attr/editTextColor"
                             android:textSize="18sp" />
 
@@ -170,7 +170,7 @@
                             android:layout_height="65sp"
                             android:layout_weight="1"
                             android:ems="10"
-                            android:hint="@string/prompt_province"
+                            android:hint="*Provincia"
                             android:inputType="text|textCapWords"
                             android:textSize="18sp" />
 
@@ -181,7 +181,7 @@
                             android:layout_height="65sp"
                             android:layout_weight="1"
                             android:ems="10"
-                            android:hint="@string/prompt_canton"
+                            android:hint="*Cantón"
                             android:inputType="text|textCapWords"
                             android:textSize="18sp" />
 
@@ -192,7 +192,7 @@
                             android:layout_height="65sp"
                             android:layout_weight="1"
                             android:ems="10"
-                            android:hint="@string/prompt_district"
+                            android:hint="*Distrito"
                             android:inputType="text|textCapWords"
                             android:textSize="18sp" />
 
@@ -204,7 +204,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="65sp"
                         android:ems="10"
-                        android:hint="@string/prompt_email"
+                        android:hint="*Correo electrónico"
                         android:inputType="textEmailAddress"
                         android:textSize="18sp" />
 
@@ -238,7 +238,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="@string/prompt_weight"
+                        android:hint="*Peso"
                         android:inputType="number"
                         android:textSize="18sp" />
 
@@ -249,7 +249,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="@string/prompt_IMC"
+                        android:hint="*IMC"
                         android:inputType="number"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -277,7 +277,7 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:gravity="center_vertical"
-                    android:hint="@string/prompt_password"
+                    android:hint="*Contraseña"
                     android:inputType="textPassword"
                     android:textSize="18sp" />
 

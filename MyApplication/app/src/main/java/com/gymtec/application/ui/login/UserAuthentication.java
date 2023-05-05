@@ -1,18 +1,11 @@
 package com.gymtec.application.ui.login;
 
-import java.util.HashMap;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
-import android.provider.ContactsContract;
 import android.util.Log;
-import android.widget.Toast;
 
 
 import com.gymtec.application.R;
-import com.gymtec.application.database.RemoteDBsendGet;
+import com.gymtec.application.maindb_access.models.RemoteDBsendGet;
 import com.gymtec.application.database.Sqlite;
 
 import org.json.JSONObject;
@@ -58,7 +51,9 @@ public class UserAuthentication {
             String bdate = client_data.getString("fecha_nacimiento");
             String peso = client_data.getString("peso");
             String imc = client_data.getString("imc");
+            String jsonstring = client_data.toString();
             this.databaseHandler.addNewCliente(cedula,p_nombre,s_nombre,p_apellido,s_apellido,email,distrito,canton,provincia,pwd,bdate,peso,imc);
+            Log.d("Exito", jsonstring);
             return true;
 
         }

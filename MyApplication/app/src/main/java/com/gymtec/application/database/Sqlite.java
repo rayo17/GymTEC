@@ -8,6 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 public class Sqlite extends SQLiteOpenHelper {
 
     // creating a constant variables for our database.
@@ -15,7 +20,7 @@ public class Sqlite extends SQLiteOpenHelper {
     private static final String DB_NAME = "GYMTECTEST";
 
     // below int is our database version
-    private static final int DB_VERSION = 14;
+    private static final int DB_VERSION = 15;
 
 
     public Sqlite(Context context) {
@@ -42,8 +47,6 @@ public class Sqlite extends SQLiteOpenHelper {
                 "Instructor VARCHAR(100) NOT NULL, " +
                 "Hora_inicio VARCHAR(5) NOT NULL, " +
                 "Hora_fin VARCHAR(5) NOT NULL, " +
-                "Sucursal VARCHAR(30),"+
-                "FOREIGN KEY (Sucursal) REFERENCES SUCURSAL(Nombre),"+
                 "FOREIGN KEY (Tipo) REFERENCES TIPO(Id));";
 
         String table_tipo = "CREATE TABLE TIPO (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -59,7 +62,7 @@ public class Sqlite extends SQLiteOpenHelper {
                 "Distrito VARCHAR(30) NOT NULL, " +
                 "Canton VARCHAR(30) NOT NULL, " +
                 "Provincia VARCHAR(30) NOT NULL, " +
-                "Contrasenna VARCHAR(30) NOT NULL, " +
+                "Contrasena VARCHAR(30) NOT NULL, " +
                 "Fecha_nacimiento DATE NOT NULL, " +
                 "Peso VARCHAR(4) NOT NULL, " +
                 "Imc VARCHAR(4) NOT NULL, " +
@@ -67,46 +70,15 @@ public class Sqlite extends SQLiteOpenHelper {
 
         String table_clase_clientes = "CREATE TABLE CLASE_CLIENTES (Clase VARCHAR(10) NOT NULL, " +
                 "Cliente VARCHAR(10) NOT NULL, "+
+                "Sucursal VARCHAR(30) NOT NULL, "+
                 "FOREIGN KEY (Clase) REFERENCES CLASE(Identificador),"+
                 "FOREIGN KEY (Cliente) REFERENCES CLIENTE(Cedula),"+
-                "PRIMARY KEY(Clase, Cliente));";
+                "FOREIGN KEY (Sucursal) REFERENCES Sucursal(Nombre), "+
+                "PRIMARY KEY(Clase, Cliente,Sucursal));";
 
-        //CONSTRAINT
-        String alter_clase= "ALTER TABLE CLASE ADD CONSTRAINT Week_days CHECK(1<=Dia AND  Dia<= 7);";
-
-
-
-        //population of sucursales
-        String sucursal1 = "INSERT INTO SUCURSAL(Nombre) VALUES('San Pedro');";
-        String sucursal3 = "INSERT INTO SUCURSAL(Nombre) VALUES('Cartago');";
-        String sucursal4 = "INSERT INTO SUCURSAL(Nombre) VALUES('Curridabat');";
-        String sucursal5 = "INSERT INTO SUCURSAL(Nombre) VALUES('Lindora');";
-        String sucursal6 = "INSERT INTO SUCURSAL(Nombre) VALUES('Paraiso');";
-        String sucursal7 = "INSERT INTO SUCURSAL(Nombre) VALUES('Guachipelin');";
-        String sucursal8 = "INSERT INTO SUCURSAL(Nombre) VALUES('Santa Ana');";
-
-        //population of tipos
-        String tipo1 = "INSERT INTO TIPO(Descripcion) VALUES('Indoor Cycling');";
-        String tipo2 = "INSERT INTO TIPO(Descripcion) VALUES('Pilates');";
-        String tipo3 = "INSERT INTO TIPO(Descripcion) VALUES('Yoga');";
-        String tipo4 = "INSERT INTO TIPO(Descripcion) VALUES('Zumba');";
-        String tipo5 = "INSERT INTO TIPO(Descripcion) VALUES('Natación');";
-
-        //population of clases
-
-        String clase1 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(22,1,3,1,'Jose Ramirez','12:00','13:00', 'Curridabat');";
-        String clase2 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(15,1,4,3,'Ernesto Zamora','07:00','08:00','Santa Ana');";
-        String clase3 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(30,1,2,6, 'Roxanna Cisneros','08:00','10:00','Lindora');";
-        String clase4 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(10,1,5,1, 'Benjamín Quesada','16:00','17:30','Curridabat');";
-        String clase5 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(1,0,5,7, 'Yendry Castillo','14:00','15:30','Cartago');";
-        String clase6 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(40,1,4,2, 'Roberta Gonzalez','17:00','19:00','Guachipelin');";
-        String clase7 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(12,1,2,5, 'Mariana Santamaría','18:00','19:30','Cartago');";
-        String clase8 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(8,1,1,7, 'Marcos Guzman','10:00','11:00','San Pedro');";
-        String clase9 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(20,1,3,3, 'George Smith','19:00','20:30','Santa Ana');";
-        String clase10 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(20,1,1,4, 'Carmen Diaz','08:00','10:30','Santa Ana');";
-        String clase11= "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(20,1,2,3, 'Carmen Diaz','09:00','11:30','Guachipelin');";
-        String clase12 = "INSERT INTO CLASE(Capacidad, Grupal, Tipo, Dia, Instructor, Hora_inicio, Hora_fin, Sucursal) VALUES(20,1,3,5, 'Carmen Diaz','10:00','12:30','San Pedro');";
-
+        String table_clase_sucursal = "CREATE TABLE CLASESUCURSAL (Clase INT NOT NULL, "+
+                "Sucursal VARCHAR(30) NOT NULL, "+
+                "PRIMARY KEY(Clase, Sucursal));";
 
         // at last we are calling a exec sql
         // method to execute above sql query
@@ -115,45 +87,101 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(table_tipo);
         db.execSQL(table_cliente);
         db.execSQL(table_clase_clientes);
-
-        /**
-        db.execSQL(sucursal1);
-        db.execSQL(sucursal3);
-        db.execSQL(sucursal4);
-        db.execSQL(sucursal5);
-        db.execSQL(sucursal6);
-        db.execSQL(sucursal7);
-        db.execSQL(sucursal8);
-
-        db.execSQL(tipo1);
-        db.execSQL(tipo2);
-        db.execSQL(tipo3);
-        db.execSQL(tipo4);
-        db.execSQL(tipo5);
-
-        db.execSQL(clase1);
-        db.execSQL(clase2);
-        db.execSQL(clase3);
-        db.execSQL(clase4);
-        db.execSQL(clase5);
-        db.execSQL(clase6);
-        db.execSQL(clase7);
-        db.execSQL(clase8);
-        db.execSQL(clase9);
-        db.execSQL(clase10);
-        db.execSQL(clase11);
-        db.execSQL(clase12);**/
+        db.execSQL(table_clase_sucursal);
 
     }
+    public void add_Sucursales_from_json(JSONArray sucursales) throws JSONException {
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        this.empty_Sucursales();
+        for(int i = 0; i<sucursales.length();i++){
+            db.execSQL("INSERT INTO SUCURSAL(Nombre) VALUES("+"'"+sucursales.getJSONObject(i).getString("nombre")+"'"+");");
+        }
+    }
+    public void add_tipos_from_json(JSONArray tipos) throws JSONException {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        this.empty_Sucursales();
+        for(int i = 0; i<tipos.length();i++){
+            db.execSQL("INSERT INTO TIPO(Id, Description) VALUES(" +
+                    "'"+tipos.getJSONObject(i).getString("id")+"'"
+                    +","
+                    +"'"+tipos.getJSONObject(i).getString("descripcion")+"'"+
+                    ");");
+        }
+    }
+
+    // TODO add code to clases from json
+    public void add_clases_from_json(JSONArray tipos) throws JSONException {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        this.empty_Sucursales();
+        for(int i = 0; i<tipos.length();i++){
+            db.execSQL("INSERT INTO TIPO(Id, Description) VALUES(" +
+                    "'"+tipos.getJSONObject(i).getString("id")+"'"
+                    +","
+                    +"'"+tipos.getJSONObject(i).getString("descripcion")+"'"+
+                    ");");
+        }
+    }
+
+    // TODO add code to cliente_clases from json
+    public void add_cliente_clases_from_json(JSONArray tipos) throws JSONException {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        this.empty_Sucursales();
+        for(int i = 0; i<tipos.length();i++){
+            db.execSQL("INSERT INTO TIPO(Id, Description) VALUES(" +
+                    "'"+tipos.getJSONObject(i).getString("id")+"'"
+                    +","
+                    +"'"+tipos.getJSONObject(i).getString("descripcion")+"'"+
+                    ");");
+        }
+    }
+
+    /**
+     * Deletes all rows from Clients
+     */
     public void empty_Clients(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM CLIENTE;");
     }
 
+    /**
+     * Deletes all rows from clientes
+     */
     public void empty_Clase_clientes(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM CLASE_CLIENTES;");
+    }
+
+    public void empty_Clase_sucursal(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM CLASESUCURSAL;");
+    }
+
+    /**
+     * Deletes all rows from Sucursales
+     */
+    public void empty_Sucursales(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM SUCURSAL;");
+    }
+
+    /**
+     * Deletes all rows form Clase
+     */
+    public void empty_clases(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM CLASE;");
+    }
+
+    /**
+     * Deletes all rows from tipo
+     */
+    public void empty_tipo(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM TIPO;");
     }
 
     /**
@@ -172,8 +200,10 @@ public class Sqlite extends SQLiteOpenHelper {
      * @param peso client´s weight
      * @param Imc client´s IMC
      */
-    public void addNewCliente(String cedula, String Primer_nombre, String Segundo_nombre, String Primer_apellido, String Segundo_apellido, String correo, String distrito, String canton,
-                              String provincia, String contrasenna, String Fecha_nacimiento, String peso, String Imc) {
+    public void addNewCliente(String cedula, String Primer_nombre, String Segundo_nombre,
+                              String Primer_apellido, String Segundo_apellido, String correo,
+                              String distrito, String canton, String provincia, String contrasenna,
+                              String Fecha_nacimiento, String peso, String Imc) {
         // on below line we are creating a variable for
         // our sqlite database and calling writable method
         // as we are writing data in our database.
@@ -192,12 +222,10 @@ public class Sqlite extends SQLiteOpenHelper {
             values.put("Distrito", distrito);
             values.put("Canton", canton);
             values.put("Provincia", provincia);
-            values.put("Contrasenna", contrasenna);
+            values.put("Contrasena", contrasenna);
             values.put("Fecha_nacimiento", Fecha_nacimiento);
             values.put("Peso", peso);
             values.put("Imc", Imc);
-
-            Log.d("Success", "Client added");
 
             // after adding all values we are passing
             // content values to our table.
@@ -210,59 +238,6 @@ public class Sqlite extends SQLiteOpenHelper {
 
     }
 
-    /**
-     * Adds new client to the database
-     * @param db database
-     * @param cedula client´s id
-     * @param Primer_nombre client´s first name
-     * @param Segundo_nombre client´s middle name
-     * @param Primer_apellido client´s lastname 1
-     * @param Segundo_apellido client´s lastname 2
-     * @param correo client´s email
-     * @param distrito client´s district
-     * @param canton client´s town
-     * @param provincia client´s province
-     * @param contrasenna client´s password
-     * @param Fecha_nacimiento client´s birthdate
-     * @param peso client´s weight
-     * @param Imc client´s IMC
-     */
-    public void addNewCliente(SQLiteDatabase db,String cedula, String Primer_nombre, String Segundo_nombre, String Primer_apellido, String Segundo_apellido, String correo, String distrito, String canton,
-                              String provincia, String contrasenna, String Fecha_nacimiento, String peso, String Imc) {
-        // on below line we are creating a variable for
-        // our sqlite database and calling writable method
-        // as we are writing data in our database.
-
-        // on below line we are creating a
-        // variable for content values.
-        ContentValues values = new ContentValues();
-        if (db!=null){
-            values.put("Cedula", cedula);
-            values.put("Primer_nombre", Primer_nombre);
-            values.put("Segundo_nombre", Segundo_nombre);
-            values.put("Primer_apellido", Primer_apellido);
-            values.put("Segundo_apellido", Segundo_apellido);
-            values.put("Correo_electronico", correo);
-            values.put("Distrito", distrito);
-            values.put("Canton", canton);
-            values.put("Provincia", provincia);
-            values.put("Contrasenna", contrasenna);
-            values.put("Fecha_nacimiento", Fecha_nacimiento);
-            values.put("Peso", peso);
-            values.put("Imc", Imc);
-
-            Log.d("Success", "Client added");
-
-            // after adding all values we are passing
-            // content values to our table.
-            db.insert("CLIENTE", null, values);
-            //db.close();
-        } else {
-            Log.d("Error", "Failed to write");
-
-        }
-
-    }
     /**
      * gets client information if password and cedula exists
      * @param cedula input client id
@@ -274,7 +249,7 @@ public class Sqlite extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cedula_contr_cliente = db.rawQuery("SELECT * FROM CLIENTE WHERE Cedula = "+cedula+
-                " AND Contrasenna = "+"'"+contrasenna+"'", null);
+                " AND Contrasena = "+"'"+contrasenna+"'", null);
 
 
         //db.close();
@@ -333,7 +308,7 @@ public class Sqlite extends SQLiteOpenHelper {
         //db.close();
         return nombre_tipo;
     }
-    public void addNewClase_Cliente(String clase_id, String cliente_cedula) {
+    public void addNewClase_Cliente(String clase_id, String cliente_cedula,String sucursal) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -343,6 +318,7 @@ public class Sqlite extends SQLiteOpenHelper {
         // along with its key and value pair.
         values.put("Clase", clase_id);
         values.put("Cliente", cliente_cedula);
+        values.put("Sucursal", sucursal);
 
         // insert content values to our table.
         db.insert("CLASE_CLIENTES", null, values);
@@ -356,7 +332,7 @@ public class Sqlite extends SQLiteOpenHelper {
      */
     public Cursor getClass_cliente(){
         SQLiteDatabase db=this.getWritableDatabase();
-        Cursor clase=db.rawQuery("SELECT TIPO.Descripcion, CLASE.Sucursal, CLASE.Dia, CLASE.Hora_inicio, CLASE.Hora_fin, CLASE.Instructor, CLASE.Capacidad, CLASE.Identificador  FROM  CLASE_CLIENTES \n"+
+        Cursor clase=db.rawQuery("SELECT TIPO.Descripcion,ClASE_CLIENTES.Sucursal, CLASE.Dia, CLASE.Hora_inicio, CLASE.Hora_fin, CLASE.Instructor, CLASE.Capacidad, CLASE.Identificador  FROM  CLASE_CLIENTES \n"+
                 " JOIN CLASE ON CLASE_CLIENTES.Clase = CLASE.Identificador"+
                 " JOIN TIPO ON CLASE.Tipo = TIPO.Id;", null);
         return clase;
@@ -385,6 +361,7 @@ public class Sqlite extends SQLiteOpenHelper {
                 " AND Hora_fin <= "+hora_f+";", null);
         return Class;
     }
+
 
 
     @Override

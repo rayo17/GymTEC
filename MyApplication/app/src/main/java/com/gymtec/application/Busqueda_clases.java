@@ -25,6 +25,8 @@ import com.gymtec.application.database.Sqlite;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import android.os.StrictMode;
+
 
 public class Busqueda_clases extends AppCompatActivity implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
 
@@ -56,7 +58,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busqueda_clases);
-
+        if (android.os.Build.VERSION.SDK_INT > 9) { StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); StrictMode.setThreadPolicy(policy); }
         //Setting dictionary keys and values for days of the week
         dias_dictionary.put("Lunes",1);
         dias_dictionary.put("Martes",2);
