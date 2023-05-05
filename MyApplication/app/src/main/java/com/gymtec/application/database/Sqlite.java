@@ -1,5 +1,6 @@
 package com.gymtec.application.database;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -20,7 +21,7 @@ public class Sqlite extends SQLiteOpenHelper {
     private static final String DB_NAME = "GYMTECTEST";
 
     // below int is our database version
-    private static final int DB_VERSION = 15;
+    private static final int DB_VERSION = 17;
 
 
     public Sqlite(Context context) {
@@ -41,7 +42,7 @@ public class Sqlite extends SQLiteOpenHelper {
 
         String table_clase = "CREATE TABLE CLASE (Identificador INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 "Capacidad INT NOT NULL, "+
-                "Grupal INT NOT NULL, " +
+                "Grupal INT, " +
                 "Tipo VARCHAR(30) NOT NULL, " +
                 "Dia INT NOT NULL, " +
                 "Instructor VARCHAR(100) NOT NULL, " +
@@ -101,40 +102,72 @@ public class Sqlite extends SQLiteOpenHelper {
     public void add_tipos_from_json(JSONArray tipos) throws JSONException {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        this.empty_Sucursales();
+        this.empty_tipo();
         for(int i = 0; i<tipos.length();i++){
-            db.execSQL("INSERT INTO TIPO(Id, Description) VALUES(" +
-                    "'"+tipos.getJSONObject(i).getString("id")+"'"
+            db.execSQL("INSERT INTO TIPO(Id, Descripcion) VALUES(" +
+                    "'"+tipos.getJSONObject(i).getString("identificador")+"'"
                     +","
                     +"'"+tipos.getJSONObject(i).getString("descripcion")+"'"+
                     ");");
         }
     }
 
-    // TODO add code to clases from json
     public void add_clases_from_json(JSONArray tipos) throws JSONException {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        this.empty_Sucursales();
+        this.empty_clases();
         for(int i = 0; i<tipos.length();i++){
-            db.execSQL("INSERT INTO TIPO(Id, Description) VALUES(" +
-                    "'"+tipos.getJSONObject(i).getString("id")+"'"
+            db.execSQL("INSERT INTO CLASE(Identificador, Capacidad , Grupal,Tipo, Dia, Instructor, Hora_inicio,Hora_fin) VALUES(" +
+                    "'"+tipos.getJSONObject(i).getString("identificador")+"'"
                     +","
-                    +"'"+tipos.getJSONObject(i).getString("descripcion")+"'"+
-                    ");");
+                    +"'"+tipos.getJSONObject(i).getString("capacidad")
+                    +"'"
+                    +","
+                    +"'"+tipos.getJSONObject(i).getString("grupal")
+                    +"'"
+                    +","
+                    +"'"+tipos.getJSONObject(i).getString("tipo")
+                    +"'"
+                    +","
+                    +"'"+tipos.getJSONObject(i).getString("dia")
+                    +"'"
+                    +","
+                    +"'"+tipos.getJSONObject(i).getString("instructor")
+                    +"'"
+                    +","
+                    +"'"+tipos.getJSONObject(i).getString("hora_inicio")
+                    +"'"
+                    +","
+                    +"'"+tipos.getJSONObject(i).getString("hora_fin")
+                    +"'"
+                    +");");
         }
     }
 
-    // TODO add code to cliente_clases from json
-    public void add_cliente_clases_from_json(JSONArray tipos) throws JSONException {
+
+    public void add_cliente_clases_from_json(JSONArray clases) throws JSONException {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        this.empty_Sucursales();
+        this.empty_Clase_clientes();
+        for(int i = 0; i<clases.length();i++){
+            db.execSQL("INSERT INTO CLASE_CLIENTES(Clase,Cliente, Sucursal) VALUES(" +
+                    "'"+clases.getJSONObject(i).getString("clase")+"'"
+                    +","+
+                    "'"+clases.getJSONObject(i).getString("cliente")+"'"
+                            +","
+                    +"'"+clases.getJSONObject(i).getString("sucursal")+"'"+
+                    ");");
+        }
+    }
+    // TODO add code to clase_sucursal from json
+    public void add_clasesucursal_from_json(JSONArray tipos) throws JSONException {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        this.empty_Clase_sucursal();
         for(int i = 0; i<tipos.length();i++){
-            db.execSQL("INSERT INTO TIPO(Id, Description) VALUES(" +
-                    "'"+tipos.getJSONObject(i).getString("id")+"'"
+            db.execSQL("INSERT INTO CLASESUCURSAL(Clase, Sucursal) VALUES(" +
+                    "'"+tipos.getJSONObject(i).getString("clase")+"'"
                     +","
-                    +"'"+tipos.getJSONObject(i).getString("descripcion")+"'"+
+                    +"'"+tipos.getJSONObject(i).getString("sucursal")+"'"+
                     ");");
         }
     }
@@ -331,10 +364,16 @@ public class Sqlite extends SQLiteOpenHelper {
      * @return cursor with the clases that the local user is subscribed to
      */
     public Cursor getClass_cliente(){
+        Cursor cliente = this.getCliente();
+        cliente.moveToFirst();
+        String cedula = cliente.getString(0);
+        Log.d("Cedula de usuario",cedula);
         SQLiteDatabase db=this.getWritableDatabase();
-        Cursor clase=db.rawQuery("SELECT TIPO.Descripcion,ClASE_CLIENTES.Sucursal, CLASE.Dia, CLASE.Hora_inicio, CLASE.Hora_fin, CLASE.Instructor, CLASE.Capacidad, CLASE.Identificador  FROM  CLASE_CLIENTES \n"+
+        Cursor clase=db.rawQuery("SELECT CLASE_CLIENTES.Clase, CLASE.Capacidad, CLASE.Grupal, TIPO.Descripcion, CLASE.Dia, CLASE.Instructor, CLASE.Hora_inicio, CLASE.Hora_fin, CLASE_CLIENTES.Sucursal FROM  CLASE_CLIENTES \n"+
+                " JOIN CLIENTE ON CLASE_CLIENTES.Cliente= CLIENTE.Cedula"+
                 " JOIN CLASE ON CLASE_CLIENTES.Clase = CLASE.Identificador"+
-                " JOIN TIPO ON CLASE.Tipo = TIPO.Id;", null);
+                " JOIN TIPO ON CLASE.Tipo = TIPO.Id"+
+                " WHERE Cliente.cedula = "+cedula+";", null);
         return clase;
     }
 
@@ -351,10 +390,11 @@ public class Sqlite extends SQLiteOpenHelper {
     public Cursor getClass(String sucursal, String tipo, String dia_i, String hora_i, String dia_f, String hora_f){
 
         SQLiteDatabase db =this.getWritableDatabase();
-        Cursor Class=db.rawQuery("SELECT TIPO.Descripcion, CLASE.Sucursal, CLASE.Dia, CLASE.Hora_inicio, CLASE.Hora_fin, CLASE.Instructor, CLASE.Capacidad, CLASE.Identificador  FROM  CLASE \n"+
+        Cursor Class=db.rawQuery("SELECT CLASE.Identificador, CLASE.Capacidad, CLASE.Grupal, TIPO.Descripcion, CLASE.Dia, CLASE.Instructor, CLASE.Hora_inicio, CLASE.Hora_fin, CLASESUCURSAL.Sucursal  FROM  CLASESUCURSAL \n"+
+                " JOIN CLASE ON CLASESUCURSAL.Clase = CLASE.Identificador"+
                 " JOIN TIPO ON CLASE.Tipo = TIPO.Id"+
-                " WHERE Sucursal = "+sucursal+
-                " AND Tipo = "+tipo+
+                " WHERE CLASESUCURSAL.Sucursal = "+sucursal+
+                " AND CLASE.Tipo = "+tipo+
                 " AND Dia >= "+dia_i+
                 " AND Dia <= "+dia_f+
                 " AND Hora_inicio >= "+hora_i+
@@ -378,7 +418,7 @@ public class Sqlite extends SQLiteOpenHelper {
         array[7]= "TIPO_CLASE";
         array[8]= "PRODUCTO";
         array[9]= "TRATAMIENTO";
-        array[10]= "GIMNASIO";
+        array[10]= "CLASESUCURSAL";
         array[11]= "CLIENTE";
         array[12]= "CLASE_CLIENTES";
         array[13]= "TIPO_EQUIPO";

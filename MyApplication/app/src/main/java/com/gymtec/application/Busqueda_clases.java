@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,11 +22,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.gymtec.application.database.Sqlite;
+import com.gymtec.application.maindb_access.models.RemoteDBsendGet;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import android.os.StrictMode;
+
+import org.json.JSONArray;
 
 
 public class Busqueda_clases extends AppCompatActivity implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
@@ -35,6 +39,8 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
     String[][] tipos_clase;
     String[] dias_semana = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes","Sábado","Domingo"};
     HashMap<String, Integer> dias_dictionary = new HashMap<>();
+
+    RemoteDBsendGet remotedb;
 
 
     HashMap<String, Integer> tipo_clase_dictionary = new HashMap<>();
@@ -54,10 +60,39 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
 
     private int selected_type_id;
 
+    public void populate_sucursales(){
+
+        Cursor cursor_sucursales = databaseHelper.getSucursal();
+        cursor_sucursales.moveToFirst();
+        int cantidad_sucursales = cursor_sucursales.getCount();
+        Log.d("Sucursales", String.valueOf(cantidad_sucursales));
+        sucursales = new String[cantidad_sucursales];
+
+        for(int i = 0; i<cantidad_sucursales; i++){
+            sucursales[i] = cursor_sucursales.getString(0);
+            cursor_sucursales.moveToNext();
+        }
+    }
+
+    public void populate_tipos(){
+        Cursor cursor_tipos = databaseHelper.getTipo();
+        cursor_tipos.moveToFirst();
+        int cantidad_tipos = cursor_tipos.getCount();
+        Log.d("Tipos", String.valueOf(cantidad_tipos));
+        tipos_clase = new String[cantidad_tipos][2];
+
+        for(int i = 0; i<cantidad_tipos; i++){
+            tipos_clase[i][0] = cursor_tipos.getString(0);
+            tipos_clase[i][1] = cursor_tipos.getString(1);
+            tipo_clase_dictionary.put(tipos_clase[i][1], Integer.valueOf(tipos_clase[i][0]));
+            cursor_tipos.moveToNext();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busqueda_clases);
+        remotedb = new RemoteDBsendGet();
         if (android.os.Build.VERSION.SDK_INT > 9) { StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); StrictMode.setThreadPolicy(policy); }
         //Setting dictionary keys and values for days of the week
         dias_dictionary.put("Lunes",1);
@@ -71,30 +106,10 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
         databaseHelper = new Sqlite(getApplicationContext());
 
         //sucursales population
-        Cursor cursor_sucursales = databaseHelper.getSucursal();
-        cursor_sucursales.moveToFirst();
-        int cantidad_sucursales = cursor_sucursales.getCount();
-        Log.d("Sucursales", String.valueOf(cantidad_sucursales));
-        sucursales = new String[cantidad_sucursales];
-
-        for(int i = 0; i<cantidad_sucursales; i++){
-            sucursales[i] = cursor_sucursales.getString(0);
-            cursor_sucursales.moveToNext();
-        }
+        populate_sucursales();
 
         //tipo population
-        Cursor cursor_tipos = databaseHelper.getTipo();
-        cursor_tipos.moveToFirst();
-        int cantidad_tipos = cursor_tipos.getCount();
-        Log.d("Tipos", String.valueOf(cantidad_tipos));
-        tipos_clase = new String[cantidad_tipos][2];
-
-        for(int i = 0; i<cantidad_tipos; i++){
-            tipos_clase[i][0] = cursor_tipos.getString(0);
-            tipos_clase[i][1] = cursor_tipos.getString(1);
-            tipo_clase_dictionary.put(tipos_clase[i][1], Integer.valueOf(tipos_clase[i][0]));
-            cursor_tipos.moveToNext();
-        }
+        populate_tipos();
 
         //View elements binding
         Button start_hour_selector = (Button) findViewById(R.id.hora_inicio_btn);
@@ -112,6 +127,26 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
         dia_final_text  = (TextView) findViewById(R.id.periodo_final_filter);
         hora_final_tv = (TextView) findViewById(R.id.hora_final_filter);
 
+        new Thread((new Runnable() {
+            @Override
+            public void run() {
+                Looper.prepare();
+                try {
+
+                    JSONArray json_sucursales = new JSONArray(remotedb.sendGet(getResources().getString(R.string.api_url)+getResources().getString(R.string.getSucursales)));
+                    databaseHelper.add_Sucursales_from_json(json_sucursales);
+                    String json_string_tipos=remotedb.sendGet(getResources().getString(R.string.api_url)+getResources().getString(R.string.getTipo));
+                    Log.d("Tipos", json_string_tipos);
+                    JSONArray json_tipos = new JSONArray(json_string_tipos);
+                    databaseHelper.add_tipos_from_json(json_tipos);
+                    populate_sucursales();
+                    populate_tipos();
+                } catch (Exception e) {
+                    Log.d("Error",e.toString());
+                    Toast.makeText(getApplicationContext(),"Mostrando resultados locales",Toast.LENGTH_LONG).show();
+                }
+            }
+        })).start();
         //timepicker
         timePicker = new TimePickerFragment();
 
@@ -203,7 +238,22 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
                 view_clases.putExtra("filtro_dia_final", filtros[4]);
                 view_clases.putExtra("filtro_hora_final", filtros[5]);
                 view_clases.putExtra("flag", "search");
-                startActivity(view_clases);
+                try {
+                    String jsonString_clases = remotedb.sendGet(getResources().getString(R.string.api_url)+getResources().getString(R.string.getClases));
+                    Log.d("Clases Obtenidas",jsonString_clases);
+                    JSONArray json_clases = new JSONArray(jsonString_clases);
+                    databaseHelper.add_clases_from_json(json_clases);
+                    String jsonString_clasesucursal = remotedb.sendGet(getResources().getString(R.string.api_url)+getResources().getString(R.string.getClaseSucursal));
+                    Log.d("CLASESUCURSAL obtenidas",jsonString_clasesucursal);
+                    JSONArray json_clasesucursal = new JSONArray(jsonString_clasesucursal);
+                    databaseHelper.add_clasesucursal_from_json(json_clasesucursal);
+                    startActivity(view_clases);
+                } catch (Exception e) {
+                    Log.d("Error getting clases",e.toString());
+                    Toast.makeText(getApplicationContext(),"Mostrando Resultados locales",Toast.LENGTH_LONG).show();
+                    //startActivity(view_clases);
+                }
+
             }
         });
     }

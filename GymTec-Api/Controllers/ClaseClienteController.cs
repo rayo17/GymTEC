@@ -28,10 +28,14 @@ namespace GymTec_Api.Controllers
 
         // GET: api/Clase_cliente/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Clase_cliente>> GetClase_cliente(string id)
+        public async Task<ActionResult<IEnumerable<Clase_cliente>>> GetClase_cliente(string id)
         {
-            var clase_cliente = await _context.Clase_cliente.FindAsync(id);
-
+            var clase_cliente = await _context.Clase_cliente.Where(c => c.Cliente == id).Select(cc => new Clase_cliente
+            {
+                Cliente = cc.Cliente,
+                Clase = cc.Clase,
+                Sucursal = cc.Sucursal
+            }).ToListAsync();
             if (clase_cliente == null)
             {
                 return NotFound();
@@ -42,7 +46,7 @@ namespace GymTec_Api.Controllers
 
         // PUT: api/Clase_cliente/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClase_cliente(string id, Clase_cliente clase_cliente)
+        public async Task<IActionResult> PutClase_cliente(int id, Clase_cliente clase_cliente)
         {
             if (id != clase_cliente.Clase)
             {
@@ -57,14 +61,9 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!Clase_clienteExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+              
+                return NotFound();
+                
             }
 
             return NoContent();
@@ -81,7 +80,7 @@ namespace GymTec_Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (Clase_clienteExists(clase_cliente.Clase))
+                if (Clase_clienteExists(clase_cliente.Clase, clase_cliente.Cliente,clase_cliente.Sucursal))
                 {
                     return Conflict();
                 }
@@ -110,9 +109,9 @@ namespace GymTec_Api.Controllers
             return clase_cliente;
         }
 
-        private bool Clase_clienteExists(string id)
+        private bool Clase_clienteExists(int id, string cliente_id, string sucursal)
         {
-            return _context.Clase_cliente.Any(e => e.Clase == id);
+            return _context.Clase_cliente.Any(e => e.Clase == id && e.Cliente == cliente_id && e.Sucursal == sucursal);
         }
     }
 }

@@ -26,10 +26,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RemoteDBsendGet {
 
     private static Retrofit retrofit;
-    private static String BASE_URL = "https://192.168.239.179:7233";
+    private static String BASE_URL = "https://192.168.11.179:7233";
 
     public RemoteDBsendGet(){
 
+    }
+
+    public static void setBASEURL(String url){
+        BASE_URL = url;
     }
 
     public static Retrofit getRetrofitInstance(){
@@ -114,7 +118,8 @@ public class RemoteDBsendGet {
         trustAllCertificates();
         URL obj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection)  obj.openConnection();
-
+        connection.setConnectTimeout(1500);
+        connection.setReadTimeout(1500);
         int responseCode = connection.getResponseCode();
 
         Log.d("Rsponse Code", String.valueOf(responseCode));
@@ -135,6 +140,8 @@ public class RemoteDBsendGet {
         trustAllCertificates();
         URL obj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection)  obj.openConnection();
+        connection.setConnectTimeout(1500);
+        connection.setReadTimeout(1500);
         return connection.getResponseCode();
     }
 

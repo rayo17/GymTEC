@@ -13,6 +13,7 @@ import com.gymtec.application.database.Sqlite;
 import com.gymtec.application.databinding.ActivityCourseListBinding;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class CourseListActivity extends AppCompatActivity {
 
@@ -39,9 +40,12 @@ public class CourseListActivity extends AppCompatActivity {
                     extras.getString("filtro_dia_final"),
                     extras.getString("filtro_hora_final"));
             cantidad_clases = clases_a_mostrar.getCount();
+
         }
         if(extras.getString("flag").equals("view")){
+
             clases_a_mostrar = databaseHelper.getClass_cliente();
+
             cantidad_clases = clases_a_mostrar.getCount();
         }
 
@@ -52,12 +56,13 @@ public class CourseListActivity extends AppCompatActivity {
                 Course course = new Course(
                         clases_a_mostrar.getString(0),
                         clases_a_mostrar.getString(1),
-                        clases_a_mostrar.getString(2),
                         clases_a_mostrar.getString(3),
                         clases_a_mostrar.getString(4),
                         clases_a_mostrar.getString(5),
                         clases_a_mostrar.getString(6),
-                        clases_a_mostrar.getString(7)
+                        clases_a_mostrar.getString(7),
+                        clases_a_mostrar.getString(8)
+
                 );
                 courseArrayList.add(course);
                 clases_a_mostrar.moveToNext();

@@ -168,7 +168,7 @@ public class RegistroClienteActivity extends AppCompatActivity implements DatePi
                         public void onFailure(Call<Cliente> call, Throwable t) {
                             String error= t.toString();
                             Log.d("ERROR REGISTERING CLIENT",error);
-                            Toast.makeText(RegistroClienteActivity.this,error,Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistroClienteActivity.this,"Error",Toast.LENGTH_LONG).show();
 
                         }
                     });

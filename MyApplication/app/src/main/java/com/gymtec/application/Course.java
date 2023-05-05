@@ -22,7 +22,7 @@ public class Course {
 
     HashMap<String, String> numero_dias;
 
-    public Course(String tipo, String sucursal, String dia, String hora_inicio, String hora_final, String instructor, String capacidad, String identificador) {
+    public Course(String identificador, String capacidad, String tipo, String dia, String instructor, String hora_inicio,String hora_final, String sucursal) {
         numero_dias = new HashMap<String, String>();
         this.numero_dias.put("1","Lunes");
         this.numero_dias.put("2","Martes");
