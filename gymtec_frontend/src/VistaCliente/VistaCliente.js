@@ -1,9 +1,10 @@
 import React from 'react';
 import { obtenerClases, FiltroTipo, FiltroSucursal, FiltroRangoHora, FiltroRangoDia, obtenerSucursales, obtenerServicios } from '../api';
 import '../VistaAdministrador/GestionProductos.css';
-import { Navbar } from "../Templates/Navbar"
+import { NavbarCliente } from "../Templates/NavbarCliente"
 
-class VistaCliente extends React.Component {
+
+class VistaCliente extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -109,16 +110,34 @@ class VistaCliente extends React.Component {
         document.removeEventListener('mousedown', this.handleOuterClick);
     };
 
+    registrarClase = (reg) => {
+        var cliente = sessionStorage.getItem("miId");
+
+        axios
+            .post('http://localhost:5236/api/ClaseCliente', {
+                clase: String(reg.identificador),
+                cliente: cliente,
+            }) // obtiene la lista de sucursales desde el API
+            .then(response => {
+                console.log("Todo bien")
+                //this.handleMisClases();
+            })
+            .catch(error => {
+                console.log("Ya te has registrado en esta clase")
+            });
+    }
+
+
     handleCerrarClick = () => {
         this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '' }, formMode: 'agregar', showPopup: 0 });
         this.setState({ showPopup: 0 });
         document.removeEventListener('mousedown', this.handleOuterClick);
     }
     render() {
-        const { clases, formValues, formMode, showPopup, sucursales, servicios } = this.state;
+        const { clases, formValues, showPopup, sucursales, servicios } = this.state;
         return (
             <div className="gestion-productos-container">
-                <Navbar />
+                <NavbarCliente/>
                 <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Gestión de clases</h1>
 
                 <h1 style={{ margin: '0px', fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase', marginLeft: '0px', marginRight: '1770px' }} onClick={() => this.handleEditClick(1)}>Filtrar</h1>
@@ -215,6 +234,8 @@ class VistaCliente extends React.Component {
                             <th style={{ padding: '10px' }}>Dia</th>
                             <th style={{ padding: '10px' }}>Hora Inicio</th>
                             <th style={{ padding: '10px' }}>Hora Fin</th>
+                            <th style={{ padding: '10px' }}>Registrarse</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -227,6 +248,10 @@ class VistaCliente extends React.Component {
                                 <td style={{ padding: '10px' }}>{clase.dia}</td>
                                 <td style={{ padding: '10px' }}>{clase.hora_inicio}</td>
                                 <td style={{ padding: '10px' }}>{clase.hora_fin}</td>
+                                <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>
+                                    <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#3498db', border: '2px solid #3498db', cursor: 'pointer' }}
+                                            onClick={() => this.registrarClase(clase)}>Registrarse</button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

@@ -42,7 +42,7 @@ namespace GymTec_Api.Controllers
 
         // PUT: api/Clase_cliente/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClase_cliente(string id, Clase_cliente clase_cliente)
+        public async Task<IActionResult> PutClase_cliente(int id, Clase_cliente clase_cliente)
         {
             if (id != clase_cliente.Clase)
             {
@@ -96,7 +96,7 @@ namespace GymTec_Api.Controllers
 
         // DELETE: api/Clase_cliente/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Clase_cliente>> DeleteClase_cliente(string id)
+        public async Task<ActionResult<Clase_cliente>> DeleteClase_cliente(int id)
         {
             var clase_cliente = await _context.Clase_cliente.FindAsync(id);
             if (clase_cliente == null)
@@ -110,7 +110,7 @@ namespace GymTec_Api.Controllers
             return clase_cliente;
         }
 
-        private bool Clase_clienteExists(string id)
+        private bool Clase_clienteExists(int id)
         {
             return _context.Clase_cliente.Any(e => e.Clase == id);
         }

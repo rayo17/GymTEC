@@ -12,45 +12,45 @@ import {
   }
   from 'mdb-react-ui-kit';
 
-  function sign(){
-  
-    var cedula = document.getElementById("cedula").value
-    var primer_nombre = document.getElementById("primer_nombre").value
-    var segundo_nombre = document.getElementById("segundo_nombre").value
-    var primer_apellido = document.getElementById("primer_apellido").value
-    var segundo_apellido = document.getElementById("segundo_apellido").value
-    var peso = document.getElementById("peso").value
-    var imc = document.getElementById("imc").value
-    var distrito = document.getElementById("distrito").value
-    var canton = document.getElementById("canton").value
-    var provincia = document.getElementById("provincia").value
-    var correo_electronico = document.getElementById("correo_electronico").value
-    var contrasena = document.getElementById("contrasena").value
-  
-    axios
-        .post("http://localhost:5236/api/cliente", {
-          cedula: cedula,
-          primer_nombre: primer_nombre,
-          segundo_nombre: segundo_nombre,
-          primer_apellido: primer_apellido,
-          segundo_apellido: segundo_apellido,
-          peso: peso,
-          imc: imc,
-          distrito: distrito,
-          canton: canton,
-          provincia: provincia,
-          correo_electronico: correo_electronico,
-          contrasena: contrasena
-        })
-        .then((response) => {
-          // Actualizar el estado de los pacientes con los nuevos datos ingresados
-          alert("¡Registro exitoso!");
-          window.location = "/logincliente"
-        })
-        .catch((error) => {
-            alert("No ha sido posible su registro.");
-        });
-  }
+function sign(){
+
+  var cedula = document.getElementById("cedula").value
+  var primer_nombre = document.getElementById("primer_nombre").value
+  var segundo_nombre = document.getElementById("segundo_nombre").value
+  var primer_apellido = document.getElementById("primer_apellido").value
+  var segundo_apellido = document.getElementById("segundo_apellido").value
+  var peso = document.getElementById("peso").value
+  var imc = document.getElementById("imc").value
+  var distrito = document.getElementById("distrito").value
+  var canton = document.getElementById("canton").value
+  var provincia = document.getElementById("provincia").value
+  var correo_electronico = document.getElementById("correo_electronico").value
+  var contrasena = document.getElementById("contrasena").value
+
+  axios
+      .post("http://localhost:5236/api/cliente", {
+        cedula: cedula,
+        primer_nombre: primer_nombre,
+        segundo_nombre: segundo_nombre,
+        primer_apellido: primer_apellido,
+        segundo_apellido: segundo_apellido,
+        peso: peso,
+        imc: imc,
+        distrito: distrito,
+        canton: canton,
+        provincia: provincia,
+        correo_electronico: correo_electronico,
+        contrasena: contrasena
+      })
+      .then((response) => {
+        // Actualizar el estado de los pacientes con los nuevos datos ingresados
+        alert("¡Registro exitoso!");
+        window.location = "/logincliente"
+      })
+      .catch((error) => {
+          alert("No ha sido posible su registro.");
+      });
+}
 
 function Signup () {
     return (
@@ -101,7 +101,7 @@ function Signup () {
                 <MDBInput wrapperClass='mb-4' placeholder='Contraseña'  id='contrasena' type='password'/>
 
                 <div className="text-center pt-1 mb-5 pb-1">
-                  <button style={{ color: '#FFF', backgroundColor: '#008CBA', borderRadius: '12px', padding: '12px', border: '2px solid #008CBA'}} onClick={sign} >Registrarse</button>
+                  <button style={{ color: '#FFF', backgroundColor: '#008CBA', borderRadius: '12px', padding: '12px', border: '2px solid #008CBA'}} onClick={sign}>Registrarse</button>
                 </div>
               </div>
     

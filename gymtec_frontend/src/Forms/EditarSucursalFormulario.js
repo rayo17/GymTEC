@@ -8,16 +8,16 @@ class EditarSucursalFormulario extends Component {
     super(props);
 
     this.state = {
-      nombre: this.props.editName,
-      canton: "",
-      distrito: "",
-      provincia: "",
-      fecha_apertura: "",
-      horario_atencion: "",
-      administrador: "",
-      capacidad_maxima: "",
-      activacion_spa: "",
-      activacion_tienda: "",
+      nombre: this.props.editName.sucursal.nombre,
+      canton: this.props.editName.sucursal.canton,
+      distrito: this.props.editName.sucursal.distrito,
+      provincia: this.props.editName.sucursal.provincia,
+      fecha_apertura: this.props.editName.sucursal.fecha_apertura,
+      horario_atencion: this.props.editName.sucursal.horario_atencion,
+      administrador: this.props.editName.sucursal.administrador,
+      capacidad_maxima: this.props.editName.sucursal.capacidad_maxima,
+      activacion_spa: "Desactivado",
+      activacion_tienda: "Desactivado",
       showModal: false,
     };
 
@@ -59,6 +59,20 @@ class EditarSucursalFormulario extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  handleActivacionSpa = (event) => {
+    if (event.target.checked)
+      this.setState({ activacion_spa: "Activado" });
+    else
+      this.setState({ activacion_spa: "Desactivado" });
+  }
+
+  handleActivacionTienda = (event) => {
+    if (event.target.checked)
+      this.setState({ activacion_tienda: "Activado" });
+    else
+      this.setState({ activacion_tienda: "Desactivado" });
+  }
+
   handleOuterClick(event) {
     const container = document.querySelector('.container1');
     if (container && !container.contains(event.target)) {
@@ -79,7 +93,7 @@ class EditarSucursalFormulario extends Component {
       <div
         className="container1"
         style={{
-          maxWidth: '300px',
+          maxWidth: '500px',
           margin: '0 auto',
           marginTop: '20px',
           textAlign: 'center',
@@ -178,21 +192,19 @@ class EditarSucursalFormulario extends Component {
           <div className="form-input">
             <label htmlFor="activacion_spa">Activación Spa:</label>
             <input
-              type="text"
+              type="checkbox"
               name="activacion_spa"
               value={this.state.activacion_spa}
-              onChange={this.handleChange}
-              required
+              onChange={this.handleActivacionSpa}
             />
           </div>
           <div className="form-input">
             <label htmlFor="activacion_tienda">Activación Tienda:</label>
             <input
-              type="text"
+              type="checkbox"
               name="activacion_tienda"
               value={this.state.activacion_tienda}
-              onChange={this.handleChange}
-              required
+              onChange={this.handleActivacionTienda}
             />
             </div>
             <div style={{marginTop: "20px"}}>

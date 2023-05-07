@@ -8,8 +8,7 @@ class NuevaPlanillaFormulario extends Component {
     super(props);
 
     this.state = {
-      identificador: "",
-      tipo: "",
+      descripcion: "",
       showModal: false,
     };
 
@@ -20,12 +19,11 @@ class NuevaPlanillaFormulario extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
+    console.log(event.target.value)
     // Enviar los datos al backend para crear una nueva sucursal
     axios
         .post("http://localhost:5236/api/Planillas", {
-            identificador: this.state.identificador,
-            tipo: this.state.tipo,
+          descripcion: this.state.descripcion,
         })
         .then((response) => {
             // Actualizar el estado de los pacientes con los nuevos datos ingresados
@@ -33,7 +31,8 @@ class NuevaPlanillaFormulario extends Component {
         })
         .catch((error) => {
             this.setState({ error: error.message });
-            alert("Empleado no encontrado")
+            console.log(error)
+            alert("No ha sido posible agregar la planilla")
         });
 
     console.log("Nueva planilla agregada");
@@ -43,12 +42,6 @@ class NuevaPlanillaFormulario extends Component {
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
-
-  displaySelect = (event) => {
-    console.log("Se esta cambiando")
-    console.log(event.target.value)
-    console.log(event.target.name)
-  }
 
   handleOuterClick(event) {
     const container = document.querySelector('.container1');
@@ -87,23 +80,14 @@ class NuevaPlanillaFormulario extends Component {
         <Form onSubmit={this.handleSubmit}>
           <h2>Nueva planilla</h2>
           <div className="form-input">
-            <label htmlFor="identificador">Identificación empleado:</label>
+            <label htmlFor="descripcion">Descripción:</label>
             <input
               type="text"
-              name="identificador"
-              value={this.state.identificador}
+              name="descripcion"
+              value={this.state.descripcion}
               onChange={this.handleChange}
               required
             />
-          </div>
-          <div className="form-input">
-            <label htmlFor="tipo">Tipo:</label>
-            <br></br>
-            <select name="tipo" onChange={this.handleChange}>
-              <option>Mensual</option>
-              <option>Por hora</option>
-              <option>Por clase</option>
-            </select>
           </div>
           
             <div style={{marginTop: "20px"}}>

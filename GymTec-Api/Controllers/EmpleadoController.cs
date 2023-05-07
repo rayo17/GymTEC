@@ -46,7 +46,7 @@ namespace GymTec_Api.Controllers
         
         // GET: api/Empleado/Contrasenna
         [HttpGet("{cedula}/{password}")]
-        public ActionResult Get(string cedula, string password)
+        public async Task<ActionResult<Empleado>> Get(string cedula, string password)
         {
             var md5 = MD5.Create();
             var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(password));
@@ -56,7 +56,7 @@ namespace GymTec_Api.Controllers
 
             if (empleado != null)
             {
-                return Ok();
+                return empleado;
             }
 
             return BadRequest();

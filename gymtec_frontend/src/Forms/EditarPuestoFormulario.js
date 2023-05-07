@@ -8,8 +8,8 @@ class EditarPuestoFormulario extends Component {
     super(props);
 
     this.state = {
-      identificador: this.props.editName,
-      descripcion: "",
+      identificador: this.props.editName.puesto.identificador,
+      descripcion: this.props.editName.puesto.descripcion,
       showModal: false,
     };
 

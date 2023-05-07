@@ -29,7 +29,7 @@ namespace GymTec_Api.Controllers
 
         // GET: api/Planillas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Planilla>> GetPlanilla(string id)
+        public async Task<ActionResult<Planilla>> GetPlanilla(int id)
         {
             var planilla = await _context.Planilla.FindAsync(id);
 
@@ -91,7 +91,7 @@ namespace GymTec_Api.Controllers
 
         // DELETE: api/Planillas/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Planilla>> DeletePlanilla(string id)
+        public async Task<ActionResult<Planilla>> DeletePlanilla(int id)
         {
             var planilla = await _context.Planilla.FindAsync(id);
             if (planilla == null)

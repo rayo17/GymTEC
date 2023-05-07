@@ -8,8 +8,8 @@ class EditarPlanillaFormulario extends Component {
     super(props);
 
     this.state = {
-      identificador: this.props.editName,
-      tipo: "Mensual",
+      identificador: this.props.editName.planilla.identificador,
+      descripcion: this.props.editName.planilla.descripcion,
       showModal: false,
     };
 
@@ -25,7 +25,7 @@ class EditarPlanillaFormulario extends Component {
     axios
       .put("http://localhost:5236/api/planillas/"+this.state.identificador, {
         identificador: this.state.identificador,
-        tipo: this.state.tipo,
+        descripcion: this.state.descripcion,
       })
       .then((response) => {
         // Actualizar el estado de los pacientes con los nuevos datos ingresados
@@ -91,13 +91,14 @@ class EditarPlanillaFormulario extends Component {
             />
           </div>
           <div className="form-input">
-            <label htmlFor="tipo">Tipo:</label>
-            <br></br>
-            <select name="tipo" onChange={this.handleChange}>
-              <option>Mensual</option>
-              <option>Por hora</option>
-              <option>Por clase</option>
-            </select>
+            <label htmlFor="descripcion">Descripción:</label>
+            <input
+              type="text"
+              name="descripcion"
+              value={this.state.descripcion}
+              onChange={this.handleChange}
+              required
+            />
           </div>
 
             <div style={{marginTop: "20px"}}>
