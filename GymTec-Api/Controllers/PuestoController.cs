@@ -85,7 +85,7 @@ namespace GymTec_Api.Controllers
 
         // DELETE: api/Puesto/5
         [HttpDelete("{identificador}")]
-        public async Task<IActionResult> DeletePuesto(string identificador)
+        public async Task<IActionResult> DeletePuesto(int identificador)
         {
             var puesto = await _context.Puesto.FindAsync(identificador);
             if (puesto == null)

@@ -8,7 +8,6 @@ class NuevoPuestoFormulario extends Component {
     super(props);
 
     this.state = {
-      identificador: "",
       descripcion: "",
       showModal: false,
     };
@@ -24,7 +23,6 @@ class NuevoPuestoFormulario extends Component {
     // Enviar los datos al backend para crear una nueva sucursal
     axios
         .post("http://localhost:5236/api/Puesto", {
-            identificador: this.state.identificador,
             descripcion: this.state.descripcion
         })
         .then((response) => {
