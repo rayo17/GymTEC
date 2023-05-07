@@ -90,7 +90,7 @@ public class CourseActivity extends AppCompatActivity {
                                 throw new RuntimeException(e);
                             }
                             Log.d("Error 4000",response_code);
-                            Toast.makeText(getApplicationContext(),response_code , Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "La clase ya ha sido registrada" , Toast.LENGTH_LONG).show();
 
 
                         }

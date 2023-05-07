@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(home);
                         }
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        Toast.makeText(getApplicationContext(), "No hay conexión", Toast.LENGTH_LONG).show();
                     }
                 }
 
