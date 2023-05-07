@@ -68,10 +68,6 @@ class NuevaSucursalFormulario extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleActivacionTienda = (event) => {
-    console.log(event.value)
-  }
-
   handleOuterClick(event) {
     const container = document.querySelector('.container1');
     if (container && !container.contains(event.target)) {
@@ -197,24 +193,6 @@ class NuevaSucursalFormulario extends Component {
               required
             />
           </div>
-          <div className="form-input">
-            <label htmlFor="activacion_spa">Activación Spa:</label>
-            <input
-              type="checkbox"
-              name="activacion_spa"
-              value={this.state.activacion_spa}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-input">
-            <label htmlFor="activacion_tienda">Activación Tienda:</label>
-            <input
-              type="checkbox"
-              name="activacion_tienda"
-              value={this.state.activacion_tienda}
-              onChange={this.handleActivacionTienda}
-            />
-            </div>
             <div style={{marginTop: "20px"}}>
             <button type="submit" style={{
               backgroundColor: "#fff",

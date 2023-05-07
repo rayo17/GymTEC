@@ -16,19 +16,24 @@ function login(){
   
   var ced = document.getElementById("cedula").value
   var pass = document.getElementById("password").value
-
+  //var id_puesto
   axios
       .get("http://localhost:5236/api/empleado/"+ced+'/'+pass, {
         
       })
       .then((response) => {
         // Actualizar el estado de los pacientes con los nuevos datos ingresados
-        console.log("Entrando..")
-        window.location = "/administrador"
+        var id_puesto = response.data.puesto;
+        axios.get("http://localhost:5236/api/puesto/"+id_puesto, {
+
+          })
+          .then((response) => {
+            alert("¡Bienvenido, "+response.data.descripcion+"!")
+            window.location = "/administrador"
+          })
       })
       .catch((error) => {
-          console.log("Todo mal bro");
-          alert("Usuario no encontrado");
+        alert("El usuario y la contraseña no coinciden")
       });
 }
 

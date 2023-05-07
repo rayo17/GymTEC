@@ -155,7 +155,7 @@ render() {
         </tbody>
       </table>
       <button style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px', backgroundColor: '#fff', color: '#4CAF50', border: '2px solid #4CAF50', cursor: 'pointer' }} 
-      onClick={this.toggleDialog}>Asignar puesto</button>
+      onClick={this.toggleDialog}>Crear puesto</button>
       {showDialog && (
           <div
             style={{

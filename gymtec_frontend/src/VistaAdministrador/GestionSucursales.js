@@ -92,7 +92,7 @@ class GestionSucursales extends Component {
   };
 
   getSucursal = (x) => {
-    this.setState({nombre: x})
+    this.setState({sucursal: x})
     this.toggletD()
   }
 
@@ -202,7 +202,7 @@ render() {
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{sucursale.activacion_tienda}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
                 <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#ccdb19', border: '2px solid #ccdb19', cursor: 'pointer' }} 
-                onClick={() => this.getSucursal(sucursale.nombre)}>Editar</button> 
+                onClick={() => this.getSucursal(sucursale)}>Editar</button> 
               </td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}> 
                 <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#c92d15', border: '2px solid #c92d15', cursor: 'pointer' }} 
@@ -297,7 +297,7 @@ render() {
           >
             {/* contenido del diálogo */}
             <EditarSucursalFormulario
-              editName={this.state.nombre}
+              editName={this.state}
               onClose={this.toggletD}
               onEditSucursal={this.handleSucursal}
             />

@@ -28,7 +28,7 @@ namespace GymTec_Api.Controllers
 
         // GET: api/Puesto/5
         [HttpGet("{identificador}")]
-        public async Task<ActionResult<Puesto>> GetPuesto(string identificador)
+        public async Task<ActionResult<Puesto>> GetPuesto(int identificador)
         {
             var puesto = await _context.Puesto.FindAsync(identificador);
 
