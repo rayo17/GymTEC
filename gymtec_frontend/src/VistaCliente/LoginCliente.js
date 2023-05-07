@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import axios from "axios";
 import Logo from '../Imgs/Logo.png'
@@ -22,11 +23,11 @@ function login(){
       .then((response) => {
         // Actualizar el estado de los pacientes con los nuevos datos ingresados
         console.log("Entrando..")
+        sessionStorage.setItem("miId", ced);
         window.location = "/cliente"
       })
       .catch((error) => {
-          console.log("Todo mal bro");
-          alert("Usuario no encontrado");
+          alert("El usuario y la contraseña no coinciden");
       });
 }
 
