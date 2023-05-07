@@ -1,4 +1,5 @@
 import axios from 'axios';
+import App from './App';
 
 const API_URL = 'http://localhost:5236/api'; // URL base del backend de la aplicación
 
@@ -256,4 +257,20 @@ export const SucursalTodo = async() =>{
   const response = await axios.get(`${API_URL}/Sucursal/conTodo`);
   return response.data;
 
+}
+export const FiltroTipo = async(tipo) =>{
+  const response = await axios.get(`${API_URL}/Clase/clases/tipo?tipo=${tipo}`);
+  return response.data;
+}
+export const FiltroSucursal = async(sucursal) => {
+  const response = await axios.get(`${API_URL}/Clase/clases/sucursal?sucursal=${sucursal}`);
+  return response.data;
+}
+export const FiltroRangoHora = async(hora_inicio, hora_fin) =>{
+  const response = await axios.get(`${API_URL}/Clase/clases/rango-hora?horaInicio=${hora_inicio}&horaFin=${hora_fin}`);
+  return response.data;
+}
+export const FiltroRangoDia = async(diaInicio, diaFin) =>{
+  const response = await axios.get(`${API_URL}/Clase/clases/rango-dia?diaInicio=${diaInicio}&diaFin=${diaFin}`);
+  return response.data;
 }

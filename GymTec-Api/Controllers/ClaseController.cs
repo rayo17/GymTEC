@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using GymTec_Api.Data;
@@ -185,5 +186,53 @@ namespace GymTec_Api.Controllers
 
             return tratamientosConSucursal;
         }
+        [HttpGet("clases/rango-hora")]
+        public IActionResult GetClasesEnRangoHora(string horaInicio, string horaFin)
+        {
+            List<Clase> clasesEnRango = new List<Clase>();
+            foreach (Clase clase in _context.Clase)
+            {
+                if (EsHoraEnRango(clase.Hora_inicio, horaInicio, horaFin) &&
+                    EsHoraEnRango(clase.Hora_fin, horaInicio, horaFin))
+                {
+                    clasesEnRango.Add(clase);
+                }
+            }
+            return Ok(clasesEnRango);
+        }
+
+        private bool EsHoraEnRango(string hora, string horaInicio, string horaFin)
+        {
+            DateTime horaDateTime = DateTime.ParseExact(hora, "HH:mm", CultureInfo.InvariantCulture);
+            DateTime horaInicioDateTime = DateTime.ParseExact(horaInicio, "HH:mm", CultureInfo.InvariantCulture);
+            DateTime horaFinDateTime = DateTime.ParseExact(horaFin, "HH:mm", CultureInfo.InvariantCulture);
+            return horaDateTime >= horaInicioDateTime && horaDateTime <= horaFinDateTime;
+        }
+        [HttpGet("clases/sucursal")]
+        public IActionResult GetClasesEnSucursal(string sucursal)
+        {
+            List<ClaseSucursal> clasesEnRango = _context.ClaseSucursal
+                .Where(c => c.Sucursal == sucursal)
+                .ToList();
+            return Ok(clasesEnRango);
+        }
+        [HttpGet("clases/tipo")]
+        public IActionResult GetClasesEnTipo(int tipo)
+        {
+            List<Clase> clasesEnRango = _context.Clase
+                .Where(c => c.Tipo == tipo)
+                .ToList();
+            return Ok(clasesEnRango);
+        }
+        [HttpGet("clases/rango-dia")]
+        public IActionResult GetClasesEnRangoDia(int diaInicio, int diaFin)
+        {
+            List<Clase> clasesEnRango = _context.Clase
+                .Where(c => c.Dia >= diaInicio && c.Dia <= diaFin)
+                .ToList();
+            return Ok(clasesEnRango);
+        }
+
+
     }
 }
