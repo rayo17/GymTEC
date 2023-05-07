@@ -211,11 +211,20 @@ namespace GymTec_Api.Controllers
         [HttpGet("clases/sucursal")]
         public IActionResult GetClasesEnSucursal(string sucursal)
         {
-            List<ClaseSucursal> clasesEnRango = _context.ClaseSucursal
-                .Where(c => c.Sucursal == sucursal)
+            List<Clase> clasesEnRango = _context.Clase
+                .Join(
+                    _context.ClaseSucursal,
+                    clase => clase.Identificador,
+                    claseSucursal => claseSucursal.Clase,
+                    (clase, claseSucursal) => new { Clase = clase, ClaseSucursal = claseSucursal }
+                )
+                .Where(joinResult => joinResult.ClaseSucursal.Sucursal == sucursal)
+                .Select(joinResult => joinResult.Clase)
                 .ToList();
+
             return Ok(clasesEnRango);
         }
+
         [HttpGet("clases/tipo")]
         public IActionResult GetClasesEnTipo(int tipo)
         {

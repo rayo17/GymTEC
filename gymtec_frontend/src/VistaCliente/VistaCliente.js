@@ -1,5 +1,5 @@
 import React from 'react';
-import { obtenerClases, FiltroTipo, FiltroSucursal, FiltroRangoHora, FiltroRangoDia } from '../api';
+import { obtenerClases, FiltroTipo, FiltroSucursal, FiltroRangoHora, FiltroRangoDia, obtenerSucursales, obtenerServicios } from '../api';
 import '../VistaAdministrador/GestionProductos.css';
 import { Navbar } from "../Templates/Navbar"
 
@@ -8,7 +8,9 @@ class VistaCliente extends React.Component {
         super(props);
         this.state = {
             clases: [],
-            formValues: { dia: '', hora_inicio: '', hora_fin: '' },
+            sucursales: [],
+            servicios: [],
+            formValues: { diaInit: '', hora_inicio: '', hora_fin: '', diaFin: '' },
             formMode: 'agregar',
             currentClaseId: '',
             filterValue: '',
@@ -20,15 +22,36 @@ class VistaCliente extends React.Component {
     // Función para obtener los clases desde la API
     getProductos = async () => {
         const data = await obtenerClases();
+        const suc = await obtenerSucursales();
+        const ser = await obtenerServicios();
+        this.setState({ servicios: ser });
+        this.setState({ sucursales: suc });
         this.setState({ clases: data });
     };
 
     // Función para manejar el envío del formulario
-    handleSubmit = async (event) => {
-        console.log(this.state.formValues);
-        console.log(this.state.currentClaseId);
+    handleSubmit = async (event, tipo, name) => {
         event.preventDefault();
-        this.getProductos();
+        if (tipo === 1) {
+            const data = await FiltroSucursal(name);
+            console.log(data)
+            this.setState({ clases: data })
+        }
+        if (tipo === 2) {
+            const data = await FiltroTipo(name);
+            console.log(data)
+            this.setState({ clases: data })
+        }
+        if(tipo === 3){
+            console.log(this.state.formValues.diaInit,this.state.formValues.diaFin )
+            const data = await FiltroRangoDia(this.state.formValues.diaInit,this.state.formValues.diaFin)
+            this.setState({clases: data})
+        }
+        if (tipo === 4) {
+            console.log(this.state.formValues.hora_fin, this.state.formValues.hora_inicio)
+            const data = await FiltroRangoHora(this.state.formValues.hora_inicio, this.state.formValues.hora_fin)
+            this.setState({ clases: data })
+        }
         this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '' }, formMode: 'agregar', showPopup: 0 });
     };
 
@@ -40,6 +63,7 @@ class VistaCliente extends React.Component {
 
     // Función para manejar el clic en el botón de editar de una fila de la tabla
     handleEditClick = (tipo) => {
+        this.getProductos();
         this.setState({ showPopup: tipo });
     };
     // La función que maneja el evento onChange del elemento <select>
@@ -49,16 +73,16 @@ class VistaCliente extends React.Component {
 
         switch (value) {
             case 'sucursal':
-                this.handleEditClick(2);
-                break;
-            case 'tipo':
                 this.handleEditClick(3);
                 break;
-            case 'dia':
+            case 'tipo':
                 this.handleEditClick(4);
                 break;
-            case 'hora':
+            case 'dia':
                 this.handleEditClick(5);
+                break;
+            case 'hora':
+                this.handleEditClick(6);
                 break;
             default:
                 break;
@@ -91,7 +115,7 @@ class VistaCliente extends React.Component {
         document.removeEventListener('mousedown', this.handleOuterClick);
     }
     render() {
-        const { clases, formValues, formMode, showPopup } = this.state;
+        const { clases, formValues, formMode, showPopup, sucursales, servicios } = this.state;
         return (
             <div className="gestion-productos-container">
                 <Navbar />
@@ -120,23 +144,67 @@ class VistaCliente extends React.Component {
                     </select>
                 )}
                 {showPopup === 3 && (
-                    <select
-                        style={{
-                            margin: '0px',
-                            fontSize: '1.2rem',
-                            fontWeight: 'bold',
-                            textTransform: 'uppercase',
-                            marginLeft: '0px',
-                            marginRight: '1770px',
-                        }}
-                        onClick={() => this.handleEditClick(3)}
-                    >
-                        <option value="sucursal">Sucursal</option>
-                        <option value="tipo">Tipo</option>
-                        <option value="dia">Día</option>
-                        <option value="hora">Hora</option>
+                    <select id="selectedSucursal" value={this.state.filterValue} onChange={(event) => this.handleSubmit(event, 1, event.target.value)} className="select-box">
+                        <option value="">Selecciona una sucursal</option>
+                        {sucursales.map(gym => (
+                            <option className="minimalist-option" key={gym.nombre} value={gym.nombre}>
+                                {gym.nombre}
+                            </option>
+                        ))}
                     </select>
+
                 )}
+
+                {showPopup === 4 && (
+                    <select id="selectedSucursal" value={this.state.filterValue} onChange={(event) => this.handleSubmit(event, 2, event.target.value)} className="select-box">
+                        <option value="">Seleccione un servicio</option>
+                        {servicios.map(gym => (
+                            <option className="minimalist-option" key={gym.descripcion} value={gym.identificador}>
+                                {gym.descripcion}
+                            </option>
+                        ))}
+                    </select>
+
+                )}
+                {showPopup === 5 && (
+                    <form onSubmit={(event) => this.handleSubmit(event, 3)}>
+                        <label htmlFor="diaInit">Día de inicio:</label>
+                        <select id="diaInit" name="diaInit" value={formValues.diaInit} onChange={this.handleInputChange}>
+                            <option value="">Selecciona un día</option>
+                            <option value="1">Lunes</option>
+                            <option value="2">Martes</option>
+                            <option value="3">Miércoles</option>
+                            <option value="4">Jueves</option>
+                            <option value="5">Viernes</option>
+                            <option value="6">Sábado</option>
+                            <option value="7">Domingo</option>
+                        </select>
+
+                        <label htmlFor="diaFin">Día final:</label>
+                        <select id="diaFin" name="diaFin" value={formValues.diaFin} onChange={this.handleInputChange}>
+                            <option value="">Selecciona un día</option>
+                            <option value="1">Lunes</option>
+                            <option value="2">Martes</option>
+                            <option value="3">Miércoles</option>
+                            <option value="4">Jueves</option>
+                            <option value="5">Viernes</option>
+                            <option value="6">Sábado</option>
+                            <option value="7">Domingo</option>
+                        </select>
+
+                        <button type="submit">Filtrar</button>
+                    </form>
+                )}
+
+
+                {showPopup === 6 && (
+                    <form onSubmit={(event) => this.handleSubmit(event, 4)}>
+                        <input type="time" id="hora_inicio" name="hora_inicio" value={formValues.hora_inicio} onChange={this.handleInputChange} placeholder="hora_inicio" />
+                        <input type="time" id="hora_fin" name="hora_fin" value={formValues.hora_fin} onChange={this.handleInputChange} placeholder="hora_fin" />
+                        <button type="submit">Filtrar</button>
+                    </form>
+                )}
+
                 <table className="tabla-productos">
                     <thead>
                         <tr>
