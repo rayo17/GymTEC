@@ -40,7 +40,7 @@ class GeneracionPlanilla extends Component {
           if (!planillas[planilla.identificador]) { // si no existe una entrada para el paciente actual en la lista de teléfonos, se crea una
             planillas[planilla.identificador] = [];
           }
-          planillas[planilla.identificador].push(planilla.tipo); // se agrega el teléfono actual a la lista de teléfonos del paciente
+          planillas[planilla.identificador].push(planilla.descripcion); // se agrega el teléfono actual a la lista de teléfonos del paciente
         });
         this.setState({ planillas }); // se guarda la lista de teléfonos en el estado
       })
@@ -96,10 +96,10 @@ render() {
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{empleado.sucursal}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{empleado.cedula}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{empleado.primer_nombre} {empleado.segundo_nombre} {empleado.primer_apellido}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{this.state.planillas[empleado.cedula]}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{this.state.planillas[empleado.cedula] == "Mensual" ? empleado.salario : this.state.planillas[empleado.cedula] == "Por hora" ? empleado.salario + " c/h" : empleado.salario + " c/c"}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{this.state.planillas[empleado.planilla]}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>{this.state.planillas[empleado.planilla] == "Pago mensual" ? empleado.salario : this.state.planillas[empleado.planilla] == "Pago por hora" ? empleado.salario + " c/h" : empleado.salario + " c/c"}</td>
               <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56', textAlign: 'center'}}>{empleado.clases_impartidas}</td>
-              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56', textAlign: 'center'}}>{this.state.planillas[empleado.cedula] == "Mensual" ? empleado.salario : empleado.salario * empleado.clases_impartidas}</td>
+              <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56', textAlign: 'center'}}>{this.state.planillas[empleado.planilla] == "Pago mensual" ? empleado.salario : empleado.salario * empleado.clases_impartidas}</td>
             </tr>
           ))}
         </tbody>
