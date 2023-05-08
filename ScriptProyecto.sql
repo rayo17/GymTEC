@@ -153,7 +153,7 @@ CREATE TABLE CLASESUCURSAL(
 	Sucursal VARCHAR(30) NOT NULL,
 
 	PRIMARY KEY(Clase, Sucursal)
-)
+);
 
 
 -- Foreign keys

@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace GymTec_Api.Models;
 
-public class Clase_cliente
 {
     [Key]
     public int Clase { get; set; }
