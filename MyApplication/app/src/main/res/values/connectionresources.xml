@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="api_url">https://192.168.31.38:7233</string>
+    <string name="api_url">https://192.168.31.39:7233</string>
     <string name="clientExists">/api/Cliente/Exists/</string>
     <string name="clientPasswordCheck">/api/Cliente/Obtener/</string>
     <string name="getClases">/api/Clase</string>
@@ -8,7 +8,6 @@
     <string name="getClaseCliente">/api/ClaseCliente</string>
     <string name="getTipo">/api/Servicio</string>
     <string name="getClaseSucursal">/api/Clase/ClaseSucursal</string>
-
     <string name="postCliente">/api/Cliente</string>
     <string name="postClaseCliente">/api/ClaseCliente</string>
 </resources>

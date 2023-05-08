@@ -40,4 +40,8 @@ public class Course {
         this.capacidad = capacidad;
         this.identificador = identificador;
     }
+
+    public void setSucursal(String sucursal) {
+        this.sucursal = sucursal;
+    }
 }

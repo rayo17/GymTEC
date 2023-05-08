@@ -64,6 +64,9 @@ public class CourseListActivity extends AppCompatActivity {
                         clases_a_mostrar.getString(8)
 
                 );
+                if (extras.getString("flag").equals("view")){
+                    course.setSucursal(" ");
+                }
                 courseArrayList.add(course);
                 clases_a_mostrar.moveToNext();
             }
@@ -81,7 +84,12 @@ public class CourseListActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent i = new Intent(CourseListActivity.this, CourseActivity.class);
                     i.putExtra("tipo", courseArrayList.get(position).tipo);
-                    i.putExtra("sucursal", courseArrayList.get(position).sucursal);
+                    if(extras.getString("flag").equals("view")){
+                        i.putExtra("sucursal"," ");
+                    } else{
+                        i.putExtra("sucursal", courseArrayList.get(position).sucursal);
+                    }
+
                     i.putExtra("dia", courseArrayList.get(position).dia);
                     i.putExtra("hora inicio", courseArrayList.get(position).hora_inicio);
                     i.putExtra("hora final", courseArrayList.get(position).hora_final);
