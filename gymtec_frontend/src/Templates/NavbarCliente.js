@@ -21,6 +21,10 @@ export const NavbarCliente = () => {
                     <li className="nav-item">
                         <a className="nav-link">Vista Cliente</a>
                     </li>
+                    
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/clasescliente'>Clases Suscritas</Link>
+                    </li>
                 </ul>
                 </div>
             </div>

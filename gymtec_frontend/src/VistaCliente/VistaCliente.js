@@ -139,7 +139,7 @@ class VistaCliente extends React.Component {
         return (
             <div className="gestion-productos-container">
                 <NavbarCliente />
-                <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Gestión de clases</h1>
+                <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Clases GymTEC</h1>
 
                 <h1 style={{ margin: '0px', fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase', marginLeft: '0px', marginRight: '1770px' }} onClick={() => this.handleEditClick(1)}>Filtrar</h1>
                 {showPopup >= 1 && (
@@ -164,7 +164,16 @@ class VistaCliente extends React.Component {
                     </select>
                 )}
                 {showPopup === 3 && (
-                    <select id="selectedSucursal" value={this.state.filterValue} onChange={(event) => this.handleSubmit(event, 1, event.target.value)}>
+                    <select
+                    style={{
+                        margin: '0px',
+                        fontSize: '1.2rem',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        marginLeft: '0px',
+                        marginRight: '1770px',
+                    }}
+                     id="selectedSucursal" value={this.state.filterValue} onChange={(event) => this.handleSubmit(event, 1, event.target.value)}>
                         <option value="">Selecciona una sucursal</option>
                         {sucursales.map(gym => (
                             <option className="minimalist-option" key={gym.nombre} value={gym.nombre}>
@@ -176,7 +185,16 @@ class VistaCliente extends React.Component {
                 )}
 
                 {showPopup === 4 && (
-                    <select id="selectedSucursal" value={this.state.filterValue} onChange={(event) => this.handleSubmit(event, 2, event.target.value)}>
+                    <select
+                    style={{
+                        margin: '0px',
+                        fontSize: '1.2rem',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        marginLeft: '0px',
+                        marginRight: '1770px',
+                    }}
+                    id="selectedSucursal" value={this.state.filterValue} onChange={(event) => this.handleSubmit(event, 2, event.target.value)}>
                         <option value="">Seleccione un servicio</option>
                         {servicios.map(gym => (
                             <option className="minimalist-option" key={gym.descripcion} value={gym.identificador}>
@@ -188,8 +206,24 @@ class VistaCliente extends React.Component {
                 )}
                 {showPopup === 5 && (
                     <form onSubmit={(event) => this.handleSubmit(event, 3)}>
-                        <label htmlFor="diaInit">Día de inicio:</label>
-                        <select id="diaInit" name="diaInit" value={formValues.diaInit} onChange={this.handleInputChange}>
+                        <label style={{
+                            margin: '0px',
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            marginLeft: '0px',
+                            marginRight: '1770px',
+                        }} htmlFor="diaInit">Día de inicio:</label>
+                        <select
+                        style={{
+                            margin: '0px',
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            marginLeft: '0px',
+                            marginRight: '1770px',
+                        }}
+                        id="diaInit" name="diaInit" value={formValues.diaInit} onChange={this.handleInputChange}>
                             <option value="">Selecciona un día</option>
                             <option value="1">Lunes</option>
                             <option value="2">Martes</option>
@@ -200,8 +234,22 @@ class VistaCliente extends React.Component {
                             <option value="7">Domingo</option>
                         </select>
 
-                        <label htmlFor="diaFin">Día final:</label>
-                        <select id="diaFin" name="diaFin" value={formValues.diaFin} onChange={this.handleInputChange}>
+                        <label style={{
+                            margin: '0px',
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            marginLeft: '0px',
+                            marginRight: '1770px',
+                        }} htmlFor="diaFin">Día final:</label>
+                        <select style={{
+                            margin: '0px',
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            marginLeft: '0px',
+                            marginRight: '1770px',
+                        }}id="diaFin" name="diaFin" value={formValues.diaFin} onChange={this.handleInputChange}>
                             <option value="">Selecciona un día</option>
                             <option value="1">Lunes</option>
                             <option value="2">Martes</option>
@@ -212,16 +260,46 @@ class VistaCliente extends React.Component {
                             <option value="7">Domingo</option>
                         </select>
 
-                        <button type="submit">Filtrar</button>
+                        <button style={{
+                            margin: '0px',
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            marginLeft: '0px',
+                            marginRight: '1770px',
+                        }} type="submit">Filtrar</button>
                     </form>
                 )}
 
 
                 {showPopup === 6 && (
                     <form onSubmit={(event) => this.handleSubmit(event, 4)}>
-                        <input type="time" id="hora_inicio" name="hora_inicio" value={formValues.hora_inicio} onChange={this.handleInputChange} placeholder="hora_inicio" />
-                        <input type="time" id="hora_fin" name="hora_fin" value={formValues.hora_fin} onChange={this.handleInputChange} placeholder="hora_fin" />
-                        <button type="submit">Filtrar</button>
+                        <input
+                        style={{
+                            margin: '0px',
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            marginLeft: '0px',
+                            marginRight: '1770px',
+                        }} type="time" id="hora_inicio" name="hora_inicio" value={formValues.hora_inicio} onChange={this.handleInputChange} placeholder="hora_inicio" />
+                        <input
+                        style={{
+                            margin: '0px',
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            marginLeft: '0px',
+                            marginRight: '1770px',
+                        }} type="time" id="hora_fin" name="hora_fin" value={formValues.hora_fin} onChange={this.handleInputChange} placeholder="hora_fin" />
+                        <button style={{
+                            margin: '0px',
+                            fontSize: '1.2rem',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            marginLeft: '0px',
+                            marginRight: '1770px',
+                        }} type="submit">Filtrar</button>
                     </form>
                 )}
 

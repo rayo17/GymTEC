@@ -1,5 +1,4 @@
 import axios from 'axios';
-import App from './App';
 
 const API_URL = 'http://localhost:5236/api'; // URL base del backend de la aplicación
 
