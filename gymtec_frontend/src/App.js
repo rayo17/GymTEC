@@ -19,6 +19,7 @@ import GestionServicios from './VistaAdministrador/GestionServicios';
 import GestionEmpleados from './VistaAdministrador/GestionEmpleados';
 import ConfigGimnasio from './VistaAdministrador/ConfiguracionGimnasio';
 import Clases from './VistaAdministrador/Clases';
+import ClasesCliente from './VistaCliente/ClasesCliente';
 
 import GeneracionPlanilla from './VistaAdministrador/GeneracionPlanilla';
 
@@ -55,6 +56,7 @@ function App() {
             <Route path='/logincliente' element={ <LoginCliente/> }/>
             <Route path='/signup' element={ <Signup/> }/>
             <Route path='/cliente' element={ <VistaCliente/> }/>
+            <Route path='/clasesCliente' element={ <ClasesCliente/> }/>
           </Routes>
       </Router>
       

@@ -126,5 +126,4 @@ class ClasesCliente extends Component {
       );
     }
   }
-  
   export default ClasesCliente;
