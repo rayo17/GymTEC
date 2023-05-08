@@ -164,6 +164,54 @@ namespace GymTec_Api.Controllers
 
             return Ok(claseSucursal);
         }
+        // GET: api/TratamientoSucursal/sucursal
+        [HttpGet("ClaseSucursal/{clase}")]
+        public IActionResult getClaseSucursal([FromRoute] int clase)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var claseSucursal = _context.ClaseSucursal.Where(ts => ts.Clase == clase);
+
+            if (claseSucursal == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(claseSucursal);
+        }
+        [HttpGet("ClaseSucursal/TCSucursal")]
+        public async Task<ActionResult<IEnumerable<ClaseSucursalCInfo>>> GetTCSucursal()
+        {
+            var CTClase = await _context.Clase
+                .Select(p => new ClaseSucursalCInfo() {
+                    
+                    Identificador = p.Identificador,
+                    Capacidad = p.Capacidad,
+                    Grupal = p.Grupal,
+                    Tipo = p.Tipo,
+                    Dia = p.Dia,
+                    Instructor = p.Instructor,
+                    Hora_inicio = p.Hora_inicio,
+                    Hora_fin = p.Hora_fin,
+                    Sucursal = _context.ClaseSucursal
+                        .Where(ps => ps.Clase == p.Identificador)
+                        .Select(ps => _context.Sucursal
+                                .Where(s => s.Nombre == ps.Sucursal)
+                                .Select(s => s.Nombre)
+                                .ToList()  // Convertir a lista de cadenas
+                        )
+                        .SelectMany(sucursales => sucursales)  // "Aplanar" la lista de listas
+                        .ToList()  // Convertir a lista de cadenas
+                })
+                .ToListAsync();
+
+
+
+            return CTClase;
+        }
         [HttpGet("conSucursal")]
         public async Task<ActionResult<IEnumerable<ClaseSucursalInfo>>> GetClasesConSucursal()
         {

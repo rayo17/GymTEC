@@ -63,7 +63,6 @@ class VistaCliente extends React.Component {
         const { name, value } = event.target;
         this.setState({ formValues: { ...this.state.formValues, [name]: value } });
     };
-
     // Función para manejar el clic en el botón de editar de una fila de la tabla
     handleEditClick = (tipo) => {
         this.setState({ showPopup: tipo });
@@ -112,7 +111,6 @@ class VistaCliente extends React.Component {
 
     registrarClase = (reg) => {
         var cliente = sessionStorage.getItem("miId");
-
         axios
             .post('http://localhost:5236/api/ClaseCliente', {
                 clase: String(reg.identificador),
@@ -307,6 +305,7 @@ class VistaCliente extends React.Component {
                     <thead>
                         <tr>
                             <th style={{ padding: '10px' }}>Grupal</th>
+                            <th style={{ padding: '10px' }}>Sucursal</th>
                             <th style={{ padding: '10px' }}>Instructor</th>
                             <th style={{ padding: '10px' }}>Tipo</th>
                             <th style={{ padding: '10px' }}>Capacidad</th>
@@ -321,6 +320,7 @@ class VistaCliente extends React.Component {
                         {clases.map((clase) => (
                             <tr key={clase.grupal}>
                                 <td style={{ padding: '10px' }}>{clase.grupal === 1 ? "Individual" : "Grupal"}</td>
+                                <td style={{ padding: '10px' }}>{clase.sucursal}</td>
                                 <td style={{ padding: '10px' }}>{clase.instructor}</td>
                                 <td style={{ padding: '10px' }}>{clase.tipo}</td>
                                 <td style={{ padding: '10px' }}>{clase.capacidad}</td>
