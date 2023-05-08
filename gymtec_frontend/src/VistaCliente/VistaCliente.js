@@ -115,6 +115,7 @@ class VistaCliente extends React.Component {
             .post('http://localhost:5236/api/ClaseCliente', {
                 clase: String(reg.identificador),
                 cliente: cliente,
+                sucursal: 'string',
             }) // obtiene la lista de sucursales desde el API
             .then(response => {
                 quitarCupo(reg.identificador)
@@ -305,7 +306,6 @@ class VistaCliente extends React.Component {
                     <thead>
                         <tr>
                             <th style={{ padding: '10px' }}>Grupal</th>
-                            <th style={{ padding: '10px' }}>Sucursal</th>
                             <th style={{ padding: '10px' }}>Instructor</th>
                             <th style={{ padding: '10px' }}>Tipo</th>
                             <th style={{ padding: '10px' }}>Capacidad</th>
@@ -320,7 +320,6 @@ class VistaCliente extends React.Component {
                         {clases.map((clase) => (
                             <tr key={clase.grupal}>
                                 <td style={{ padding: '10px' }}>{clase.grupal === 1 ? "Individual" : "Grupal"}</td>
-                                <td style={{ padding: '10px' }}>{clase.sucursal}</td>
                                 <td style={{ padding: '10px' }}>{clase.instructor}</td>
                                 <td style={{ padding: '10px' }}>{clase.tipo}</td>
                                 <td style={{ padding: '10px' }}>{clase.capacidad}</td>
