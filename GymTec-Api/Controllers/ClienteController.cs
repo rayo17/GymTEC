@@ -29,11 +29,29 @@ namespace GymTec_Api.Controllers
             return await _context.Cliente.ToListAsync();
         }
 
-        // GET: api/Cliente/5
-        [HttpGet("{cedula}")]
-        public async Task<ActionResult<Cliente>> GetCliente(string cedula)
+        // GET: api/Cliente/Datos
+        [HttpGet("Obtener/{cedula}/{password}")]
+        public async Task<ActionResult<Cliente>> GetClientwithPassword(string cedula, string password)
         {
-            var cliente = await _context.Cliente.FindAsync(cedula);
+            var md5 = MD5.Create();
+            var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(password));
+            var hashedPassword = BitConverter.ToString(hash).Replace("-", "").ToLower();
+
+            var cliente = _context.Cliente.FirstOrDefault(e => e.Cedula == cedula && e.Contrasena == hashedPassword);
+            var cliente_info = await _context.Cliente.FindAsync(cedula);
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
+            return cliente_info;
+        }
+        
+        // GET: api/Cliente/5
+        [HttpGet("{cedula_usuario}")]
+        public async Task<ActionResult<Cliente>> GetCliente(string cedula_usuario)
+        {
+            var cliente = await _context.Cliente.FindAsync(cedula_usuario);
 
             if (cliente == null)
             {
@@ -42,7 +60,22 @@ namespace GymTec_Api.Controllers
 
             return cliente;
         }
+        
+        
+        // GET: api/Cliente/Exists
+        [HttpGet("Exists/{cedula}")]
+        public ActionResult  Get(string cedula)
+        {
+            var cliente = _context.Cliente.FirstOrDefault(e => e.Cedula == cedula);
+            
+            if (cliente != null)
+            {
+                return Ok();
+            }
 
+            return BadRequest();
+        }
+        
         // POST: api/Cliente
         [HttpPost]
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
