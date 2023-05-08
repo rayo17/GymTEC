@@ -274,3 +274,11 @@ export const FiltroRangoDia = async(diaInicio, diaFin) =>{
   const response = await axios.get(`${API_URL}/Clase/clases/rango-dia?diaInicio=${diaInicio}&diaFin=${diaFin}`);
   return response.data;
 }
+export const agregarClaseImpartida = async(cedula)=>{
+  const response = await axios.put(`${API_URL}/Empleado/clases-impartidas/${cedula}`);
+  return response.data;
+}
+export const quitarCupo = async(id) =>{
+  const response = await axios.put(`${API_URL}/Clase/cupos/${id}`);
+  return response.data;
+}

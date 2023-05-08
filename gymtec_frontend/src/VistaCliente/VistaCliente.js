@@ -1,10 +1,11 @@
 import React from 'react';
-import { obtenerClases, FiltroTipo, FiltroSucursal, FiltroRangoHora, FiltroRangoDia, obtenerSucursales, obtenerServicios } from '../api';
+import axios from 'axios';
+import { obtenerClases, FiltroTipo, FiltroSucursal, FiltroRangoHora, FiltroRangoDia, obtenerSucursales, obtenerServicios, quitarCupo } from '../api';
 import '../VistaAdministrador/GestionProductos.css';
 import { NavbarCliente } from "../Templates/NavbarCliente"
 
 
-class VistaCliente extends Component {
+class VistaCliente extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -43,17 +44,18 @@ class VistaCliente extends Component {
             console.log(data)
             this.setState({ clases: data })
         }
-        if(tipo === 3){
-            console.log(this.state.formValues.diaInit,this.state.formValues.diaFin )
-            const data = await FiltroRangoDia(this.state.formValues.diaInit,this.state.formValues.diaFin)
-            this.setState({clases: data})
-        }
-        if (tipo === 4) {
-            console.log(this.state.formValues.hora_fin, this.state.formValues.hora_inicio)
-            const data = await FiltroRangoHora(this.state.formValues.hora_inicio, this.state.formValues.hora_fin)
+        if (tipo === 3) {
+            console.log(this.state.formValues.diaInit, this.state.formValues.diaFin)
+            const data = await FiltroRangoDia(this.state.formValues.diaInit, this.state.formValues.diaFin)
             this.setState({ clases: data })
         }
-        this.setState({ formValues: { tipo: '', instructor: '', grupal: '', capacidad: '', dia: '', hora_inicio: '', hora_fin: '' }, formMode: 'agregar', showPopup: 0 });
+        if (tipo === 4) {
+            this.setState({ clases: [] })
+            console.log(this.state.formValues.hora_fin, this.state.formValues.hora_inicio)
+            const data = await FiltroRangoHora(this.state.formValues.hora_inicio, this.state.formValues.hora_fin)
+            console.log(data)
+            this.setState({ clases: data })
+        }
     };
 
     // Función para manejar el cambio de los inputs del formulario
@@ -64,7 +66,6 @@ class VistaCliente extends Component {
 
     // Función para manejar el clic en el botón de editar de una fila de la tabla
     handleEditClick = (tipo) => {
-        this.getProductos();
         this.setState({ showPopup: tipo });
     };
     // La función que maneja el evento onChange del elemento <select>
@@ -92,7 +93,6 @@ class VistaCliente extends Component {
 
     // Función para manejar el clic en el botón de eliminar de una fila de la tabla
     handleDeleteClick = async (grupal) => {
-        this.getProductos();
     };
     handleOuterClick(event) {
         const container = document.querySelector('.popup');
@@ -119,11 +119,12 @@ class VistaCliente extends Component {
                 cliente: cliente,
             }) // obtiene la lista de sucursales desde el API
             .then(response => {
+                quitarCupo(reg.identificador)
                 console.log("Todo bien")
                 //this.handleMisClases();
             })
             .catch(error => {
-                console.log("Ya te has registrado en esta clase")
+                alert("Ya te has registrado en esta clase")
             });
     }
 
@@ -137,7 +138,7 @@ class VistaCliente extends Component {
         const { clases, formValues, showPopup, sucursales, servicios } = this.state;
         return (
             <div className="gestion-productos-container">
-                <NavbarCliente/>
+                <NavbarCliente />
                 <h1 style={{ margin: '50px 0', fontSize: '2.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Gestión de clases</h1>
 
                 <h1 style={{ margin: '0px', fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase', marginLeft: '0px', marginRight: '1770px' }} onClick={() => this.handleEditClick(1)}>Filtrar</h1>
@@ -163,7 +164,7 @@ class VistaCliente extends Component {
                     </select>
                 )}
                 {showPopup === 3 && (
-                    <select id="selectedSucursal" value={this.state.filterValue} onChange={(event) => this.handleSubmit(event, 1, event.target.value)} className="select-box">
+                    <select id="selectedSucursal" value={this.state.filterValue} onChange={(event) => this.handleSubmit(event, 1, event.target.value)}>
                         <option value="">Selecciona una sucursal</option>
                         {sucursales.map(gym => (
                             <option className="minimalist-option" key={gym.nombre} value={gym.nombre}>
@@ -175,7 +176,7 @@ class VistaCliente extends Component {
                 )}
 
                 {showPopup === 4 && (
-                    <select id="selectedSucursal" value={this.state.filterValue} onChange={(event) => this.handleSubmit(event, 2, event.target.value)} className="select-box">
+                    <select id="selectedSucursal" value={this.state.filterValue} onChange={(event) => this.handleSubmit(event, 2, event.target.value)}>
                         <option value="">Seleccione un servicio</option>
                         {servicios.map(gym => (
                             <option className="minimalist-option" key={gym.descripcion} value={gym.identificador}>
@@ -235,7 +236,7 @@ class VistaCliente extends Component {
                             <th style={{ padding: '10px' }}>Hora Inicio</th>
                             <th style={{ padding: '10px' }}>Hora Fin</th>
                             <th style={{ padding: '10px' }}>Registrarse</th>
-                            
+
                         </tr>
                     </thead>
                     <tbody>
@@ -248,9 +249,11 @@ class VistaCliente extends Component {
                                 <td style={{ padding: '10px' }}>{clase.dia}</td>
                                 <td style={{ padding: '10px' }}>{clase.hora_inicio}</td>
                                 <td style={{ padding: '10px' }}>{clase.hora_fin}</td>
-                                <td style={{ padding: '10px', borderBottom: '1px solid #1c3a56' }}>
+                                <td style={{ padding: '10px'}}>
                                     <button style={{ borderRadius: '5px', backgroundColor: '#fff', color: '#3498db', border: '2px solid #3498db', cursor: 'pointer' }}
-                                            onClick={() => this.registrarClase(clase)}>Registrarse</button>
+                                    onClick={() => this.registrarClase(clase)} disabled={clase.capacidad <= 0}>
+                                        {clase.capacidad > 0 ? 'Registrarse' : 'Agotado'}
+                                    </button>
                                 </td>
                             </tr>
                         ))}

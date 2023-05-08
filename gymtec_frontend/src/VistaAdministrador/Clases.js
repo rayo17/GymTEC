@@ -1,5 +1,5 @@
 import React from 'react';
-import { obtenerClases, agregarClase, actualizarClase, eliminarClase } from '../api';
+import { obtenerClases, agregarClase, actualizarClase, eliminarClase, agregarClaseImpartida } from '../api';
 import './GestionProductos.css';
 import { Navbar } from "../Templates/Navbar"
 
@@ -28,6 +28,7 @@ class Clases extends React.Component {
         console.log(this.state.currentClaseId);
         event.preventDefault();
         if (this.state.formMode === 'agregar') {
+            await agregarClaseImpartida(this.state.formValues.instructor);
             await agregarClase(this.state.formValues);
         } else {
             await actualizarClase(this.state.currentClaseId, this.state.formValues);

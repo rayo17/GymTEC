@@ -43,6 +43,31 @@ namespace GymTec_Api.Controllers
 
             return empleado;
         }
+        [HttpPut("clases-impartidas/{cedula}")]
+        public IActionResult IncrementarClasesImpartidas(string cedula)
+        {
+            var empleado = ObtenerEmpleadoPorCedula(cedula);
+            if (empleado == null)
+            {
+                return NotFound();
+            }
+
+            empleado.Clases_impartidas += 1;
+
+            // Actualizar el empleado en la base de datos
+            _context.SaveChanges();
+
+            return Ok(empleado);
+        }
+
+
+        private Empleado ObtenerEmpleadoPorCedula(string cedula)
+        {
+            var empleado = _context.Empleado.FirstOrDefault(e => e.Cedula == cedula);
+            return empleado;
+        }
+
+
         
         // GET: api/Empleado/Contrasenna
         [HttpGet("{cedula}/{password}")]

@@ -241,6 +241,29 @@ namespace GymTec_Api.Controllers
                 .ToList();
             return Ok(clasesEnRango);
         }
+        [HttpPut("cupos/{identificador}")]
+        public IActionResult DisminuirCupo(int identificador)
+        {
+            var clase = ObtenerClase(identificador);
+            if (clase == null)
+            {
+                return NotFound();
+            }
+
+            clase.Capacidad -= 1;
+
+            // Actualizar el empleado en la base de datos
+            _context.SaveChanges();
+
+            return Ok(clase);
+        }
+
+
+        private Clase ObtenerClase(int identificador)
+        {
+            var clase = _context.Clase.FirstOrDefault(e => e.Identificador == identificador);
+            return clase;
+        }
 
 
     }
