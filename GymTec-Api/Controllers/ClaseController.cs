@@ -185,5 +185,29 @@ namespace GymTec_Api.Controllers
 
             return tratamientosConSucursal;
         }
+        
+        [HttpGet("clasesClientes/{id}")]
+        public async Task<ActionResult<IEnumerable<ClaseClienteInfo>>> GetClasesCliente(string id)
+        {
+            var tratamientosConSucursal = await _context.Cliente
+                .Where(cc => cc.Cedula == id)
+                .Select(p => new ClaseClienteInfo {
+                    Cliente = p.Cedula,
+                    Clase = _context.Clase_cliente
+                        .Where(ps => ps.Cliente == p.Cedula)
+                        .Select(ps => _context.Clase
+                                .Where(s => s.Identificador == ps.Clase)
+                                .Select(s => s.Identificador)
+                                .ToList()  // Convertir a lista de cadenas
+                        )
+                        .SelectMany(clases => clases)  // "Aplanar" la lista de listas
+                        .ToList()  // Convertir a lista de cadenas
+                })
+                .ToListAsync();
+
+
+
+            return tratamientosConSucursal;
+        }
     }
 }
