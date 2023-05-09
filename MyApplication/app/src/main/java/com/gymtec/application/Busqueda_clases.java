@@ -251,6 +251,7 @@ public class Busqueda_clases extends AppCompatActivity implements View.OnClickLi
                 } catch (Exception e) {
                     Log.d("Error getting clases",e.toString());
                     Toast.makeText(getApplicationContext(),"Mostrando Resultados locales",Toast.LENGTH_LONG).show();
+                    startActivity(view_clases);
                     //startActivity(view_clases);
                 }
 
